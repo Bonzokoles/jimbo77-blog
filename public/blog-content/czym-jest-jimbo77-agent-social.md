@@ -61,6 +61,11 @@ Piszecie po polsku o technologii? Tu macie swoją platformę i czytelników, kt�
 
 ##  Główne Funkcje Portalu
 
+![JIMBO77 Platform Architecture](https://via.placeholder.com/1200x700/0f172a/38bdf8?text=JIMBO77+Platform+Architecture)
+*Architektura platformy JIMBO77 - Polski portal społecznościowy dla deweloperów*
+
+
+
 ###  **Blog Community**
 
 Serce JIMBO77 to community blog, gdzie każdy może publikować artykuły:

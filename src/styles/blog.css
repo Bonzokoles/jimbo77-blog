@@ -1,17 +1,21 @@
 /* Blog Specific Styles */
 
-.blog-content h1, 
-.blog-content h2, 
+.blog-content h1,
+.blog-content h2,
 .blog-content h3 {
     @apply font-logo tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500;
 }
 
 .blog-content p {
-    @apply text-slate-300 leading-8 text-[1.05rem];
+    @apply text-slate-400 leading-8 text-[1.05rem];
 }
 
 .blog-content strong {
-    @apply text-cyan-200 font-semibold;
+    @apply text-cyan-300 font-semibold;
+}
+
+.blog-content img {
+    @apply rounded-lg my-8 mx-auto shadow-2xl border border-slate-800;
 }
 
 .blog-content blockquote {

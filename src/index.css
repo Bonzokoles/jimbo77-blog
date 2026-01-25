@@ -23,7 +23,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-200 antialiased;
+    @apply bg-slate-950 text-slate-400 antialiased;
   }
 
   /* Global Scrollbar */
