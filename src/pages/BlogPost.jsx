@@ -1,35 +1,51 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, lazy, Suspense } from 'react';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
 import { blogPosts } from '../data/blogPosts';
+import {
+  Skeleton,
+  Breadcrumbs,
+  BreadcrumbItem,
+  Button,
+  Divider,
+  Card,
+  CardBody,
+  Chip
+} from "@heroui/react";
+import { ChevronLeft, ChevronRight, Home, Calendar, Clock, Tag } from 'lucide-react';
+import BlogLayout from '../layouts/BlogLayout';
 
 // Dynamically import ReactMarkdown to code-split
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center min-h-screen">
-    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-white"></div>
-  </div>
-);
-
-const ErrorDisplay = ({ message }) => (
-  <div className="flex justify-center items-center min-h-screen text-center">
-    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-      <strong className="font-bold">Błąd: </strong>
-      <span className="block sm:inline">{message}</span>
+const BlogSkeleton = () => (
+  <div className="max-w-4xl mx-auto px-4 pt-24 space-y-8">
+    <div className="space-y-3">
+      <Skeleton className="w-1/4 h-4 rounded-lg bg-slate-800" />
+      <Skeleton className="w-3/4 h-12 rounded-lg bg-slate-800" />
+    </div>
+    <div className="flex gap-4">
+      <Skeleton className="w-24 h-6 rounded-full bg-slate-800" />
+      <Skeleton className="w-24 h-6 rounded-full bg-slate-800" />
+    </div>
+    <Skeleton className="w-full h-96 rounded-2xl bg-slate-800" />
+    <div className="space-y-4">
+      <Skeleton className="w-full h-4 rounded-lg bg-slate-800" />
+      <Skeleton className="w-full h-4 rounded-lg bg-slate-800" />
+      <Skeleton className="w-5/6 h-4 rounded-lg bg-slate-800" />
     </div>
   </div>
 );
 
 const BlogPost = () => {
   const { slug } = useParams();
-  console.log('Current slug from URL:', slug); // DEBUG LOG
-  console.log('Available posts:', blogPosts.map(p => p.slug)); // DEBUG LOG
+  const blogIndex = blogPosts.findIndex(b => b.slug === slug);
+  const blog = blogPosts[blogIndex];
 
-  const blog = blogPosts.find(b => b.slug === slug);
-  console.log('Found blog object:', blog); // DEBUG LOG
+  const nextPost = blogIndex > 0 ? blogPosts[blogIndex - 1] : null;
+  const prevPost = blogIndex < blogPosts.length - 1 ? blogPosts[blogIndex + 1] : null;
 
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
@@ -53,94 +69,141 @@ const BlogPost = () => {
         setLoading(false);
       })
       .catch(err => {
-        console.error('Error loading article:', err);
         setError('Nie udało się załadować artykułu');
         setLoading(false);
       });
+
+    window.scrollTo(0, 0);
   }, [slug, blog]);
 
   if (error) {
-    return <ErrorDisplay message={error} />;
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[60vh] text-center px-4">
+        <h2 className="text-4xl font-bold text-slate-200 mb-4">404</h2>
+        <p className="text-slate-400 mb-8">{error}</p>
+        <Button as={Link} to="/" variant="flat" color="primary">Wróć do strony głównej</Button>
+      </div>
+    );
   }
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <BlogSkeleton />;
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-12">
-      <div className="blog-content">
-        {/* Header z małym JIMBO77 */}
-        <div className="max-w-4xl mx-auto px-4 pb-8">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="text-center">
-              <div className="text-sm text-cyan-400 font-bold mb-1">JIMBO77</div>
-              <img
-                src="/apple-touch-icon.png"
-                alt="JIMBO77"
-                className="w-16 h-16"
-                style={{
-                  filter: 'drop-shadow(0 4px 12px rgba(6, 182, 212, 0.4))'
-                }}
-              />
-            </div>
-          </div>
+    <BlogLayout>
+      <div className="max-w-4xl mx-auto px-4 pb-24">
+        {/* Breadcrumbs */}
+        <div className="mb-8">
+          <Breadcrumbs
+            variant="flat"
+            classNames={{
+              list: "bg-slate-900/50 border border-white/5 backdrop-blur-md px-4 py-2 rounded-full"
+            }}
+          >
+            <BreadcrumbItem startContent={<Home size={14} />} href="/">Home</BreadcrumbItem>
+            <BreadcrumbItem href="/">{blog.category}</BreadcrumbItem>
+            <BreadcrumbItem isCurrent className="text-cyan-400">{blog.title}</BreadcrumbItem>
+          </Breadcrumbs>
         </div>
 
-        <article className="prose prose-invert lg:prose-xl max-w-4xl mx-auto px-4 pb-12">
-          <Suspense fallback={<LoadingSpinner />}>
+        {/* Article Header */}
+        <header className="mb-12">
+          <div className="flex flex-wrap gap-3 mb-6">
+            <Chip
+              size="sm"
+              variant="flat"
+              color="primary"
+              className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+            >
+              {blog.category}
+            </Chip>
+            {blog.tech?.map((t, i) => (
+              <Chip key={i} size="sm" variant="dot" className="border-slate-800 text-slate-400">{t}</Chip>
+            ))}
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">
+            {blog.title}
+          </h1>
+
+          <div className="flex flex-wrap items-center gap-6 text-slate-400 text-sm">
+            <div className="flex items-center gap-2">
+              <Calendar size={16} className="text-cyan-500/60" />
+              <span>{blog.date}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} className="text-cyan-500/60" />
+              <span>{blog.readTime} min czytania</span>
+            </div>
+          </div>
+        </header>
+
+        <Divider className="mb-12 bg-white/5" />
+
+        {/* Article Content */}
+        <article className="prose prose-invert lg:prose-xl max-w-none mb-16">
+          <Suspense fallback={<BlogSkeleton />}>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
               components={{
-                h1: ({ children }) => <h1 className="text-4xl md:text-5xl font-bold mb-6 text-cyan-400 border-b border-cyan-500/30 pb-4">{children}</h1>,
-                h2: ({ children }) => <h2 className="text-3xl md:text-4xl font-bold mt-12 mb-6 text-white flex items-center gap-3">{children}</h2>,
-                h3: ({ children }) => <h3 className="text-2xl font-bold mt-8 mb-4 text-slate-200">{children}</h3>,
-                p: ({ children }) => <p className="text-lg leading-relaxed mb-6 text-slate-300">{children}</p>,
+                h1: ({ children }) => <h1 className="text-4xl font-bold mb-8 text-white">{children}</h1>,
+                h2: ({ children }) => <h2 className="text-3xl font-bold mt-16 mb-6 text-white border-l-4 border-cyan-500 pl-4">{children}</h2>,
+                h3: ({ children }) => <h3 className="text-2xl font-bold mt-10 mb-4 text-slate-100">{children}</h3>,
+                p: ({ children }) => <p className="text-lg leading-relaxed mb-6 text-slate-300/90">{children}</p>,
                 a: ({ href, children }) => (
-                  <a href={href} className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors" target="_blank" rel="noopener noreferrer">
+                  <Link to={href} className="text-cyan-400 hover:text-cyan-300 transition-colors decoration-cyan-500/30 underline-offset-4 underline">
                     {children}
-                  </a>
+                  </Link>
                 ),
                 code: ({ inline, className, children }) => {
                   const match = /language-(\w+)/.exec(className || '');
                   return inline ? (
-                    <code className="bg-slate-800 text-cyan-300 px-2 py-1 rounded text-sm font-mono border border-slate-700">
+                    <code className="bg-slate-800/80 text-cyan-300 px-1.5 py-0.5 rounded text-[0.9em] font-mono border border-white/5">
                       {children}
                     </code>
                   ) : (
-                    <code className={`${className} block bg-slate-900 text-slate-200 p-4 rounded-lg overflow-x-auto border border-slate-700`}>
-                      {children}
-                    </code>
+                    <div className="relative group my-8">
+                      <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <pre className="relative bg-slate-900/90 border border-white/10 rounded-xl p-6 overflow-x-auto">
+                        <code className={`${className} text-slate-300 text-sm font-mono`}>
+                          {children}
+                        </code>
+                      </pre>
+                    </div>
                   );
                 },
-                pre: ({ children }) => (
-                  <pre className="bg-slate-900 rounded-lg overflow-hidden mb-6 border border-slate-700">
-                    {children}
-                  </pre>
+                ul: ({ children }) => <ul className="list-none mb-8 space-y-3">{children}</ul>,
+                li: ({ children, ordered }) => (
+                  <li className="flex gap-3 text-slate-300">
+                    <span className="text-cyan-500 mt-1.5">•</span>
+                    <span>{children}</span>
+                  </li>
                 ),
-                ul: ({ children }) => <ul className="list-disc list-inside mb-6 text-slate-300 space-y-2">{children}</ul>,
-                ol: ({ children }) => <ol className="list-decimal list-inside mb-6 text-slate-300 space-y-2">{children}</ol>,
-                li: ({ children }) => <li className="text-slate-300 leading-relaxed">{children}</li>,
                 blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-cyan-500 pl-6 py-2 my-6 bg-slate-800/50 rounded-r-lg italic text-slate-300">
+                  <blockquote className="border-l-4 border-cyan-500/50 pl-6 py-4 my-10 bg-cyan-500/5 rounded-r-2xl italic text-slate-200 text-xl font-serif">
                     {children}
                   </blockquote>
                 ),
                 table: ({ children }) => (
-                  <div className="overflow-x-auto mb-6">
-                    <table className="min-w-full border border-slate-700 rounded-lg overflow-hidden">
-                      {children}
-                    </table>
-                  </div>
+                  <Card className="my-10 bg-slate-900/40 border-white/5 backdrop-blur-sm overflow-hidden">
+                    <CardBody className="p-0">
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full text-sm">
+                          {children}
+                        </table>
+                      </div>
+                    </CardBody>
+                  </Card>
                 ),
                 th: ({ children }) => (
-                  <th className="bg-slate-800 text-cyan-400 font-bold px-4 py-3 text-left border-b border-slate-700">
+                  <th className="bg-white/5 text-cyan-400 font-bold px-6 py-4 text-left border-b border-white/5 uppercase tracking-wider text-xs">
                     {children}
                   </th>
                 ),
                 td: ({ children }) => (
-                  <td className="px-4 py-3 border-b border-slate-700 text-slate-300">
+                  <td className="px-6 py-4 border-b border-white/5 text-slate-300">
                     {children}
                   </td>
                 ),
@@ -150,8 +213,33 @@ const BlogPost = () => {
             </ReactMarkdown>
           </Suspense>
         </article>
+
+        <Divider className="mb-12 bg-white/5" />
+
+        {/* Post Navigation */}
+        <nav className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {prevPost ? (
+            <Link to={`/blog/${prevPost.slug}`} className="group p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-all">
+              <div className="flex items-center gap-2 text-slate-500 mb-2 group-hover:text-cyan-400 transition-colors">
+                <ChevronLeft size={18} />
+                <span className="text-sm font-bold uppercase tracking-widest">Poprzedni</span>
+              </div>
+              <div className="text-lg font-bold text-slate-200 group-hover:text-white">{prevPost.title}</div>
+            </Link>
+          ) : <div />}
+
+          {nextPost && (
+            <Link to={`/blog/${nextPost.slug}`} className="group p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-all text-right">
+              <div className="flex items-center gap-2 text-slate-500 mb-2 group-hover:text-cyan-400 transition-colors justify-end">
+                <span className="text-sm font-bold uppercase tracking-widest">Następny</span>
+                <ChevronRight size={18} />
+              </div>
+              <div className="text-lg font-bold text-slate-200 group-hover:text-white">{nextPost.title}</div>
+            </Link>
+          )}
+        </nav>
       </div>
-    </div>
+    </BlogLayout>
   );
 };
 

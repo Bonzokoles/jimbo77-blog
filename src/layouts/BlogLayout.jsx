@@ -1,20 +1,32 @@
-import React from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { Progress } from "@heroui/react";
 
 const BlogLayout = ({ children }) => {
-    const { scrollYProgress } = useScroll();
-    const scaleX = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
+    const [scrollProgress, setScrollProgress] = React.useState(0);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const currentScroll = window.scrollY;
+            setScrollProgress((currentScroll / totalScroll) * 100);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <div className="relative min-h-screen">
             {/* Reading Progress Bar */}
-            <motion.div
-                className="fixed top-20 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 to-blue-600 origin-left z-40 shadow-[0_0_10px_rgba(34,211,238,0.5)]"
-                style={{ scaleX }}
+            <Progress
+                aria-label="Reading progress"
+                size="sm"
+                value={scrollProgress}
+                color="primary"
+                className="fixed top-0 left-0 right-0 z-50 rounded-none pointer-events-none"
+                classNames={{
+                    indicator: "bg-gradient-to-r from-cyan-400 to-blue-600 shadow-[0_0_10px_rgba(34,211,238,0.5)]",
+                    track: "bg-transparent"
+                }}
             />
 
             {/* Blog Content Wrapper */}
