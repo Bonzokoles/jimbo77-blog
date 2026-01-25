@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg-dark { fill: #0d1117; }
+      .bg-card { fill: #161b22; }
+      .gold-accent { fill: #d4af37; }
+      .gold-light { fill: #e5c158; }
+      .text-primary { font-family: 'Segoe UI', Arial; font-size: 14px; fill: #e6edf3; }
+      .text-secondary { font-family: 'Segoe UI', Arial; font-size: 12px; fill: #8b949e; }
+      .text-accent { font-family: 'Segoe UI', Arial; font-size: 16px; fill: #d4af37; font-weight: 600; }
+      .text-title { font-family: 'Segoe UI', Arial; font-size: 28px; fill: #e6edf3; font-weight: 700; }
+      .text-subtitle { font-family: 'Segoe UI', Arial; font-size: 12px; fill: #d4af37; font-weight: 600; }
+      .border-gold { stroke: #d4af37; stroke-width: 2; fill: none; }
+      .border-subtle { stroke: #30363d; stroke-width: 1; fill: none; }
+      .shadow { filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)); }
+    </style>
+    <linearGradient id="grad-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#d4af37;stop-opacity:0.05" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect class="bg-dark" width="1200" height="800"/>
+  
+  <!-- Decorative lines -->
+  <line x1="0" y1="80" x2="1200" y2="80" stroke="#30363d" stroke-width="1" opacity="0.5"/>
+  <line x1="0" y1="700" x2="1200" y2="700" stroke="#30363d" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Top Section: Title -->
+  <g class="shadow">
+    <rect class="bg-card" x="50" y="20" width="1100" height="60" rx="8"/>
+    <rect class="border-gold" x="50" y="20" width="1100" height="60" rx="8"/>
+    
+    <text class="text-title" x="600" y="55" text-anchor="middle">🔍 RAG PRODUCTION WORKFLOW</text>
+  </g>
+  
+  <!-- Step 1: Data Preparation -->
+  <g class="shadow">
+    <rect fill="url(#grad-gold)" x="50" y="120" width="220" height="280" rx="10"/>
+    <rect class="border-gold" x="50" y="120" width="220" height="280" rx="10"/>
+    
+    <circle cx="160" cy="155" r="20" fill="none" class="border-gold"/>
+    <text class="text-accent" x="160" y="160" text-anchor="middle" font-size="24">📚</text>
+    
+    <text class="text-accent" x="160" y="195" text-anchor="middle" font-size="13">Data Preparation</text>
+    
+    <text class="text-secondary" x="70" y="225" font-size="11" font-weight="500">1. Load Documents</text>
+    <text class="text-secondary" x="75" y="240" font-size="10">PDF, JSON, Web</text>
+    
+    <text class="text-secondary" x="70" y="260" font-size="11" font-weight="500">2. Smart Chunking</text>
+    <text class="text-secondary" x="75" y="275" font-size="10">512 tokens, 20% overlap</text>
+    
+    <text class="text-secondary" x="70" y="295" font-size="11" font-weight="500">3. Create Embeddings</text>
+    <text class="text-secondary" x="75" y="310" font-size="10">OpenAI or Local models</text>
+    
+    <text class="text-secondary" x="70" y="330" font-size="11" font-weight="500">4. Store Vectors</text>
+    <text class="text-secondary" x="75" y="345" font-size="10">FAISS • Pinecone</text>
+    
+    <text class="text-subtitle" x="160" y="380" text-anchor="middle" font-size="11">⏱️ One-time setup</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 270 260 L 350 260" stroke="#d4af37" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 2: Query Processing -->
+  <g class="shadow">
+    <rect fill="url(#grad-gold)" x="350" y="120" width="220" height="280" rx="10"/>
+    <rect class="border-gold" x="350" y="120" width="220" height="280" rx="10"/>
+    
+    <circle cx="460" cy="155" r="20" fill="none" class="border-gold"/>
+    <text class="text-accent" x="460" y="160" text-anchor="middle" font-size="24">🔎</text>
+    
+    <text class="text-accent" x="460" y="195" text-anchor="middle" font-size="13">Query Processing</text>
+    
+    <text class="text-secondary" x="370" y="225" font-size="11" font-weight="500">1. User Query</text>
+    <text class="text-secondary" x="375" y="240" font-size="10">Natural language input</text>
+    
+    <text class="text-secondary" x="370" y="260" font-size="11" font-weight="500">2. Query Embedding</text>
+    <text class="text-secondary" x="375" y="275" font-size="10">Convert to vector</text>
+    
+    <text class="text-secondary" x="370" y="295" font-size="11" font-weight="500">3. Similarity Search</text>
+    <text class="text-secondary" x="375" y="310" font-size="10">Find top K documents</text>
+    
+    <text class="text-secondary" x="370" y="330" font-size="11" font-weight="500">4. Reranking</text>
+    <text class="text-secondary" x="375" y="345" font-size="10">Cross-encoder scoring</text>
+    
+    <text class="text-subtitle" x="460" y="380" text-anchor="middle" font-size="11">⏱️ 200-500ms per query</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <path d="M 570 260 L 650 260" stroke="#d4af37" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 3: Generation -->
+  <g class="shadow">
+    <rect fill="url(#grad-gold)" x="650" y="120" width="220" height="280" rx="10"/>
+    <rect class="border-gold" x="650" y="120" width="220" height="280" rx="10"/>
+    
+    <circle cx="760" cy="155" r="20" fill="none" class="border-gold"/>
+    <text class="text-accent" x="760" y="160" text-anchor="middle" font-size="24">🧠</text>
+    
+    <text class="text-accent" x="760" y="195" text-anchor="middle" font-size="13">LLM Generation</text>
+    
+    <text class="text-secondary" x="670" y="225" font-size="11" font-weight="500">1. Build Prompt</text>
+    <text class="text-secondary" x="675" y="240" font-size="10">Query + Retrieved docs</text>
+    
+    <text class="text-secondary" x="670" y="260" font-size="11" font-weight="500">2. Call LLM</text>
+    <text class="text-secondary" x="675" y="275" font-size="10">GPT-4 • Claude • Gemini</text>
+    
+    <text class="text-secondary" x="670" y="295" font-size="11" font-weight="500">3. Stream Response</text>
+    <text class="text-secondary" x="675" y="310" font-size="10">Real-time output</text>
+    
+    <text class="text-secondary" x="670" y="330" font-size="11" font-weight="500">4. Add Citations</text>
+    <text class="text-secondary" x="675" y="345" font-size="10">Sources & references</text>
+    
+    <text class="text-subtitle" x="760" y="380" text-anchor="middle" font-size="11">⏱️ 1-10 sec per response</text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <path d="M 870 260 L 950 260" stroke="#d4af37" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Step 4: Output -->
+  <g class="shadow">
+    <rect fill="url(#grad-gold)" x="950" y="120" width="200" height="280" rx="10"/>
+    <rect class="border-gold" x="950" y="120" width="200" height="280" rx="10"/>
+    
+    <circle cx="1050" cy="155" r="20" fill="none" class="border-gold"/>
+    <text class="text-accent" x="1050" y="160" text-anchor="middle" font-size="24">✨</text>
+    
+    <text class="text-accent" x="1050" y="195" text-anchor="middle" font-size="13">Final Output</text>
+    
+    <text class="text-secondary" x="970" y="225" font-size="11" font-weight="500">Answer</text>
+    <text class="text-secondary" x="975" y="240" font-size="10">With confidence</text>
+    
+    <text class="text-secondary" x="970" y="260" font-size="11" font-weight="500">Sources</text>
+    <text class="text-secondary" x="975" y="275" font-size="10">[Source 1] [2] [3]</text>
+    
+    <text class="text-secondary" x="970" y="295" font-size="11" font-weight="500">Metadata</text>
+    <text class="text-secondary" x="975" y="310" font-size="10">Latency, tokens used</text>
+    
+    <text class="text-secondary" x="970" y="330" font-size="11" font-weight="500">Analytics</text>
+    <text class="text-secondary" x="975" y="345" font-size="10">Track & monitor</text>
+    
+    <text class="text-subtitle" x="1050" y="380" text-anchor="middle" font-size="11">🎯 Accurate & Cited</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#d4af37" />
+    </marker>
+  </defs>
+  
+  <!-- Bottom Section: Key Metrics -->
+  <g>
+    <text class="text-subtitle" x="50" y="720" font-size="12">📊 PRODUCTION METRICS</text>
+    
+    <!-- Metric 1 -->
+    <rect class="bg-card" x="50" y="735" width="260" height="50" rx="6"/>
+    <rect class="border-subtle" x="50" y="735" width="260" height="50" rx="6"/>
+    <text class="text-accent" x="70" y="755" font-size="11">⏱️ Latency</text>
+    <text class="text-primary" x="70" y="773" font-size="12">200-500ms retrieval + 1-10s generation</text>
+    
+    <!-- Metric 2 -->
+    <rect class="bg-card" x="330" y="735" width="260" height="50" rx="6"/>
+    <rect class="border-subtle" x="330" y="735" width="260" height="50" rx="6"/>
+    <text class="text-accent" x="350" y="755" font-size="11">🎯 Accuracy</text>
+    <text class="text-primary" x="350" y="773" font-size="12">95-99% with proper chunking & retrieval</text>
+    
+    <!-- Metric 3 -->
+    <rect class="bg-card" x="610" y="735" width="260" height="50" rx="6"/>
+    <rect class="border-subtle" x="610" y="735" width="260" height="50" rx="6"/>
+    <text class="text-accent" x="630" y="755" font-size="11">💰 Cost</text>
+    <text class="text-primary" x="630" y="773" font-size="12">$0.01-0.10 per query depending on LLM</text>
+    
+    <!-- Metric 4 -->
+    <rect class="bg-card" x="890" y="735" width="260" height="50" rx="6"/>
+    <rect class="border-subtle" x="890" y="735" width="260" height="50" rx="6"/>
+    <text class="text-accent" x="910" y="755" font-size="11">📈 Scalability</text>
+    <text class="text-primary" x="910" y="773" font-size="12">Handles 1M+ documents with proper DB</text>
+  </g>
+</svg>

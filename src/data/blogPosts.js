@@ -1,39 +1,75 @@
-export const blogPosts = [
+﻿export const blogPosts = [
   {
     id: 1,
     title: "Czym jest JIMBO77? Polski Portal Społecznościowy o AI",
     slug: "czym-jest-jimbo77-agent-social",
     category: "AI Agents",
     tags: ["jimbo77", "community", "polski-blog", "ai", "automatyzacja"],
-    excerpt: "Polski portal społecznościowy dla deweloperów i entuzjastów AI - w stylu dev.to, ale 100% po polsku. Miejsce gdzie polska tech community dzieli się wiedzą o AI, Agent Zero i automatyzacji.",
+    excerpt: "Polski portal społecznościowy dla developerów i entuzjastów AI - w stylu dev.to, ale 100% po polsku. Miejsce gdzie polska tech community dzieli się wiedzą o AI, Agent Zero i automatyzacji.",
     date: "2026-01-25",
     readTime: 12,
     author: "JIMBO77 Team"
   },
   {
     id: 2,
+    title: "AI Agents w Pythonie - Kompletny Pakiet 2025",
+    slug: "ai-agents-INDEX",
+    category: "AI Agents",
+    tags: ["python", "ai-agents", "crewai", "pydantic-ai", "langgraph", "autogen"],
+    excerpt: "Kompletny przewodnik po budowaniu AI Agents w Pythonie z 4 najpotężniejszymi frameworkami: CrewAI, Pydantic AI, LangGraph i AutoGen. Zawiera profesjonalne grafiki SVG, 20+ przykładów kodu i 6 rzeczywistych case studies.",
+    date: "2026-01-25",
+    readTime: 18,
+    author: "JIMBO77 Team",
+    hasGraphics: true,
+    graphics: [
+      "/blog-images/ai-agents-architecture.svg",
+      "/blog-images/ai-agents-flow-patterns.svg",
+      "/blog-images/ai-agents-decision-tree.svg",
+      "/blog-images/ai-agents-use-cases.svg"
+    ]
+  },
+  {
+    id: 3,
+    title: "RAG Systems w Pythonie - Kompletny Przewodnik 2025",
+    slug: "rag-systems-python-tutorial",
+    category: "AI Agents",
+    tags: ["rag", "python", "vector-search", "embeddings", "llm"],
+    excerpt: "Szczegółowy tutorial budowania systemów RAG (Retrieval-Augmented Generation) w Pythonie. Od podstaw do zaawansowanych technik z profesjonalnymi grafikami architektury.",
+    date: "2026-01-25",
+    readTime: 16,
+    author: "JIMBO77 Team",
+    hasGraphics: true,
+    graphics: [
+      "/blog-images/rag-arch-glassmorphism.svg",
+      "/blog-images/rag-comparison-minimalist.svg",
+      "/blog-images/rag-flow-neon.svg",
+      "/blog-images/rag-workflow-dark-premium.svg"
+    ]
+  },
+  {
+    id: 4,
+    title: "Wprowadzenie do MCP Servers - Model Context Protocol",
+    slug: "mcp-servers",
+    category: "AI Agents",
+    tags: ["mcp", "agent-zero", "protocol", "anthropic"],
+    excerpt: "Model Context Protocol (MCP) to rewolucyjny standard komunikacji dla AI agentów stworzony przez Anthropic. Poznaj architekturę, naucz się tworzyć własne serwery MCP i zintegruj je z Claude.",
+    date: "2026-01-24",
+    readTime: 20,
+    author: "JIMBO77 Team"
+  },
+  {
+    id: 5,
     title: "Jak działa rejestr agentów?",
     slug: "jak-dziala-rejestr-agentow",
     category: "AI Agents",
     tags: ["agent-zero", "registry", "mcp"],
-    excerpt: "Rejestr agentów to centralna baza wszystkich AI agentów w ekosystemie JIMBO77. Zobacz jak zarządzać profilemi agentów.",
-    date: "2026-01-25",
+    excerpt: "Rejestr agentów to centralna baza wszystkich AI agentów w ekosystemie JIMBO77. Zobacz jak zarządzać profilami agentów.",
+    date: "2026-01-24",
     readTime: 7,
     author: "JIMBO77 Team"
   },
   {
-    id: 3,
-    title: "Wprowadzenie do MCP Servers",
-    slug: "wprowadzenie-do-mcp-servers",
-    category: "AI Agents",
-    tags: ["mcp", "agent-zero", "protocol"],
-    excerpt: "Model Context Protocol (MCP) to nowy standard komunikacji dla AI agentów. Poznaj podstawy i naucz się tworzyć własne serwery MCP.",
-    date: "2026-01-24",
-    readTime: 8,
-    author: "JIMBO77 Team"
-  },
-  {
-    id: 4,
+    id: 6,
     title: "Automatyzacja z Agent Zero - przewodnik",
     slug: "automatyzacja-z-agent-zero",
     category: "Automatyzacja",
@@ -44,7 +80,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 5,
+    id: 7,
     title: "Cloudflare Workers - praktyczny tutorial",
     slug: "cloudflare-workers-tutorial",
     category: "Development",
@@ -52,10 +88,18 @@ export const blogPosts = [
     excerpt: "Cloudflare Workers pozwalają uruchamiać kod na edge'u w 200+ lokalizacjach. Tutorial od podstaw do zaawansowanych przypadków użycia.",
     date: "2026-01-22",
     readTime: 12,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    hasGraphics: true,
+    graphics: [
+      "/blog-images/cf-workers-architecture.svg",
+      "/blog-images/cf-workers-deployment-flow.svg",
+      "/blog-images/cf-workers-kv-flow.svg",
+      "/blog-images/cf-workers-use-cases.svg",
+      "/blog-images/cf-workers-vs-lambda.svg"
+    ]
   },
   {
-    id: 6,
+    id: 8,
     title: "Budowanie AI agentów w Python",
     slug: "budowanie-ai-agentow-w-python",
     category: "Tutoriale",
@@ -66,7 +110,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 7,
+    id: 9,
     title: "Supabase dla developerów - kompletny przewodnik",
     slug: "supabase-dla-developerow",
     category: "Development",
@@ -77,7 +121,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 8,
+    id: 10,
     title: "GitHub Actions - automatyzacja deployment",
     slug: "github-actions-automatyzacja",
     category: "Automatyzacja",
@@ -88,7 +132,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 9,
+    id: 11,
     title: "React + Vite - nowoczesny frontend stack",
     slug: "react-vite-nowoczesny-stack",
     category: "Development",
@@ -99,7 +143,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 10,
+    id: 12,
     title: "MCP vs RAG - który wybrać?",
     slug: "mcp-vs-rag-porownanie",
     category: "AI Agents",
@@ -110,18 +154,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 11,
-    title: "MCP Servers - szczegóły",
-    slug: "mcp-servers",
-    category: "AI Agents",
-    tags: ["mcp", "servers", "infrastructure"],
-    excerpt: "Szczegółowe omówienie serwerów MCP, ich architektury i zastosowania w infrastrukturze agentowej.",
-    date: "2026-01-16",
-    readTime: 10,
-    author: "JIMBO77 Team"
-  },
-  {
-    id: 12,
+    id: 13,
     title: "Semantic Vector Search",
     slug: "semantic-vector-search",
     category: "AI Agents",
@@ -132,7 +165,7 @@ export const blogPosts = [
     author: "JIMBO77 Team"
   },
   {
-    id: 13,
+    id: 14,
     title: "Mikrousługi AI",
     slug: "mikrousługi-ai",
     category: "Architecture",
