@@ -12,8 +12,9 @@
     "test:mobile": "vitest run src/tests/mobile-responsiveness.test.jsx"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.7",
     "@vitest/ui": "^4.0.18",
-    "framer-motion": "^10.16.4",
+    "framer-motion": "^10.18.0",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.292.0",
     "react": "^18.2.0",

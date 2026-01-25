@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { Chip, Button, Image } from "@heroui/react";
 
 const BlogCard = ({ blog, index, isFeatured }) => {
     return (
@@ -12,27 +13,31 @@ const BlogCard = ({ blog, index, isFeatured }) => {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="h-full"
         >
-            <Link
-                to={`/blog/${blog.slug}`}
+            <div
                 className={`group relative rounded-2xl overflow-hidden flex flex-col h-full ${!isFeatured ? 'bg-slate-900/50 border border-slate-800 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all' : ''}`}
             >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
-                    <img
+                    <Image
                         src={blog.image}
                         alt={blog.topic}
+                        radius="none"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60" />
-                    <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-cyan-400 text-xs font-bold rounded-full border border-cyan-500/30">
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60 z-10" />
+                    <div className="absolute top-4 left-4 z-20">
+                        <Chip
+                            variant="glass"
+                            size="sm"
+                            className="bg-black/50 backdrop-blur-md text-cyan-400 border-cyan-500/30"
+                        >
                             {blog.category}
-                        </span>
+                        </Chip>
                     </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-6 flex-1 flex flex-col min-h-[280px]">
+                <div className="p-6 flex-1 flex flex-col min-h-[300px] z-10">
                     <div className="flex items-center gap-2 text-slate-400 text-xs mb-3">
                         <Calendar size={14} />
                         <span>{blog.date}</span>
@@ -55,30 +60,43 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                         {blog.description.length > 100
                             ? `${blog.description.substring(0, 100)}... `
                             : blog.description}
-                        {blog.description.length > 100 && (
-                            <span className="text-cyan-400 font-medium hover:underline ml-1">more</span>
-                        )}
                     </p>
 
                     {/* Tech Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
                         {blog.tech.slice(0, 3).map((tech, i) => (
-                            <span key={i} className="text-xs px-2 py-1 bg-slate-800 text-slate-300 rounded border border-slate-700">
+                            <Chip
+                                key={i}
+                                size="sm"
+                                variant="flat"
+                                className="bg-slate-800 text-slate-300 border-slate-700"
+                            >
                                 {tech}
-                            </span>
+                            </Chip>
                         ))}
                         {blog.tech.length > 3 && (
-                            <span className="text-xs px-2 py-1 bg-slate-800 text-slate-300 rounded border border-slate-700">
+                            <Chip
+                                size="sm"
+                                variant="flat"
+                                className="bg-slate-800 text-slate-300 border-slate-700"
+                            >
                                 +{blog.tech.length - 3}
-                            </span>
+                            </Chip>
                         )}
                     </div>
 
-                    <div className="inline-flex items-center gap-2 text-cyan-400 font-medium text-sm group-hover:gap-3 transition-all mt-auto">
-                        Read Article <ArrowRight size={16} />
-                    </div>
+                    <Button
+                        as={Link}
+                        to={`/blog/${blog.slug}`}
+                        variant="ghost"
+                        color="primary"
+                        endContent={<ArrowRight size={16} />}
+                        className="w-full font-bold uppercase tracking-widest text-xs border-cyan-500/30 text-cyan-400 hover:!bg-cyan-500 hover:!text-white transition-all shadow-lg hover:shadow-cyan-500/20"
+                    >
+                        Read Article
+                    </Button>
                 </div>
-            </Link>
+            </div>
         </motion.div>
     );
 };

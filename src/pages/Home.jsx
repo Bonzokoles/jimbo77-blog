@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Sparkles } from 'lucide-react';
+import { Input, Select, SelectItem, Button, Card, CardBody } from "@heroui/react";
 import BlogCard from '../components/BlogCard';
 import Pagination from '../components/Pagination';
 import { blogPosts } from '../data/blogPosts';
@@ -16,9 +17,9 @@ const blogs = blogPosts.map(blog => ({
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const [selectedMonth, setSelectedMonth] = useState('All');
-    const [selectedYear, setSelectedYear] = useState('All');
+    const [selectedCategory, setSelectedCategory] = useState(new Set(['All']));
+    const [selectedMonth, setSelectedMonth] = useState(new Set(['All']));
+    const [selectedYear, setSelectedYear] = useState(new Set(['All']));
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9;
 
@@ -36,22 +37,26 @@ const Home = () => {
     const months = ['All', ...new Set(allMonths)];
     const years = ['All', ...new Set(allYears)];
 
+    const categoryValue = Array.from(selectedCategory)[0];
+    const monthValue = Array.from(selectedMonth)[0];
+    const yearValue = Array.from(selectedYear)[0];
+
     const filteredBlogs = blogs.filter(blog => {
         const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
 
         let matchesCategory = true;
-        if (selectedCategory === 'Featured') {
+        if (categoryValue === 'Featured') {
             matchesCategory = blog.featured;
-        } else if (selectedCategory !== 'All') {
-            matchesCategory = blog.category === selectedCategory;
+        } else if (categoryValue !== 'All') {
+            matchesCategory = blog.category === categoryValue;
         }
 
         const blogDate = new Date(blog.date);
         const blogMonth = blogDate.toLocaleString('pl-PL', { month: 'long' });
         const blogYear = blogDate.getFullYear().toString();
-        const matchesMonth = selectedMonth === 'All' || blogMonth === selectedMonth;
-        const matchesYear = selectedYear === 'All' || blogYear === selectedYear;
+        const matchesMonth = monthValue === 'All' || blogMonth === monthValue;
+        const matchesYear = yearValue === 'All' || blogYear === yearValue;
 
         return matchesSearch && matchesCategory && matchesMonth && matchesYear;
     });
@@ -70,8 +75,6 @@ const Home = () => {
 
     return (
         <div className="min-h-screen pt-24 pb-12 px-6 relative">
-
-
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-16">
@@ -103,67 +106,97 @@ const Home = () => {
                 </div>
 
                 {/* Filters & Search - Sticky */}
-                <div className="sticky top-20 z-30 py-4 bg-slate-950/80 backdrop-blur-xl mb-12 -mx-6 px-6 md:mx-0 md:px-0 md:shadow-lg">
-                    <div className="flex flex-row items-center gap-4 overflow-x-auto scrollbar-thin pb-2">
-                        {/* Search */}
-                        <div className="relative flex-1 min-w-[200px]">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-                            <input
-                                type="text"
-                                placeholder="Szukaj artykułów..."
-                                value={searchTerm}
-                                onChange={(e) => {
-                                    setSearchTerm(e.target.value);
-                                    setCurrentPage(1);
-                                }}
-                                className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-cyan-500 transition-colors placeholder:text-slate-600"
-                            />
-                        </div>
+                <div className="sticky top-20 z-30 py-4 mb-12 -mx-6 px-6 md:mx-0 md:px-0">
+                    <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50 shadow-2xl">
+                        <CardBody className="p-4">
+                            <div className="flex flex-col md:flex-row items-center gap-4">
+                                {/* Search */}
+                                <Input
+                                    isClearable
+                                    className="flex-1"
+                                    placeholder="Szukaj artykułów..."
+                                    startContent={<Search size={18} className="text-slate-500" />}
+                                    value={searchTerm}
+                                    onValueChange={(value) => {
+                                        setSearchTerm(value);
+                                        setCurrentPage(1);
+                                    }}
+                                    variant="bordered"
+                                    classNames={{
+                                        input: "text-white",
+                                        inputWrapper: "border-slate-800 hover:border-cyan-500/50 focus-within:!border-cyan-500 transition-colors bg-slate-900/50",
+                                    }}
+                                />
 
-                        {/* Categories Dropdown */}
-                        <select
-                            value={selectedCategory}
-                            onChange={(e) => {
-                                setSelectedCategory(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                            className="bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-slate-300 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer"
-                        >
-                            {categories.map(category => (
-                                <option key={category} value={category}>{category}</option>
-                            ))}
-                        </select>
+                                <div className="flex flex-row items-center gap-2 w-full md:w-auto overflow-x-auto scrollbar-none">
+                                    {/* Categories Select */}
+                                    <Select
+                                        className="min-w-[150px]"
+                                        selectedKeys={selectedCategory}
+                                        onSelectionChange={(keys) => {
+                                            setSelectedCategory(keys);
+                                            setCurrentPage(1);
+                                        }}
+                                        variant="bordered"
+                                        aria-label="Kategoria"
+                                        classNames={{
+                                            trigger: "border-slate-800 hover:border-cyan-500/50 transition-colors bg-slate-900/50",
+                                            value: "text-slate-300",
+                                            popoverContent: "bg-slate-900 border-slate-800 text-slate-300"
+                                        }}
+                                    >
+                                        {categories.map(category => (
+                                            <SelectItem key={category} value={category}>{category}</SelectItem>
+                                        ))}
+                                    </Select>
 
-                        {/* Month Dropdown */}
-                        <select
-                            value={selectedMonth}
-                            onChange={(e) => {
-                                setSelectedMonth(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                            className="bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-slate-300 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer"
-                        >
-                            <option value="All">Miesiąc</option>
-                            {months.filter(m => m !== 'All').map(month => (
-                                <option key={month} value={month}>{month}</option>
-                            ))}
-                        </select>
+                                    {/* Month Select */}
+                                    <Select
+                                        className="min-w-[130px]"
+                                        selectedKeys={selectedMonth}
+                                        onSelectionChange={(keys) => {
+                                            setSelectedMonth(keys);
+                                            setCurrentPage(1);
+                                        }}
+                                        variant="bordered"
+                                        aria-label="Miesiąc"
+                                        classNames={{
+                                            trigger: "border-slate-800 hover:border-cyan-500/50 transition-colors bg-slate-900/50",
+                                            value: "text-slate-300",
+                                            popoverContent: "bg-slate-900 border-slate-800 text-slate-300"
+                                        }}
+                                    >
+                                        <SelectItem key="All" value="All">Miesiąc</SelectItem>
+                                        {months.filter(m => m !== 'All').map(month => (
+                                            <SelectItem key={month} value={month}>{month}</SelectItem>
+                                        ))}
+                                    </Select>
 
-                        {/* Year Dropdown */}
-                        <select
-                            value={selectedYear}
-                            onChange={(e) => {
-                                setSelectedYear(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                            className="bg-slate-900 border border-slate-800 rounded-lg px-4 py-2 text-slate-300 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer"
-                        >
-                            <option value="All">Rok</option>
-                            {years.filter(y => y !== 'All').map(year => (
-                                <option key={year} value={year}>{year}</option>
-                            ))}
-                        </select>
-                    </div>
+                                    {/* Year Select */}
+                                    <Select
+                                        className="min-w-[110px]"
+                                        selectedKeys={selectedYear}
+                                        onSelectionChange={(keys) => {
+                                            setSelectedYear(keys);
+                                            setCurrentPage(1);
+                                        }}
+                                        variant="bordered"
+                                        aria-label="Rok"
+                                        classNames={{
+                                            trigger: "border-slate-800 hover:border-cyan-500/50 transition-colors bg-slate-900/50",
+                                            value: "text-slate-300",
+                                            popoverContent: "bg-slate-900 border-slate-800 text-slate-300"
+                                        }}
+                                    >
+                                        <SelectItem key="All" value="All">Rok</SelectItem>
+                                        {years.filter(y => y !== 'All').map(year => (
+                                            <SelectItem key={year} value={year}>{year}</SelectItem>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </div>
+                        </CardBody>
+                    </Card>
                 </div>
 
                 {/* Content Layout with Sidebar */}
