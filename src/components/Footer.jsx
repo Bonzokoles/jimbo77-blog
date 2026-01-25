@@ -6,8 +6,11 @@ import { personalInfo } from '../data';
 
 const Footer = () => {
     return (
-        <footer className="relative border-t border-white/5 bg-slate-950/80 backdrop-blur-sm pt-16 pb-8 overflow-hidden">
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <footer className="relative border-t border-white/5 bg-slate-950/40 backdrop-blur-md pt-16 pb-8 overflow-hidden">
+            {/* Grid Pattern & Gradient */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
