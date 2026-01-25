@@ -2,7 +2,7 @@ import React from 'react';
 
 const Background = () => {
     return (
-        <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-[#000000]">
+        <div className="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-[#000000]">
             {/* Global Faint Grid (Consistent with Footer) */}
             <div
                 className="absolute inset-0 opacity-[0.03]"

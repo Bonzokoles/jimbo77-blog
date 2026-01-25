@@ -14,11 +14,13 @@ const ScrollToTop = () => {
 
 const RootLayout = () => {
     return (
-        <div className="min-h-screen bg-transparent text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col relative">
-            <Background />
+        <div className="min-h-screen bg-[#000000] text-slate-200 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col relative isolate">
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                <Background />
+            </div>
             <ScrollToTop />
             <Navbar />
-            <main className="flex-grow relative z-10">
+            <main className="flex-grow relative z-20">
                 <Outlet />
             </main>
             <Footer />
