@@ -3,82 +3,7 @@ import { Button, Input, Select, SelectItem, Card } from "@heroui/react";
 import BlogCard from '../components/BlogCard';
 import { SidebarLeft, SidebarRight } from '../components/Sidebars';
 
-// Mock data
-const POSTS = [
-    {
-        title: "Czym jest JIMBO77? Polski Portal Społecznościowy o AI",
-        excerpt: "Czym jest JIMBO77? Polski Portal Społecznościowy o AI. Polski portal społecznościowy dla developerów i entuzjastów AI, gdzie wiedza spotyka się z praktyką. Dowiedz się, dlaczego warto do nas dołączyć.",
-        date: "2026-01-25",
-        tags: ["AI Agents"],
-        image: "/images/blog/jimbo-intro.jpg",
-        slug: "czym-jest-jimbo77"
-    },
-    {
-        title: "AI Agents w Pythonie - Kompletny Pakiet 2025",
-        excerpt: "Kompletny przewodnik po budowaniu AI Agents w Pythonie z 4 najpotężniejszymi frameworkami: LangChain, AutoGen, CrewAI i Semantic Kernel.",
-        date: "2026-01-25",
-        tags: ["AI Agents"],
-        image: "/images/blog/ai-agents-python.jpg",
-        slug: "ai-agents-python-guide"
-    },
-    {
-        title: "RAG Systems w Pythonie - Kompletny Przewodnik 2025",
-        excerpt: "Szczegółowy tutorial budowania systemów RAG (Retrieval-Augmented Generation). Od wektorowych baz danych po zaawansowane techniki retrieval i reranking.",
-        date: "2026-01-25",
-        tags: ["AI Agents"],
-        image: "/images/blog/rag-systems.jpg",
-        slug: "rag-systems-guide"
-    },
-    {
-        title: "Wprowadzenie do MCP Servers - Model Context Protocol",
-        excerpt: "Model Context Protocol (MCP) to rewolucyjny standard komunikacji dla AI agentów stworzony przez Anthropic. Zobacz jak połączyć lokalne narzędzia z LLM.",
-        date: "2026-01-24",
-        tags: ["AI Agents"],
-        image: "/images/blog/mcp-intro.jpg",
-        slug: "mcp-servers-intro"
-    },
-    {
-        title: "Jak działa rejestr agentów?",
-        excerpt: "Rejestr agentów to centralna baza wszystkich AI agentów w ekosystemie JIMBO77. Zobacz jak zarządzać swoimi cyfrowymi pracownikami.",
-        date: "2026-01-24",
-        tags: ["AI Agents"],
-        image: "/images/blog/agent-registry.jpg",
-        slug: "agent-registry-guide"
-    },
-    {
-        title: "Automatyzacja z Agent Zero - przewodnik",
-        excerpt: "Agent Zero to potężne narzędzie do automatyzacji zadań developerskich. Zobacz jak zautomatyzować deploy, testy i zarządzanie infrastrukturą.",
-        date: "2026-01-23",
-        tags: ["Automatyzacja"],
-        image: "/images/blog/agent-zero.jpg",
-        slug: "agent-zero-guide"
-    },
-    {
-        title: "Cloudflare Workers - praktyczny tutorial",
-        excerpt: "Cloudflare Workers pozwalają uruchamiać kod na edge'u w 200+ lokalizacjach. Tutorial od podstaw do zaawansowanych use-cases.",
-        date: "2026-01-22",
-        tags: ["Development"],
-        image: "/images/blog/cloudflare-workers.jpg",
-        slug: "cloudflare-workers-guide"
-    },
-    // Adding duplicates to simulate clearer scroll
-    {
-        title: "Generative UI with Vercel AI SDK",
-        excerpt: "Learn how to stream React components from LLMs directly to your frontend using Vercel AI SDK 3.0. The future of dynamic interfaces is here.",
-        date: "2026-01-21",
-        tags: ["AI Agents", "React"],
-        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
-        slug: "generative-ui-guide"
-    },
-    {
-        title: "Kubernetes dla Junior Devopsa",
-        excerpt: "Podstawy konteneryzacji i orkiestracji. Jak postawić swój pierwszy klaster K8s w 15 minut używając nowoczesnych narzędzi.",
-        date: "2026-01-20",
-        tags: ["DevOps"],
-        image: "https://images.unsplash.com/photo-1667372393119-c81c0cda05a8?q=80&w=1970&auto=format&fit=crop",
-        slug: "k8s-junior-guide"
-    }
-];
+import { blogPosts } from '../data/blogPosts';
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -91,7 +16,7 @@ const Home = () => {
     };
 
     // Filter posts
-    const filteredPosts = POSTS.filter(post => {
+    const filteredPosts = blogPosts.filter(post => {
         const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesCategory = selectedCategory === "all" || post.tags.includes(selectedCategory);

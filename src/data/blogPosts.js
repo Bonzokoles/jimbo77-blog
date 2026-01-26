@@ -8,7 +8,8 @@
     excerpt: "Polski portal społecznościowy dla developerów i entuzjastów AI - w stylu dev.to, ale 100% po polsku. Miejsce gdzie polska tech community dzieli się wiedzą o AI, Agent Zero i automatyzacji.",
     date: "2026-01-25",
     readTime: 12,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/jimbo77-logo.svg"
   },
   {
     id: 2,
@@ -26,7 +27,8 @@
       "/blog-images/ai-agents-flow-patterns.svg",
       "/blog-images/ai-agents-decision-tree.svg",
       "/blog-images/ai-agents-use-cases.svg"
-    ]
+    ],
+    image: "/blog-images/ai-agents-architecture.svg"
   },
   {
     id: 3,
@@ -44,7 +46,8 @@
       "/blog-images/rag-comparison-minimalist.svg",
       "/blog-images/rag-flow-neon.svg",
       "/blog-images/rag-workflow-dark-premium.svg"
-    ]
+    ],
+    image: "/blog-images/rag-arch-glassmorphism.svg"
   },
   {
     id: 4,
@@ -63,7 +66,8 @@
       "/images/mcp_comparison.svg",
       "/images/mcp_threats.svg",
       "/images/mcp_usecases.svg"
-    ]
+    ],
+    image: "/images/mcp_ecosystem.svg"
   },
   {
     id: 5,
@@ -74,7 +78,8 @@
     excerpt: "Rejestr agentów to centralna baza wszystkich AI agentów w ekosystemie JIMBO77. Zobacz jak zarządzać profilami agentów.",
     date: "2026-01-24",
     readTime: 7,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/ai-agents-use-cases.svg"
   },
   {
     id: 6,
@@ -92,7 +97,8 @@
       "/images/agent_zero_flow.svg",
       "/images/agent_zero_comparison.svg",
       "/images/agent_zero_installation.svg"
-    ]
+    ],
+    image: "/images/agent_zero_architecture.svg"
   },
   {
     id: 7,
@@ -111,7 +117,8 @@
       "/blog-images/cf-workers-kv-flow.svg",
       "/blog-images/cf-workers-use-cases.svg",
       "/blog-images/cf-workers-vs-lambda.svg"
-    ]
+    ],
+    image: "/blog-images/cf-workers-architecture.svg"
   },
   {
     id: 8,
@@ -122,7 +129,8 @@
     excerpt: "Kompletny przewodnik tworzenia własnych AI agentów w Python. FastAPI, OpenAI API, websockets i best practices.",
     date: "2026-01-21",
     readTime: 15,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/ai-agents-flow-patterns.svg"
   },
   {
     id: 9,
@@ -133,7 +141,8 @@
     excerpt: "Supabase to open-source alternatywa dla Firebase. PostgreSQL, auth, real-time subscriptions i edge functions w jednym miejscu.",
     date: "2026-01-20",
     readTime: 13,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/cf-workers-kv-flow.svg"
   },
   {
     id: 10,
