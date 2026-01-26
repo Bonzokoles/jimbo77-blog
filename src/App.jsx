@@ -4,6 +4,10 @@ import Home from './pages/Home';
 import BlogPost from './pages/BlogPost';
 import RootLayout from './layouts/RootLayout';
 
+import Logs from './pages/Logs';
+import Core from './pages/Core';
+import Community from './pages/Community';
+
 const App = () => {
     return (
         <Router>
@@ -11,6 +15,9 @@ const App = () => {
                 <Route element={<RootLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route path="/logs" element={<Logs />} />
+                    <Route path="/core" element={<Core />} />
+                    <Route path="/community" element={<Community />} />
                 </Route>
             </Routes>
         </Router>

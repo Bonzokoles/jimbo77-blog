@@ -23,14 +23,15 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'SYSTEM', path: '/', icon: <Terminal size={14} /> },
-        { name: 'LOGS', path: '#', icon: <Activity size={14} /> }, // Placeholder or Link to blog logs
-        { name: 'CORE', path: '#', icon: <Cpu size={14} /> }, // Placeholder
+        { name: 'LOGS', path: '/logs', icon: <Activity size={14} /> },
+        { name: 'CORE', path: '/core', icon: <Cpu size={14} /> },
+        { name: 'COMMUNITY', path: '/community', icon: <Activity size={14} /> },
     ];
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled
-                ? 'bg-slate-950/80 backdrop-blur-md border-cyan-500/30'
-                : 'bg-transparent border-transparent'
+            ? 'bg-slate-950/80 backdrop-blur-md border-cyan-500/30'
+            : 'bg-transparent border-transparent'
             }`}>
             {/* Top decorative line */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent opacity-50" />
@@ -39,9 +40,12 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-20">
                     {/* Logo Area */}
                     <Link to="/" className="flex items-center gap-3 group">
-                        <div className="relative flex items-center justify-center w-10 h-10 border border-cyan-500/30 bg-cyan-500/10 rounded overflow-hidden group-hover:border-cyan-400 transition-colors">
-                            <span className="text-cyan-400 font-logo text-lg animate-pulse">J</span>
-                            <div className="absolute inset-0 bg-cyan-400/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative flex items-center justify-center w-10 h-10 group-hover:scale-110 transition-transform duration-300">
+                            <img
+                                src="/apple-touch-icon.png"
+                                alt="Jimbo Logo"
+                                className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+                            />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-bold text-white tracking-wider font-logo leading-none group-hover:text-cyan-400 transition-colors">

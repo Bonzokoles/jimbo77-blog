@@ -1,257 +1,233 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, Sparkles } from 'lucide-react';
-import { Input, Select, SelectItem, Button, Card, CardBody } from "@heroui/react";
+import { Button, Input, Select, SelectItem, Card } from "@heroui/react";
 import BlogCard from '../components/BlogCard';
-import Pagination from '../components/Pagination';
-import { blogPosts } from '../data/blogPosts';
+import { SidebarLeft, SidebarRight } from '../components/Sidebars';
 
-const blogs = blogPosts.map(blog => ({
-    ...blog,
-    topic: blog.title,
-    description: blog.excerpt,
-    subtitle: blog.title,
-    tech: blog.tags || [],
-    image: `https://picsum.photos/seed/${blog.slug}/800/600`
-}));
+// Mock data
+const POSTS = [
+    {
+        title: "Czym jest JIMBO77? Polski Portal Społecznościowy o AI",
+        excerpt: "Czym jest JIMBO77? Polski Portal Społecznościowy o AI. Polski portal społecznościowy dla developerów i entuzjastów AI, gdzie wiedza spotyka się z praktyką. Dowiedz się, dlaczego warto do nas dołączyć.",
+        date: "2026-01-25",
+        tags: ["AI Agents"],
+        image: "/images/blog/jimbo-intro.jpg",
+        slug: "czym-jest-jimbo77"
+    },
+    {
+        title: "AI Agents w Pythonie - Kompletny Pakiet 2025",
+        excerpt: "Kompletny przewodnik po budowaniu AI Agents w Pythonie z 4 najpotężniejszymi frameworkami: LangChain, AutoGen, CrewAI i Semantic Kernel.",
+        date: "2026-01-25",
+        tags: ["AI Agents"],
+        image: "/images/blog/ai-agents-python.jpg",
+        slug: "ai-agents-python-guide"
+    },
+    {
+        title: "RAG Systems w Pythonie - Kompletny Przewodnik 2025",
+        excerpt: "Szczegółowy tutorial budowania systemów RAG (Retrieval-Augmented Generation). Od wektorowych baz danych po zaawansowane techniki retrieval i reranking.",
+        date: "2026-01-25",
+        tags: ["AI Agents"],
+        image: "/images/blog/rag-systems.jpg",
+        slug: "rag-systems-guide"
+    },
+    {
+        title: "Wprowadzenie do MCP Servers - Model Context Protocol",
+        excerpt: "Model Context Protocol (MCP) to rewolucyjny standard komunikacji dla AI agentów stworzony przez Anthropic. Zobacz jak połączyć lokalne narzędzia z LLM.",
+        date: "2026-01-24",
+        tags: ["AI Agents"],
+        image: "/images/blog/mcp-intro.jpg",
+        slug: "mcp-servers-intro"
+    },
+    {
+        title: "Jak działa rejestr agentów?",
+        excerpt: "Rejestr agentów to centralna baza wszystkich AI agentów w ekosystemie JIMBO77. Zobacz jak zarządzać swoimi cyfrowymi pracownikami.",
+        date: "2026-01-24",
+        tags: ["AI Agents"],
+        image: "/images/blog/agent-registry.jpg",
+        slug: "agent-registry-guide"
+    },
+    {
+        title: "Automatyzacja z Agent Zero - przewodnik",
+        excerpt: "Agent Zero to potężne narzędzie do automatyzacji zadań developerskich. Zobacz jak zautomatyzować deploy, testy i zarządzanie infrastrukturą.",
+        date: "2026-01-23",
+        tags: ["Automatyzacja"],
+        image: "/images/blog/agent-zero.jpg",
+        slug: "agent-zero-guide"
+    },
+    {
+        title: "Cloudflare Workers - praktyczny tutorial",
+        excerpt: "Cloudflare Workers pozwalają uruchamiać kod na edge'u w 200+ lokalizacjach. Tutorial od podstaw do zaawansowanych use-cases.",
+        date: "2026-01-22",
+        tags: ["Development"],
+        image: "/images/blog/cloudflare-workers.jpg",
+        slug: "cloudflare-workers-guide"
+    },
+    // Adding duplicates to simulate clearer scroll
+    {
+        title: "Generative UI with Vercel AI SDK",
+        excerpt: "Learn how to stream React components from LLMs directly to your frontend using Vercel AI SDK 3.0. The future of dynamic interfaces is here.",
+        date: "2026-01-21",
+        tags: ["AI Agents", "React"],
+        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
+        slug: "generative-ui-guide"
+    },
+    {
+        title: "Kubernetes dla Junior Devopsa",
+        excerpt: "Podstawy konteneryzacji i orkiestracji. Jak postawić swój pierwszy klaster K8s w 15 minut używając nowoczesnych narzędzi.",
+        date: "2026-01-20",
+        tags: ["DevOps"],
+        image: "https://images.unsplash.com/photo-1667372393119-c81c0cda05a8?q=80&w=1970&auto=format&fit=crop",
+        slug: "k8s-junior-guide"
+    }
+];
 
 const Home = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState(new Set(['All']));
-    const [selectedMonth, setSelectedMonth] = useState(new Set(['All']));
-    const [selectedYear, setSelectedYear] = useState(new Set(['All']));
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 9;
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [visiblePosts, setVisiblePosts] = useState(6);
 
-    const categories = ['All', 'Featured', ...new Set(blogs.map(blog => blog.category))];
-
-    // Extract unique Months and Years from ISO date format (YYYY-MM-DD)
-    const allMonths = blogs.map(blog => {
-        const date = new Date(blog.date);
-        return date.toLocaleString('pl-PL', { month: 'long' });
-    });
-    const allYears = blogs.map(blog => {
-        const date = new Date(blog.date);
-        return date.getFullYear().toString();
-    });
-    const months = ['All', ...new Set(allMonths)];
-    const years = ['All', ...new Set(allYears)];
-
-    const categoryValue = Array.from(selectedCategory)[0];
-    const monthValue = Array.from(selectedMonth)[0];
-    const yearValue = Array.from(selectedYear)[0];
-
-    const filteredBlogs = blogs.filter(blog => {
-        const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-
-        let matchesCategory = true;
-        if (categoryValue === 'Featured') {
-            matchesCategory = blog.featured;
-        } else if (categoryValue !== 'All') {
-            matchesCategory = blog.category === categoryValue;
-        }
-
-        const blogDate = new Date(blog.date);
-        const blogMonth = blogDate.toLocaleString('pl-PL', { month: 'long' });
-        const blogYear = blogDate.getFullYear().toString();
-        const matchesMonth = monthValue === 'All' || blogMonth === monthValue;
-        const matchesYear = yearValue === 'All' || blogYear === yearValue;
-
-        return matchesSearch && matchesCategory && matchesMonth && matchesYear;
-    });
-
-    // Pagination Logic
-    const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
-    const paginatedBlogs = filteredBlogs.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Simulating infinite scroll load
+    const loadMore = () => {
+        setVisiblePosts(prev => prev + 4);
     };
 
+    // Filter posts
+    const filteredPosts = POSTS.filter(post => {
+        const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = selectedCategory === "all" || post.tags.includes(selectedCategory);
+        return matchesSearch && matchesCategory;
+    });
+
+    const currentPosts = filteredPosts.slice(0, visiblePosts);
+    const hasMore = visiblePosts < filteredPosts.length;
+
     return (
-        <div className="min-h-screen pt-24 pb-12 px-6 relative">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="mb-16">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex items-end justify-start gap-4 mb-6"
-                    >
-                        <img
-                            src="/apple-touch-icon.png"
-                            alt="JIMBO77"
-                            className="w-32 h-32 md:w-40 md:h-40"
-                            style={{
-                                filter: 'drop-shadow(0 8px 24px rgba(6, 182, 212, 0.5))'
-                            }}
-                        />
-                        <h1 className="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-logo leading-none pb-0 -mb-2 translate-y-[5px] translate-x-[30px]">
-                            JIMBO77_AI_social_club
-                        </h1>
-                    </motion.div>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-slate-400 text-lg max-w-2xl"
-                    >
+        <div className="min-h-screen bg-transparent pt-8 pb-12">
+            <div className="container mx-auto px-4 max-w-[1920px]">
+                {/* -- HERO SECTION (Mobile Only) -- */}
+                <div className="lg:hidden text-center mb-12">
+                    <h1 className="font-display text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                        JIMBO<span className="text-red-600">77</span>
+                    </h1>
+                    <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent mx-auto mb-6"></div>
+                    <p className="text-xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
                         Najnowsze artykuły o AI, automatyzacji, DevOps i rozwoju technologicznym.
-                    </motion.p>
+                    </p>
                 </div>
 
-                {/* Filters & Search - Sticky */}
-                <div className="sticky top-20 z-30 py-4 mb-12 -mx-6 px-6 md:mx-0 md:px-0">
-                    <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50 shadow-2xl">
-                        <CardBody className="p-4">
-                            <div className="flex flex-col md:flex-row items-center gap-4">
-                                {/* Search */}
+                {/* -- THE COMMUNITY GRID -- */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
+
+                    {/* -- LEFT FLANK (2 Columns) -- */}
+                    <div className="hidden lg:block lg:col-span-2 xl:col-span-2">
+                        <SidebarLeft />
+                    </div>
+
+                    {/* -- MAIN SECTOR (7 or 8 Columns) -- */}
+                    <main className="col-span-1 lg:col-span-10 xl:col-span-7 flex flex-col gap-6">
+
+                        {/* Search & Filter Bar */}
+                        <Card className="p-4 bg-black/40 backdrop-blur-xl border border-white/5 sticky top-20 z-30 shadow-2xl shadow-black/50">
+                            <div className="flex flex-col md:flex-row gap-4">
                                 <Input
-                                    isClearable
-                                    className="flex-1"
-                                    placeholder="Szukaj artykułów..."
-                                    startContent={<Search size={18} className="text-slate-500" />}
-                                    value={searchTerm}
-                                    onValueChange={(value) => {
-                                        setSearchTerm(value);
-                                        setCurrentPage(1);
-                                    }}
-                                    variant="bordered"
                                     classNames={{
-                                        input: "text-white",
-                                        inputWrapper: "border-slate-800 hover:border-cyan-500/50 focus-within:!border-cyan-500 transition-colors bg-slate-900/50",
+                                        base: "w-full",
+                                        mainWrapper: "h-full",
+                                        input: "text-small",
+                                        inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
                                     }}
+                                    placeholder="Szukaj artykułów..."
+                                    size="sm"
+                                    startContent={<i className="ri-search-line text-slate-400" />}
+                                    value={searchTerm}
+                                    onValueChange={setSearchTerm}
                                 />
-
-                                <div className="flex flex-row items-center gap-2 w-full md:w-auto overflow-x-auto scrollbar-none">
-                                    {/* Categories Select */}
+                                <div className="flex gap-2 min-w-[300px]">
                                     <Select
-                                        className="min-w-[150px]"
-                                        selectedKeys={selectedCategory}
-                                        onSelectionChange={(keys) => {
-                                            setSelectedCategory(keys);
-                                            setCurrentPage(1);
-                                        }}
-                                        variant="bordered"
-                                        aria-label="Kategoria"
-                                        classNames={{
-                                            trigger: "border-slate-800 hover:border-cyan-500/50 transition-colors bg-slate-900/50",
-                                            value: "text-slate-300",
-                                            popoverContent: "bg-slate-900 border-slate-800 text-slate-300"
-                                        }}
+                                        size="sm"
+                                        placeholder="Kategoria"
+                                        defaultSelectedKeys={["all"]}
+                                        className="w-full"
                                     >
-                                        {categories.map(category => (
-                                            <SelectItem key={category} value={category}>{category}</SelectItem>
-                                        ))}
+                                        <SelectItem key="all" value="all">Wszystkie</SelectItem>
+                                        <SelectItem key="ai" value="ai">AI Agents</SelectItem>
+                                        <SelectItem key="dev" value="dev">Development</SelectItem>
                                     </Select>
-
-                                    {/* Month Select */}
                                     <Select
-                                        className="min-w-[130px]"
-                                        selectedKeys={selectedMonth}
-                                        onSelectionChange={(keys) => {
-                                            setSelectedMonth(keys);
-                                            setCurrentPage(1);
-                                        }}
-                                        variant="bordered"
-                                        aria-label="Miesiąc"
-                                        classNames={{
-                                            trigger: "border-slate-800 hover:border-cyan-500/50 transition-colors bg-slate-900/50",
-                                            value: "text-slate-300",
-                                            popoverContent: "bg-slate-900 border-slate-800 text-slate-300"
-                                        }}
+                                        size="sm"
+                                        placeholder="Sortowanie"
+                                        defaultSelectedKeys={["newest"]}
+                                        className="w-full"
                                     >
-                                        <SelectItem key="All" value="All">Miesiąc</SelectItem>
-                                        {months.filter(m => m !== 'All').map(month => (
-                                            <SelectItem key={month} value={month}>{month}</SelectItem>
-                                        ))}
-                                    </Select>
-
-                                    {/* Year Select */}
-                                    <Select
-                                        className="min-w-[110px]"
-                                        selectedKeys={selectedYear}
-                                        onSelectionChange={(keys) => {
-                                            setSelectedYear(keys);
-                                            setCurrentPage(1);
-                                        }}
-                                        variant="bordered"
-                                        aria-label="Rok"
-                                        classNames={{
-                                            trigger: "border-slate-800 hover:border-cyan-500/50 transition-colors bg-slate-900/50",
-                                            value: "text-slate-300",
-                                            popoverContent: "bg-slate-900 border-slate-800 text-slate-300"
-                                        }}
-                                    >
-                                        <SelectItem key="All" value="All">Rok</SelectItem>
-                                        {years.filter(y => y !== 'All').map(year => (
-                                            <SelectItem key={year} value={year}>{year}</SelectItem>
-                                        ))}
+                                        <SelectItem key="newest" value="newest">Najnowsze</SelectItem>
+                                        <SelectItem key="popular" value="popular">Popularne</SelectItem>
                                     </Select>
                                 </div>
                             </div>
-                        </CardBody>
-                    </Card>
-                </div>
+                        </Card>
 
-                {/* Content Layout with Sidebar */}
-                <div className="flex gap-8 relative items-start">
-                    {/* Main Grid */}
-                    <div className="flex-1">
-                        {paginatedBlogs.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {paginatedBlogs.map((blog, index) => (
-                                    <div key={blog.id} className="relative group h-full">
-                                        <div className={`relative h-full rounded-2xl overflow-hidden border transition-all duration-300 ${blog.featured
-                                            ? 'border-transparent shadow-lg shadow-purple-500/20'
-                                            : 'border-slate-800 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10'
-                                            }`}>
-                                            {/* Featured Gradient Background */}
-                                            {blog.featured && (
-                                                <>
-                                                    <div className="absolute inset-0 bg-slate-950 z-0" />
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950 to-purple-900/40 z-0" />
-                                                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-purple-500/10 z-0" />
-                                                    {/* Border Gradient */}
-                                                    <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-slate-800 via-slate-800 to-purple-500/50 -z-10" />
-                                                </>
-                                            )}
+                        {/* Posts Grid with Mixed Layout */}
+                        {currentPosts.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {currentPosts.map((post, index) => {
+                                    // Make every 3rd post span 2 columns to break monotony (like dev.to)
+                                    // Only applying this on larger screens logically via CSS if we added a class, 
+                                    // but BlogCard wrapper is standard. 
+                                    // Let's force the wrapper div here to span.
+                                    const isFeatured = (index % 5 === 0);
 
-                                            {/* Featured Tag */}
-                                            {blog.featured && (
-                                                <div className="absolute top-4 left-4 z-20 bg-slate-900/80 backdrop-blur-md border border-slate-700 text-cyan-400 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg tracking-wider">
-                                                    <Sparkles size={10} className="text-yellow-400 fill-yellow-400" />
-                                                    Wyróżnione
-                                                </div>
-                                            )}
-
-                                            <div className="relative z-10 h-full">
-                                                <BlogCard blog={blog} index={index} isFeatured={blog.featured} />
-                                            </div>
+                                    return (
+                                        <div key={index} className={`col-span-1 ${isFeatured ? 'md:col-span-2' : ''}`}>
+                                            <BlogCard
+                                                blog={{
+                                                    image: post.image,
+                                                    topic: post.title,
+                                                    category: post.tags[0],
+                                                    date: post.date,
+                                                    description: post.excerpt,
+                                                    tech: post.tags,
+                                                    slug: post.slug,
+                                                    subtitle: ""
+                                                }}
+                                                index={index}
+                                                isFeatured={isFeatured} // Pass this so card can adapt its inner layout if needed
+                                            />
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         ) : (
-                            <div className="text-center py-20 text-slate-500">
-                                Nie znaleziono artykułów spełniających kryteria.
+                            <div className="text-center py-20 bg-black/20 rounded-xl border border-white/5">
+                                <i className="ri-ghost-line text-4xl text-slate-600 mb-4 block"></i>
+                                <p className="text-slate-500">Nie znaleziono artykułów spełniających kryteria.</p>
                             </div>
                         )}
+
+                        {/* Infinite Scroll Trigger / Load More */}
+                        {hasMore && (
+                            <div className="py-8 text-center">
+                                <Button
+                                    variant="flat"
+                                    color="default"
+                                    className="w-full h-12 bg-white/5 hover:bg-white/10 text-slate-400 tracking-widest border border-white/5"
+                                    onClick={loadMore}
+                                >
+                                    LOAD MORE DATA...
+                                </Button>
+                            </div>
+                        )}
+                        {!hasMore && currentPosts.length > 0 && (
+                            <div className="py-8 text-center text-xs text-slate-600 font-mono tracking-widest">
+                                /// END OF STREAM ///
+                            </div>
+                        )}
+                    </main>
+
+                    {/* -- RIGHT FLANK (3 Columns) -- */}
+                    <div className="hidden xl:block xl:col-span-3">
+                        <SidebarRight />
                     </div>
 
-                    {/* Sticky Pagination Sidebar */}
-                    <div className="hidden xl:block sticky top-96 h-fit">
-                        <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
-                    </div>
                 </div>
             </div>
         </div>
