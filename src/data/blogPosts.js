@@ -153,7 +153,8 @@
     excerpt: "GitHub Actions to najpotężniejsze narzędzie CI/CD dla projektów na GitHubie. Workflows, secrets, matrix builds i deployment.",
     date: "2026-01-19",
     readTime: 11,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/cf-workers-deployment-flow.svg"
   },
   {
     id: 11,
@@ -164,7 +165,8 @@
     excerpt: "Vite to nowa generacja build toola dla React. HMR w milisekundach, TypeScript out-of-the-box i świetna developer experience.",
     date: "2026-01-18",
     readTime: 9,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/ai-agents-decision-tree.svg"
   },
   {
     id: 12,
@@ -175,7 +177,8 @@
     excerpt: "Model Context Protocol i Retrieval-Augmented Generation to dwa podejścia do zarządzania kontekstem AI. Porównanie, use cases i rekomendacje.",
     date: "2026-01-17",
     readTime: 14,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/images/mcp_comparison.svg"
   },
   {
     id: 13,
@@ -186,7 +189,8 @@
     excerpt: "Jak działa wyszukiwanie semantyczne i dlaczego jest kluczowe dla systemów RAG i agentów AI.",
     date: "2026-01-15",
     readTime: 12,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/rag-flow-neon.svg"
   },
   {
     id: 14,
@@ -197,6 +201,7 @@
     excerpt: "Architektura mikrousług w kontekście systemów AI. Skalowanie, orkiestracja i wzorce projektowe.",
     date: "2026-01-14",
     readTime: 15,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    image: "/blog-images/Architectural Survey.jpg"
   }
 ];
