@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 1200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1000" height="1200" fill="#0f172a"/>
+  
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34d399;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Title -->
+  <text x="500" y="40" font-size="28" font-weight="bold" fill="#38bdf8" text-anchor="middle">
+    📊 Agent Zero - Request Flow (How it Works)
+  </text>
+  
+  <!-- Step 1: User Input -->
+  <rect x="250" y="80" width="500" height="80" fill="#334155" stroke="#38bdf8" stroke-width="2" rx="10"/>
+  <text x="500" y="110" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="middle">Step 1️⃣: User Input</text>
+  <text x="500" y="140" font-size="12" fill="#cbd5e1" text-anchor="middle">"Write Python script to scrape weather data"</text>
+  
+  <!-- Arrow -->
+  <line x1="500" y1="160" x2="500" y2="190" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Step 2: Web UI -->
+  <rect x="250" y="190" width="500" height="80" fill="#334155" stroke="#06b6d4" stroke-width="2" rx="10"/>
+  <text x="500" y="220" font-size="14" font-weight="bold" fill="#06b6d4" text-anchor="middle">Step 2️⃣: Web UI Processing</text>
+  <text x="500" y="250" font-size="12" fill="#cbd5e1" text-anchor="middle">Capture input → Send to Agent Core</text>
+  
+  <!-- Arrow -->
+  <line x1="500" y1="270" x2="500" y2="300" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Step 3: Agent Analysis -->
+  <rect x="250" y="300" width="500" height="100" fill="#334155" stroke="#38bdf8" stroke-width="2" rx="10"/>
+  <text x="500" y="330" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="middle">Step 3️⃣: Agent Core - Analysis</text>
+  <text x="500" y="355" font-size="11" fill="#cbd5e1" text-anchor="middle">✓ Parse task requirements</text>
+  <text x="500" y="373" font-size="11" fill="#cbd5e1" text-anchor="middle">✓ Identify available tools (Terminal, Browser, File System)</text>
+  
+  <!-- Arrow -->
+  <line x1="500" y1="400" x2="500" y2="430" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Step 4: AI Model -->
+  <rect x="250" y="430" width="500" height="120" fill="#334155" stroke="#38bdf8" stroke-width="2" rx="10"/>
+  <text x="500" y="460" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="middle">Step 4️⃣: AI Model (OpenAI/Claude)</text>
+  <text x="500" y="490" font-size="11" fill="#cbd5e1" text-anchor="middle">Context: Task + Available Tools</text>
+  <text x="500" y="510" font-size="11" fill="#cbd5e1" text-anchor="middle">↓ Generate Action Plan ↓</text>
+  <text x="500" y="530" font-size="11" fill="#cbd5e1" text-anchor="middle">"1. Create script 2. Install requests lib 3. Execute 4. Return output"</text>
+  
+  <!-- Arrow -->
+  <line x1="500" y1="550" x2="500" y2="580" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Step 5: Tools Engine -->
+  <rect x="150" y="580" width="700" height="180" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="10"/>
+  <text x="500" y="610" font-size="14" font-weight="bold" fill="#06b6d4" text-anchor="middle">Step 5️⃣: Tools Engine - Execution</text>
+  
+  <!-- Tool boxes -->
+  <rect x="180" y="630" width="140" height="50" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="250" y="655" font-size="11" fill="#cbd5e1" text-anchor="middle">🖥️ Terminal</text>
+  <text x="250" y="673" font-size="9" fill="#94a3b8" text-anchor="middle">create_file.py</text>
+  
+  <rect x="340" y="630" width="140" height="50" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="410" y="655" font-size="11" fill="#cbd5e1" text-anchor="middle">📦 Package Manager</text>
+  <text x="410" y="673" font-size="9" fill="#94a3b8" text-anchor="middle">pip install</text>
+  
+  <rect x="500" y="630" width="140" height="50" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="570" y="655" font-size="11" fill="#cbd5e1" text-anchor="middle">📁 File System</text>
+  <text x="570" y="673" font-size="9" fill="#94a3b8" text-anchor="middle">Read/Write</text>
+  
+  <rect x="660" y="630" width="140" height="50" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="730" y="655" font-size="11" fill="#cbd5e1" text-anchor="middle">🌐 Web Browser</text>
+  <text x="730" y="673" font-size="9" fill="#94a3b8" text-anchor="middle">Playwright</text>
+  
+  <!-- Results -->
+  <text x="500" y="705" font-size="11" fill="#34d399" text-anchor="middle">✅ Terminal: requirements.txt created</text>
+  <text x="500" y="723" font-size="11" fill="#34d399" text-anchor="middle">✅ Package Manager: requests installed successfully</text>
+  <text x="500" y="741" font-size="11" fill="#34d399" text-anchor="middle">✅ Terminal: Script executed, output captured</text>
+  
+  <!-- Arrow -->
+  <line x1="500" y1="760" x2="500" y2="790" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Step 6: Feedback Loop -->
+  <rect x="250" y="790" width="500" height="100" fill="#334155" stroke="#38bdf8" stroke-width="2" rx="10"/>
+  <text x="500" y="820" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="middle">Step 6️⃣: Feedback Loop</text>
+  <text x="500" y="845" font-size="11" fill="#cbd5e1" text-anchor="middle">Agent checks: Is task complete?</text>
+  <text x="500" y="865" font-size="11" fill="#cbd5e1" text-anchor="middle">NO → Plan next steps, retry from Step 4</text>
+  <text x="500" y="883" font-size="11" fill="#cbd5e1" text-anchor="middle">YES → Proceed to Step 7</text>
+  
+  <!-- Arrow -->
+  <line x1="500" y1="890" x2="500" y2="920" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+  
+  <!-- Step 7: Result -->
+  <rect x="250" y="920" width="500" height="100" fill="#334155" stroke="#10b981" stroke-width="2" rx="10"/>
+  <text x="500" y="950" font-size="14" font-weight="bold" fill="#34d399" text-anchor="middle">Step 7️⃣: Return Result</text>
+  <text x="500" y="975" font-size="11" fill="#cbd5e1" text-anchor="middle">Display output + Full execution logs</text>
+  <text x="500" y="995" font-size="11" fill="#cbd5e1" text-anchor="middle">Save to Persistent Storage</text>
+  
+  <!-- Legend -->
+  <g transform="translate(50, 1050)">
+    <text x="0" y="0" font-size="12" font-weight="bold" fill="#38bdf8">Legend:</text>
+    <circle cx="20" cy="25" r="6" fill="none" stroke="#38bdf8" stroke-width="2"/>
+    <text x="35" y="30" font-size="11" fill="#cbd5e1">Primary Flow</text>
+    
+    <circle cx="20" cy="55" r="6" fill="none" stroke="#06b6d4" stroke-width="2"/>
+    <text x="35" y="60" font-size="11" fill="#cbd5e1">Decision Point</text>
+    
+    <circle cx="20" cy="85" r="6" fill="none" stroke="#10b981" stroke-width="2"/>
+    <text x="35" y="90" font-size="11" fill="#cbd5e1">Success/Complete</text>
+  </g>
+</svg>

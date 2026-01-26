@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#0f172a"/>
+  
+  <defs>
+    <marker id="arrowCheck" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#34d399" />
+    </marker>
+    <marker id="arrowX" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#ef4444" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="40" font-size="28" font-weight="bold" fill="#38bdf8" text-anchor="middle">
+    🔄 Agent Zero vs Traditional AI Chatbots
+  </text>
+  
+  <!-- Left Column: Traditional Chatbot -->
+  <rect x="50" y="80" width="500" height="680" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="10"/>
+  <text x="300" y="115" font-size="20" font-weight="bold" fill="#ef4444" text-anchor="middle">❌ Traditional Chatbot</text>
+  <text x="300" y="140" font-size="12" fill="#94a3b8" text-anchor="middle">(ChatGPT, Claude, Gemini)</text>
+  
+  <!-- Feature rows - Traditional -->
+  <rect x="70" y="160" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="160" x2="500" y2="210" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="185" font-size="13" fill="#cbd5e1">Execute Code Locally</text>
+  
+  <rect x="70" y="220" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="220" x2="500" y2="270" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="245" font-size="13" fill="#cbd5e1">File System Access</text>
+  
+  <rect x="70" y="280" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="280" x2="500" y2="330" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="305" font-size="13" fill="#cbd5e1">Install Dependencies (apt, pip, npm)</text>
+  
+  <rect x="70" y="340" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="340" x2="500" y2="390" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="365" font-size="13" fill="#cbd5e1">Autonomous Decision Making</text>
+  
+  <rect x="70" y="400" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="400" x2="500" y2="450" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="425" font-size="13" fill="#cbd5e1">Multiple Tools (Dynamic Creation)</text>
+  
+  <rect x="70" y="460" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="460" x2="500" y2="510" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="485" font-size="13" fill="#cbd5e1">Multi-Agent Coordination</text>
+  
+  <rect x="70" y="520" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="520" x2="500" y2="570" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="545" font-size="13" fill="#cbd5e1">Offline/Local Operation</text>
+  
+  <rect x="70" y="580" width="460" height="50" fill="#334155" stroke="#64748b" stroke-width="1" rx="5"/>
+  <line x1="500" y1="580" x2="500" y2="630" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="85" y="605" font-size="13" fill="#cbd5e1">Full Transparency (see all steps)</text>
+  
+  <!-- Right Column: Agent Zero -->
+  <rect x="650" y="80" width="500" height="680" fill="#1e293b" stroke="#34d399" stroke-width="2" rx="10"/>
+  <text x="900" y="115" font-size="20" font-weight="bold" fill="#34d399" text-anchor="middle">✅ Agent Zero</text>
+  <text x="900" y="140" font-size="12" fill="#94a3b8" text-anchor="middle">(Autonomous AI Agent)</text>
+  
+  <!-- Feature rows - Agent Zero -->
+  <rect x="670" y="160" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="185" x2="620" y2="185" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="185" font-size="13" fill="#34d399">✅ Execute Code Locally</text>
+  
+  <rect x="670" y="220" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="245" x2="620" y2="245" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="245" font-size="13" fill="#34d399">✅ Full File System Access</text>
+  
+  <rect x="670" y="280" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="305" x2="620" y2="305" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="305" font-size="13" fill="#34d399">✅ Install Dependencies Auto</text>
+  
+  <rect x="670" y="340" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="365" x2="620" y2="365" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="365" font-size="13" fill="#34d399">✅ Fully Autonomous (24/7)</text>
+  
+  <rect x="670" y="400" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="425" x2="620" y2="425" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="425" font-size="13" fill="#34d399">✅ 10+ Tools (Dynamic)</text>
+  
+  <rect x="670" y="460" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="485" x2="620" y2="485" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="485" font-size="13" fill="#34d399">✅ Multiple Agents Work Together</text>
+  
+  <rect x="670" y="520" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="545" x2="620" y2="545" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="545" font-size="13" fill="#34d399">✅ Hybrid: Online + Offline</text>
+  
+  <rect x="670" y="580" width="460" height="50" fill="#334155" stroke="#34d399" stroke-width="1" rx="5"/>
+  <line x="670" y="605" x2="620" y2="605" stroke="#34d399" stroke-width="2" marker-end="url(#arrowCheck)"/>
+  <text x="685" y="605" font-size="13" fill="#34d399">✅ 100% Transparent Logs</text>
+  
+  <!-- Summary at bottom -->
+  <rect x="50" y="780" width="1100" height="40" fill="#0ea5e9" fill-opacity="0.1" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="600" y="807" font-size="12" fill="#cbd5e1" text-anchor="middle">
+    📌 Agent Zero = Complete Autonomy with Full System Access | Traditional Chatbot = Text Generation Only
+  </text>
+</svg>

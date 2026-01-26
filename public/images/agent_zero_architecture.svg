@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#0f172a"/>
+  
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#38bdf8" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="40" font-size="32" font-weight="bold" fill="#38bdf8" text-anchor="middle">
+    🤖 Agent Zero Architecture
+  </text>
+  
+  <!-- Main Container Box -->
+  <rect x="150" y="80" width="900" height="650" fill="none" stroke="#38bdf8" stroke-width="3" rx="10"/>
+  <text x="170" y="110" font-size="18" font-weight="bold" fill="#38bdf8">Docker Container (Linux Environment)</text>
+  
+  <!-- Agent Zero Framework Box -->
+  <rect x="200" y="140" width="800" height="120" fill="#1e293b" stroke="#38bdf8" stroke-width="2" rx="8"/>
+  <text x="600" y="165" font-size="20" font-weight="bold" fill="#38bdf8" text-anchor="middle">Agent Zero Framework</text>
+  
+  <!-- Framework Components -->
+  <circle cx="300" cy="210" r="35" fill="none" stroke="#06b6d4" stroke-width="2"/>
+  <text x="300" y="215" font-size="12" fill="#cbd5e1" text-anchor="middle">Chat UI</text>
+  
+  <circle cx="450" cy="210" r="35" fill="none" stroke="#06b6d4" stroke-width="2"/>
+  <text x="450" y="213" font-size="11" fill="#cbd5e1" text-anchor="middle">AI Model</text>
+  <text x="450" y="226" font-size="9" fill="#94a3b8" text-anchor="middle">Integration</text>
+  
+  <circle cx="600" cy="210" r="35" fill="none" stroke="#06b6d4" stroke-width="2"/>
+  <text x="600" y="213" font-size="11" fill="#cbd5e1" text-anchor="middle">Decision</text>
+  <text x="600" y="226" font-size="9" fill="#94a3b8" text-anchor="middle">Engine</text>
+  
+  <circle cx="750" cy="210" r="35" fill="none" stroke="#06b6d4" stroke-width="2"/>
+  <text x="750" y="213" font-size="11" fill="#cbd5e1" text-anchor="middle">Tools</text>
+  <text x="750" y="226" font-size="9" fill="#94a3b8" text-anchor="middle">Manager</text>
+  
+  <circle cx="900" cy="210" r="35" fill="none" stroke="#06b6d4" stroke-width="2"/>
+  <text x="900" y="213" font-size="11" fill="#cbd5e1" text-anchor="middle">Multi-Agent</text>
+  <text x="900" y="226" font-size="9" fill="#94a3b8" text-anchor="middle">Coordinator</text>
+  
+  <!-- Arrow down -->
+  <line x1="600" y1="260" x2="600" y2="290" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Tools Engine Section -->
+  <rect x="200" y="300" width="380" height="200" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="8"/>
+  <text x="390" y="325" font-size="16" font-weight="bold" fill="#06b6d4" text-anchor="middle">Tools Engine</text>
+  
+  <rect x="220" y="340" width="160" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="300" y="365" font-size="13" fill="#cbd5e1" text-anchor="middle">🖥️ Terminal/Bash</text>
+  
+  <rect x="400" y="340" width="160" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="480" y="365" font-size="13" fill="#cbd5e1" text-anchor="middle">📁 File System</text>
+  
+  <rect x="220" y="390" width="160" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="300" y="415" font-size="13" fill="#cbd5e1" text-anchor="middle">🌐 Web Browser</text>
+  
+  <rect x="400" y="390" width="160" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="480" y="415" font-size="13" fill="#cbd5e1" text-anchor="middle">📦 Package Mgr</text>
+  
+  <rect x="220" y="440" width="340" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="390" y="465" font-size="13" fill="#cbd5e1" text-anchor="middle">⚙️ Dynamic Tool Creation (on-the-fly)</text>
+  
+  <!-- Linux Environment Section -->
+  <rect x="620" y="300" width="380" height="200" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="8"/>
+  <text x="810" y="325" font-size="16" font-weight="bold" fill="#06b6d4" text-anchor="middle">Linux Environment</text>
+  
+  <rect x="640" y="340" width="85" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="682" y="365" font-size="12" fill="#cbd5e1" text-anchor="middle">🐍 Python</text>
+  
+  <rect x="740" y="340" width="85" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="782" y="365" font-size="12" fill="#cbd5e1" text-anchor="middle">⚡ Node.js</text>
+  
+  <rect x="840" y="340" width="140" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="910" y="365" font-size="12" fill="#cbd5e1" text-anchor="middle">🐚 Bash/Shell</text>
+  
+  <rect x="640" y="390" width="90" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="685" y="415" font-size="11" fill="#cbd5e1" text-anchor="middle">Ubuntu</text>
+  
+  <rect x="745" y="390" width="125" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="807" y="415" font-size="11" fill="#cbd5e1" text-anchor="middle">Code Runtime</text>
+  
+  <rect x="640" y="440" width="340" height="35" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="810" y="465" font-size="12" fill="#cbd5e1" text-anchor="middle">📦 Package Managers: apt, npm, pip, cargo</text>
+  
+  <!-- Storage Section -->
+  <rect x="200" y="530" width="800" height="80" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="8"/>
+  <text x="600" y="555" font-size="16" font-weight="bold" fill="#06b6d4" text-anchor="middle">💾 Persistent Storage (/a0/usr)</text>
+  
+  <rect x="220" y="570" width="170" height="30" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="305" y="592" font-size="12" fill="#cbd5e1" text-anchor="middle">Chat History</text>
+  
+  <rect x="410" y="570" width="170" height="30" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="495" y="592" font-size="12" fill="#cbd5e1" text-anchor="middle">Configuration</text>
+  
+  <rect x="600" y="570" width="170" height="30" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="685" y="592" font-size="12" fill="#cbd5e1" text-anchor="middle">Projects/Files</text>
+  
+  <rect x="790" y="570" width="170" height="30" fill="#334155" stroke="#38bdf8" stroke-width="1" rx="5"/>
+  <text x="875" y="592" font-size="12" fill="#cbd5e1" text-anchor="middle">API Keys</text>
+  
+  <!-- Connection arrows -->
+  <line x1="390" y1="260" x2="330" y2="300" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="260" x2="600" y2="300" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <line x1="810" y1="260" x2="870" y2="300" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Bottom info -->
+  <text x="600" y="750" font-size="12" fill="#94a3b8" text-anchor="middle">Port 50080: Web UI | Port 50022: SSH | Volumes: ~/agent-zero-data:/a0/usr</text>
+</svg>

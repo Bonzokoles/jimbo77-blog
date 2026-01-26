@@ -55,7 +55,15 @@
     excerpt: "Model Context Protocol (MCP) to rewolucyjny standard komunikacji dla AI agentów stworzony przez Anthropic. Poznaj architekturę, naucz się tworzyć własne serwery MCP i zintegruj je z Claude.",
     date: "2026-01-24",
     readTime: 20,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    hasGraphics: true,
+    graphics: [
+      "/images/mcp_ecosystem.svg",
+      "/images/mcp_flow.svg",
+      "/images/mcp_comparison.svg",
+      "/images/mcp_threats.svg",
+      "/images/mcp_usecases.svg"
+    ]
   },
   {
     id: 5,
@@ -77,7 +85,14 @@
     excerpt: "Agent Zero to potężne narzędzie do automatyzacji zadań developerskich. Zobacz jak zautomatyzować deployment, testy i monitoring.",
     date: "2026-01-23",
     readTime: 10,
-    author: "JIMBO77 Team"
+    author: "JIMBO77 Team",
+    hasGraphics: true,
+    graphics: [
+      "/images/agent_zero_architecture.svg",
+      "/images/agent_zero_flow.svg",
+      "/images/agent_zero_comparison.svg",
+      "/images/agent_zero_installation.svg"
+    ]
   },
   {
     id: 7,

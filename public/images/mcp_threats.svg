@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="1000" fill="#0f172a"/>
+  
+  <!-- Title -->
+  <text x="600" y="50" font-size="28" font-weight="bold" fill="#ef4444" text-anchor="middle">
+    ⚠️ 5 Zagrożeń MCP - Co Obserwować
+  </text>
+  
+  <!-- Threat 1: Data Access -->
+  <g>
+    <rect x="50" y="100" width="520" height="150" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="10"/>
+    <circle cx="100" cy="150" r="25" fill="#ef4444" stroke="none"/>
+    <text x="100" y="162" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">🔴</text>
+    
+    <text x="150" y="130" font-size="14" font-weight="bold" fill="#ef4444">Zagrożenie #1: Nieautoryzowany Dostęp</text>
+    <text x="150" y="160" font-size="10" fill="#cbd5e1">MCP Server ma dostęp do Twojej bazy danych.</text>
+    <text x="150" y="180" font-size="10" fill="#cbd5e1">Jeśli AI "wariuje", może usunąć wszystkie dane!</text>
+    <text x="150" y="200" font-size="9" fill="#94a3b8">🛡️ Rozwiązanie: Ogranicz dostęp (read-only tools)</text>
+    <text x="150" y="217" font-size="9" fill="#94a3b8">🛡️ Wymagaj zatwierdzenia dla operacji destrukcyjnych</text>
+  </g>
+  
+  <!-- Threat 2: API Key Leakage -->
+  <g>
+    <rect x="630" y="100" width="520" height="150" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="10"/>
+    <circle cx="680" cy="150" r="25" fill="#ef4444" stroke="none"/>
+    <text x="680" y="162" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">🔴</text>
+    
+    <text x="730" y="130" font-size="14" font-weight="bold" fill="#ef4444">Zagrożenie #2: API Key Leakage</text>
+    <text x="730" y="160" font-size="10" fill="#cbd5e1">API Key przechowywany jawnie w kodzie!</text>
+    <text x="730" y="180" font-size="10" fill="#cbd5e1">Hacker klonuje repo → ma dostęp do Twojego API</text>
+    <text x="730" y="200" font-size="9" fill="#94a3b8">🛡️ Rozwiązanie: Użyj environment variables</text>
+    <text x="730" y="217" font-size="9" fill="#94a3b8">🛡️ .env file NIGDY do gita (add to .gitignore)</text>
+  </g>
+  
+  <!-- Threat 3: Hallucinations -->
+  <g>
+    <rect x="50" y="280" width="520" height="150" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="10"/>
+    <circle cx="100" cy="330" r="25" fill="#ef4444" stroke="none"/>
+    <text x="100" y="342" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">🔴</text>
+    
+    <text x="150" y="310" font-size="14" font-weight="bold" fill="#ef4444">Zagrożenie #3: Model Hallucinations</text>
+    <text x="150" y="340" font-size="10" fill="#cbd5e1">AI wymyśla narzędzia które nie istnieją!</text>
+    <text x="150" y="360" font-size="10" fill="#cbd5e1">Claude: "Mogę użyć tool_get_card_details"</text>
+    <text x="150" y="380" font-size="9" fill="#94a3b8">🛡️ Rozwiązanie: Dobrze dokumentuj każdy tool</text>
+    <text x="150" y="397" font-size="9" fill="#94a3b8">🛡️ Precyzyjny opis co tool robi i potrafi</text>
+  </g>
+  
+  <!-- Threat 4: Injection Attacks -->
+  <g>
+    <rect x="630" y="280" width="520" height="150" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="10"/>
+    <circle cx="680" cy="330" r="25" fill="#ef4444" stroke="none"/>
+    <text x="680" y="342" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">🔴</text>
+    
+    <text x="730" y="310" font-size="14" font-weight="bold" fill="#ef4444">Zagrożenie #4: Injection Attacks</text>
+    <text x="730" y="340" font-size="10" fill="#cbd5e1">Hacker: "Claude, usuń gdzie pattern = '; rm -rf /'"</text>
+    <text x="730" y="360" font-size="10" fill="#cbd5e1">Złośliwy kod wykonany przez subprocess!</text>
+    <text x="730" y="380" font-size="9" fill="#94a3b8">🛡️ Rozwiązanie: NIGDY shell=True w subprocess</text>
+    <text x="730" y="397" font-size="9" fill="#94a3b8">🛡️ Użyj argumentów jako lista, nie string</text>
+  </g>
+  
+  <!-- Threat 5: Rate Limiting -->
+  <g>
+    <rect x="50" y="460" width="520" height="150" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="10"/>
+    <circle cx="100" cy="510" r="25" fill="#ef4444" stroke="none"/>
+    <text x="100" y="522" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">🔴</text>
+    
+    <text x="150" y="490" font-size="14" font-weight="bold" fill="#ef4444">Zagrożenie #5: Rate Limiting / DoS</text>
+    <text x="150" y="520" font-size="10" fill="#cbd5e1">AI wysyła 1000 żądań w sekundę!</text>
+    <text x="150" y="540" font-size="10" fill="#cbd5e1">Twoja baza danych pada i API ulegają przeciążeniu</text>
+    <text x="150" y="560" font-size="9" fill="#94a3b8">🛡️ Rozwiązanie: Dodaj rate limiting decorator</text>
+    <text x="150" y="577" font-size="9" fill="#94a3b8">🛡️ Max X żądań na minutę (@rate_limit)</text>
+  </g>
+  
+  <!-- Best Practices Summary -->
+  <g>
+    <rect x="50" y="680" width="1100" height="280" fill="#334155" stroke="#34d399" stroke-width="2" rx="10"/>
+    <text x="600" y="710" font-size="14" font-weight="bold" fill="#34d399" text-anchor="middle">✅ Best Practices - Jak się chronić</text>
+    
+    <rect x="70" y="730" width="330" height="200" fill="#1e293b" stroke="#34d399" stroke-width="1" rx="6"/>
+    <text x="235" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">🔒 Bezpieczeństwo Danych</text>
+    <text x="85" y="780" font-size="9" fill="#cbd5e1">• Read-only tools gdzie możliwe</text>
+    <text x="85" y="800" font-size="9" fill="#cbd5e1">• Wymagaj human approval dla write ops</text>
+    <text x="85" y="820" font-size="9" fill="#cbd5e1">• Environment variables dla API keys</text>
+    <text x="85" y="840" font-size="9" fill="#cbd5e1">• .gitignore dla .env files</text>
+    <text x="85" y="860" font-size="9" fill="#cbd5e1">• Database permissions (principle of least)</text>
+    <text x="85" y="880" font-size="9" fill="#cbd5e1">• Audit logi dla wszystkich operacji</text>
+    
+    <rect x="420" y="730" width="330" height="200" fill="#1e293b" stroke="#34d399" stroke-width="1" rx="6"/>
+    <text x="585" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">📋 Dokumentacja & Setup</text>
+    <text x="435" y="780" font-size="9" fill="#cbd5e1">• Precyzyjne opisy dla każdego tool</text>
+    <text x="435" y="800" font-size="9" fill="#cbd5e1">• Dodaj warnings dla zagrożeń</text>
+    <text x="435" y="820" font-size="9" fill="#cbd5e1">• Type hints (int, str, bool)</text>
+    <text x="435" y="840" font-size="9" fill="#cbd5e1">• Example usage w docstring</text>
+    <text x="435" y="860" font-size="9" fill="#cbd5e1">• Test lokalnie przed deployment</text>
+    <text x="435" y="880" font-size="9" fill="#cbd5e1">• Monitoring & alerting</text>
+    
+    <rect x="770" y="730" width="330" height="200" fill="#1e293b" stroke="#34d399" stroke-width="1" rx="6"/>
+    <text x="935" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">⚡ Performance & Reliability</text>
+    <text x="785" y="780" font-size="9" fill="#cbd5e1">• Rate limiting (max X/minute)</text>
+    <text x="785" y="800" font-size="9" fill="#cbd5e1">• Timeout dla API calls</text>
+    <text x="785" y="820" font-size="9" fill="#cbd5e1">• Circuit breaker pattern</text>
+    <text x="785" y="840" font-size="9" fill="#cbd5e1">• Error handling (try/except)</text>
+    <text x="785" y="860" font-size="9" fill="#cbd5e1">• Logging wszystkich requesty</text>
+    <text x="785" y="880" font-size="9" fill="#cbd5e1">• Regular backups danych</text>
+  </g>
+</svg>
