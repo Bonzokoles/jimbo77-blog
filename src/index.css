@@ -6,126 +6,89 @@
 
 /* Custom Fonts */
 @font-face {
-  font-family: 'Kenyan Coffee';
-  src: url('/fonts/Kenyan Coffee Rg It.otf') format('opentype');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
+    font-family: 'Kenyan Coffee';
+    src: url('/fonts/Kenyan Coffee Rg It.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'SF TransRobotics';
-  src: url('/fonts/SF TransRobotics Italic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
+    font-family: 'SF TransRobotics';
+    src: url('/fonts/SF TransRobotics Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
 }
 
 @layer base {
-  body {
-    @apply text-slate-400 antialiased;
-    background: linear-gradient(135deg, #000000 0%, #0f0f0f 25%, #1a1a1a 50%, #2d2d2d 75%, #404040 100%);
-    background-attachment: fixed;
-    background-size: 200% 200%;
-    position: relative;
-  }
-  
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.05) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  
-  #root {
-    position: relative;
-    z-index: 1;
-  }
+    :root {
+        color-scheme: dark;
+    }
 
-  /* Global Scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
+    html,
+    body {
+        @apply m-0 p-0 overflow-x-hidden;
+        background-color: #000000;
+    }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-black;
-  }
+    body {
+        @apply text-slate-400 antialiased min-h-screen;
+        background: radial-gradient(circle at 50% 50%, #0a0a0c 0%, #000000 100%);
+        background-attachment: fixed;
+    }
 
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #1f1f1f 0%, #dc2626 100%);
-    @apply rounded-full border-2 border-black;
-  }
+    #root {
+        @apply relative min-h-screen z-10;
+    }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #2d2d2d 0%, #ef4444 100%);
-  }
+    /* Global Scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-zinc-800 rounded-full border border-white/5 hover:bg-zinc-700 transition-colors;
+    }
 }
 
 @layer utilities {
+    .glass-card {
+        @apply bg-black/40 backdrop-blur-xl border border-white/5;
+    }
 
-  /* Thin Scrollbar for TOC */
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 4px;
-  }
+    .text-neon-cyan {
+        @apply text-cyan-400 drop-shadow-[0_0_8px_rgba(34, 211, 238, 0.5)];
+    }
 
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
+    .text-neon-red {
+        @apply text-red-500 drop-shadow-[0_0_8px_rgba(239, 68, 68, 0.5)];
+    }
 
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #1f1f1f 0%, #dc2626 100%);
-    @apply rounded-full;
-  }
+    /* Thin Scrollbar for TOC */
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 4px;
+    }
 
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #2d2d2d 0%, #ef4444 100%);
-  }
+    /* Table Styling */
+    .prose-table-wrapper {
+        @apply overflow-x-auto my-8 rounded-lg border border-white/5 bg-black/40;
+    }
 
-  /* Table Styling */
-  /* Wrapper for table scrolling */
-  .prose-table-wrapper {
-    @apply overflow-x-auto my-8 rounded-lg;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(220, 38, 38, 0.2);
-  }
+    .prose table {
+        @apply w-full border-collapse border-none !important;
+    }
 
-  .prose table {
-    @apply w-full border-collapse border-none !important;
-  }
+    .prose th {
+        @apply text-left px-4 py-3 font-bold text-cyan-500 border-b border-white/10 !important;
+    }
 
-  .prose thead {
-    background: linear-gradient(90deg, rgba(15, 15, 15, 0.8) 0%, rgba(31, 31, 31, 0.6) 100%) !important;
-  }
-
-  .prose th {
-    @apply text-left px-4 py-3 font-bold whitespace-nowrap !important;
-    color: #dc2626;
-    border-bottom: 1px solid rgba(220, 38, 38, 0.3);
-  }
-
-  .prose td {
-    @apply px-4 py-3 text-slate-300 whitespace-nowrap !important;
-    border-bottom: 1px solid rgba(30, 30, 30, 0.5);
-  }
-
-  /* Allow Description column to wrap (3rd column) */
-  .prose td:nth-child(3),
-  .prose th:nth-child(3) {
-    @apply whitespace-normal min-w-[300px] !important;
-  }
-
-  .prose tr:last-child td {
-    @apply border-b-0 !important;
-  }
-
-  .prose tr:hover td {
-    background: rgba(220, 38, 38, 0.05) !important;
-  }
+    .prose td {
+        @apply px-4 py-3 text-slate-300 border-b border-white/5 !important;
+    }
 }

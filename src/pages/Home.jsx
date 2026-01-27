@@ -19,7 +19,7 @@ const Home = () => {
     // Filter posts
     const filteredPosts = blogPosts.filter(post => {
         const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+            post.description.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesCategory = selectedCategory === "all" || post.tags.includes(selectedCategory);
         return matchesSearch && matchesCategory;
     });
@@ -108,12 +108,12 @@ const Home = () => {
                                                 blog={{
                                                     image: post.image,
                                                     topic: post.title,
-                                                    category: post.tags[0],
+                                                    category: post.category || post.tags[0],
                                                     date: post.date,
-                                                    description: post.excerpt,
+                                                    description: post.description,
                                                     tech: post.tags,
                                                     slug: post.slug,
-                                                    subtitle: ""
+                                                    subtitle: post.subtitle || ""
                                                 }}
                                                 index={index}
                                                 isFeatured={isFeatured} // Pass this so card can adapt its inner layout if needed

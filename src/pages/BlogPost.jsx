@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
@@ -16,9 +17,6 @@ import {
 } from "@heroui/react";
 import { ChevronLeft, ChevronRight, Home, Calendar, Clock, Tag } from 'lucide-react';
 import BlogLayout from '../layouts/BlogLayout';
-
-// Dynamically import ReactMarkdown to code-split
-const ReactMarkdown = lazy(() => import('react-markdown'));
 
 const BlogSkeleton = () => (
   <div className="max-w-4xl mx-auto px-4 pt-24 space-y-8">
@@ -147,72 +145,12 @@ const BlogPost = () => {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
-              components={{
-                h1: ({ children }) => <h1 className="text-4xl font-bold mb-8 text-white">{children}</h1>,
-                h2: ({ children }) => <h2 className="text-3xl font-bold mt-16 mb-6 text-white border-l-4 border-cyan-500 pl-4">{children}</h2>,
-                h3: ({ children }) => <h3 className="text-2xl font-bold mt-10 mb-4 text-slate-100">{children}</h3>,
-                p: ({ children }) => <p className="text-lg leading-relaxed mb-6 text-slate-300/90">{children}</p>,
-                a: ({ href, children }) => (
-                  <Link to={href} className="text-cyan-400 hover:text-cyan-300 transition-colors decoration-cyan-500/30 underline-offset-4 underline">
-                    {children}
-                  </Link>
-                ),
-                code: ({ inline, className, children }) => {
-                  const match = /language-(\w+)/.exec(className || '');
-                  return inline ? (
-                    <code className="bg-slate-800/80 text-cyan-300 px-1.5 py-0.5 rounded text-[0.9em] font-mono border border-white/5">
-                      {children}
-                    </code>
-                  ) : (
-                    <div className="relative group my-8">
-                      <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <pre className="relative bg-slate-900/90 border border-white/10 rounded-xl p-6 overflow-x-auto">
-                        <code className={`${className} text-slate-300 text-sm font-mono`}>
-                          {children}
-                        </code>
-                      </pre>
-                    </div>
-                  );
-                },
-                ul: ({ children }) => <ul className="list-none mb-8 space-y-3">{children}</ul>,
-                li: ({ children, ordered }) => (
-                  <li className="flex gap-3 text-slate-300">
-                    <span className="text-cyan-500 mt-1.5">•</span>
-                    <span>{children}</span>
-                  </li>
-                ),
-                blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-cyan-500/50 pl-6 py-4 my-10 bg-cyan-500/5 rounded-r-2xl italic text-slate-200 text-xl font-serif">
-                    {children}
-                  </blockquote>
-                ),
-                table: ({ children }) => (
-                  <Card className="my-10 bg-slate-900/40 border-white/5 backdrop-blur-sm overflow-hidden">
-                    <CardBody className="p-0">
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full text-sm">
-                          {children}
-                        </table>
-                      </div>
-                    </CardBody>
-                  </Card>
-                ),
-                th: ({ children }) => (
-                  <th className="bg-white/5 text-cyan-400 font-bold px-6 py-4 text-left border-b border-white/5 uppercase tracking-wider text-xs">
-                    {children}
-                  </th>
-                ),
-                td: ({ children }) => (
-                  <td className="px-6 py-4 border-b border-white/5 text-slate-300">
-                    {children}
-                  </td>
-                ),
-              }}
             >
               {content}
             </ReactMarkdown>
           </Suspense>
         </article>
+
 
         <Divider className="mb-12 bg-white/5" />
 
