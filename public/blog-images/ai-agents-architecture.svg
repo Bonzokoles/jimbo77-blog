@@ -218,7 +218,7 @@
   <!-- Column 2: Pydantic AI -->
   <text x="420" y="665" font-size="13" font-weight="bold" fill="#ec4899">Pydantic AI</text>
   <text x="420" y="685" font-size="10" fill="#cbd5e1">• Type-safe output</text>
-  <text x="420" y="705" font-size="10" fill="#cbd5e1">• Simple & fast</text>
+  <text x="420" y="705" font-size="10" fill="#cbd5e1">• Simple &amp; fast</text>
   <text x="420" y="725" font-size="10" fill="#cbd5e1">• Model agnostic</text>
   <text x="420" y="745" font-size="10" fill="#cbd5e1">• Best for: Prototyping</text>
   <text x="420" y="765" font-size="10" fill="#cbd5e1">• ⭐⭐⭐⭐ Growing</text>
@@ -246,5 +246,5 @@
   <text x="70" y="835" font-size="11" font-weight="bold" fill="#38bdf8">Performance Ranking:</text>
   <text x="70" y="860" font-size="10" fill="#cbd5e1">Speed: Pydantic AI > CrewAI > LangGraph > AutoGen</text>
   <text x="70" y="880" font-size="10" fill="#cbd5e1">Complexity: LangGraph > AutoGen > CrewAI > Pydantic AI</text>
-  <text x="70" y="900" font-size="10" fill="#cbd5e1">Learning Curve: Pydantic AI (Easiest) ← → AutoGen & LangGraph (Hardest)</text>
+  <text x="70" y="900" font-size="10" fill="#cbd5e1">Learning Curve: Pydantic AI (Easiest) ← → AutoGen &amp; LangGraph (Hardest)</text>
 </svg>

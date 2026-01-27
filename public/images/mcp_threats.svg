@@ -88,16 +88,16 @@
     <text x="85" y="880" font-size="9" fill="#cbd5e1">• Audit logi dla wszystkich operacji</text>
     
     <rect x="420" y="730" width="330" height="200" fill="#1e293b" stroke="#34d399" stroke-width="1" rx="6"/>
-    <text x="585" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">📋 Dokumentacja & Setup</text>
+    <text x="585" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">📋 Dokumentacja &amp; Setup</text>
     <text x="435" y="780" font-size="9" fill="#cbd5e1">• Precyzyjne opisy dla każdego tool</text>
     <text x="435" y="800" font-size="9" fill="#cbd5e1">• Dodaj warnings dla zagrożeń</text>
     <text x="435" y="820" font-size="9" fill="#cbd5e1">• Type hints (int, str, bool)</text>
     <text x="435" y="840" font-size="9" fill="#cbd5e1">• Example usage w docstring</text>
     <text x="435" y="860" font-size="9" fill="#cbd5e1">• Test lokalnie przed deployment</text>
-    <text x="435" y="880" font-size="9" fill="#cbd5e1">• Monitoring & alerting</text>
+    <text x="435" y="880" font-size="9" fill="#cbd5e1">• Monitoring &amp; alerting</text>
     
     <rect x="770" y="730" width="330" height="200" fill="#1e293b" stroke="#34d399" stroke-width="1" rx="6"/>
-    <text x="935" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">⚡ Performance & Reliability</text>
+    <text x="935" y="755" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">⚡ Performance &amp; Reliability</text>
     <text x="785" y="780" font-size="9" fill="#cbd5e1">• Rate limiting (max X/minute)</text>
     <text x="785" y="800" font-size="9" fill="#cbd5e1">• Timeout dla API calls</text>
     <text x="785" y="820" font-size="9" fill="#cbd5e1">• Circuit breaker pattern</text>

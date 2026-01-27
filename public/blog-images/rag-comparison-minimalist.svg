@@ -178,7 +178,7 @@
     <text class="label" x="65" y="790" font-weight="bold" fill="#1a73e8">🟦 LangChain</text>
     <text class="label" x="65" y="808" font-size="11">Best for building RAG QA</text>
     <text class="label" x="65" y="823" font-size="11">apps with proven, stable</text>
-    <text class="label" x="65" y="838" font-size="11">patterns & large community</text>
+    <text class="label" x="65" y="838" font-size="11">patterns &amp; large community</text>
     <text class="label" x="65" y="853" font-size="11" font-weight="600">⏱️ Learning: 1-2 weeks</text>
     
     <rect x="320" y="770" width="230" height="100" rx="6" fill="#fff3e0" stroke="#f39c12" stroke-width="2"/>

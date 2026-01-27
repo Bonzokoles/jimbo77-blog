@@ -91,7 +91,7 @@
     <rect class="neon-blue" x="80" y="490" width="150" height="120" rx="8"/>
     <text class="neon-label" x="155" y="515" text-anchor="middle" font-size="11">BASIC SEARCH</text>
     <text class="neon-text" x="155" y="535" text-anchor="middle" font-size="10">Vector similarity</text>
-    <text class="neon-text" x="155" y="550" text-anchor="middle" font-size="10">Fast & simple</text>
+    <text class="neon-text" x="155" y="550" text-anchor="middle" font-size="10">Fast &amp; simple</text>
     <text class="neon-text" x="155" y="565" text-anchor="middle" font-size="10">Good for</text>
     <text class="neon-text" x="155" y="577" text-anchor="middle" font-size="10">precise queries</text>
     

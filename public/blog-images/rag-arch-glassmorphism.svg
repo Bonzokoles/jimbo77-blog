@@ -136,7 +136,7 @@
   
   <text class="label" x="40" y="655">✅ Accurate answers from your own data</text>
   <text class="label" x="40" y="675">✅ Reduced hallucinations</text>
-  <text class="label" x="40" y="695">✅ Transparent sources & citations</text>
+  <text class="label" x="40" y="695">✅ Transparent sources &amp; citations</text>
   
   <text class="label" x="600" y="655">✅ Production-ready implementation</text>
   <text class="label" x="600" y="675">✅ Real-time semantic search</text>
