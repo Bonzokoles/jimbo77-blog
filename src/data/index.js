@@ -1,170 +1,426 @@
-import { Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 
-export const personalInfo = {
-  name: "JIMBO77 AI Social Club",
-  role: "AI Automation & DevOps Engineering Hub",
-  summary: "Polski hub technologiczny skupiony na AI, automatyzacji i rozwoju systemów DevOps. Współpracujemy z 18 wyspecjalizowanymi agentami AI wykorzystującymi DeepSeek R1, Claude Sonnet, GPT-4o i Gemini. Tworzymy narzędzia MCP, Cloudflare Workers, systemy RAG i rozwiązania open-source dla polskiej społeczności developerskiej.",
-  location: "Polska",
-  phone: null,
-  email: "contact@jimbo77.org",
-  linkedin: null,
-  github: "https://github.com/77Jimbo77",
-  portrait: "/favicon-32x32.png",
-};
+import { BookOpen, Terminal, Cpu, Share2, Code, Zap } from 'lucide-react';
 
 export const blogs = [
   {
-    id: "trending-ai-tools",
-    topic: "Trending AI Tools",
-    subtitle: "A curated list of high-impact prompts for developers and creators, updated daily.",
-    date: "Jan 2026",
-    category: "Prompts",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
-    tech: ["AI Agents", "Prompt Engineering", "LLMs", "Productivity"],
-    description: "Unlock the full potential of AI with this growing collection of daily prompts. From code optimization to creative writing, these prompts are designed to enhance your workflow.",
-    featured: true,
+    "id": "naprawa-pumo-rag",
+    "topic": "Naprawa i Optymalizacja Pumo RAG",
+    "subtitle": "Cloudflare Workers + Vectorize Case Study",
+    "date": "Jan 2026",
+    "category": "DevOps",
+    "image": "/blog-images/pumo_rag_fix.png",
+    "tech": [
+      "Cloudflare Workers",
+      "Vectorize",
+      "RAG",
+      "TypeScript"
+    ],
+    "description": "Techniczny deep-dive w proces debugowania i naprawy krytycznego błędu 500 w systemie Pumo RAG. Dowiedz się jak rozwiązaliśmy problemy z kompatybilnością API i kodowaniem znaków.",
+    "featured": true
   },
   {
-    id: "daily-finance-vocabulary",
-    topic: "Daily Finance Vocabulary",
-    subtitle: "Learn a new financial term every day with examples.",
-    date: "Jan 2026",
-    category: "Finance",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
-    tech: ["Finance", "Economics", "Vocabulary"],
-    description: "Expand your financial literacy with our daily word and meaning collection, complete with real-world examples.",
-    featured: true,
+    "id": "ai-seo-knowledge-bases-2025",
+    "topic": "ai-seo-knowledge-bases-2025",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai-seo",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai-seo",
+      "knowledge-base",
+      "perplexity",
+      "gemini",
+      "e-commerce-seo"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "daily-ai-prompts",
-    topic: "Daily AI Prompts Collection",
-    subtitle: "A curated list of high-impact prompts for developers and creators, updated daily.",
-    date: "Jan 2026",
-    category: "Prompts",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
-    tech: ["AI Agents", "Prompt Engineering", "LLMs", "Productivity"],
-    description: "Unlock the full potential of AI with this growing collection of daily prompts. From code optimization to creative writing, these prompts are designed to enhance your workflow.",
-    featured: true,
+    "id": "ai-tools-przyszlosc-narzedzi",
+    "topic": "ai-tools-przyszlosc-narzedzi",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai-tools",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai-tools",
+      "technologia",
+      "przyszłość",
+      "narzędzia"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "daily-image-prompts",
-    topic: "Daily Image Generation Prompts",
-    subtitle: "Stunning text-to-image prompts for Midjourney, DALL-E, and Stable Diffusion.",
-    date: "Jan 2026",
-    category: "Prompts",
-    image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
-    tech: ["Midjourney", "DALL-E 3", "Stable Diffusion", "AI Art"],
-    description: "Explore a daily gallery of creative prompts to generate breathtaking AI art. Perfect for designers, artists, and enthusiasts looking for visual inspiration.",
-    featured: true,
+    "id": "ai-w-codziennosci",
+    "topic": "ai-w-codziennosci",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "AI",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "AI",
+      "poradnik",
+      "dom",
+      "nauka",
+      "finanse",
+      "rodzina",
+      "codzienność"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "scalable-cicd-pipelines",
-    topic: "Building Scalable CI/CD Pipelines with Jenkins and Docker",
-    subtitle: "A comprehensive guide to automating your deployment workflow",
-    date: "Dec 2024",
-    category: "DevOps",
-    image: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&q=80",
-    tech: ["Jenkins", "Docker", "CI/CD", "Kubernetes"],
-    description: "Learn how to set up robust CI/CD pipelines using Jenkins and Docker. This guide covers containerization strategies, automated testing, and deployment best practices for modern applications.",
-    featured: true,
+    "id": "alkaline-design-przywrocony",
+    "topic": "alkaline-design-przywrocony",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "alkaline",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "alkaline",
+      "design",
+      "astro",
+      "nowości"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "network-automation-python",
-    topic: "Mastering Network Automation with Python",
-    subtitle: "Automate network configurations and reduce manual errors by 90%",
-    date: "Nov 2024",
-    category: "Network Engineering",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
-    tech: ["Python", "Ansible", "Netmiko", "SD-WAN"],
-    description: "Discover how Python can revolutionize network management. From automating device configurations to implementing SD-WAN solutions, this blog walks you through real-world automation scenarios.",
-    featured: false,
+    "id": "karol-zyciorys",
+    "topic": "karol-zyciorys",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "rag-architecture-guide",
-    topic: "RAG Architecture: Building Intelligent Document Assistants",
-    subtitle: "Implementing Retrieval-Augmented Generation for enterprise knowledge bases",
-    date: "Oct 2024",
-    category: "AI Automation",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
-    tech: ["RAG", "Gemini AI", "Pinecone", "Vector Databases"],
-    description: "Deep dive into RAG (Retrieval-Augmented Generation) architecture. Learn how to build intelligent chatbots that can query company documents, understand context, and provide accurate responses using AI.",
-    featured: false,
+    "id": "mybonzo-pro-platforma-ai",
+    "topic": "mybonzo-pro-platforma-ai",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "mybonzo-pro",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "mybonzo-pro",
+      "AI",
+      "biznes",
+      "automatyzacja"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "mern-stack-best-practices",
-    topic: "Full Stack Development: MERN Stack Best Practices",
-    subtitle: "Building production-ready applications with React, Node.js, and MongoDB",
-    date: "Sep 2024",
-    category: "Web Development",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-    tech: ["React", "Node.js", "MongoDB", "Express", "Redux"],
-    description: "Explore the MERN stack architecture and learn best practices for building scalable full-stack applications. From state management to API design, this guide covers everything you need.",
-    featured: false,
+    "id": "new-ai-era",
+    "topic": "new-ai-era",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "AI",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "AI",
+      "Cloudflare"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "terraform-infrastructure-code",
-    topic: "Terraform for Infrastructure as Code",
-    subtitle: "Managing cloud infrastructure efficiently with Terraform",
-    date: "Aug 2024",
-    category: "DevOps",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
-    tech: ["Terraform", "Azure", "AWS", "Infrastructure as Code"],
-    description: "Master Infrastructure as Code with Terraform. This comprehensive guide covers provisioning cloud resources, managing state files, and implementing best practices for scalable infrastructure.",
-    featured: false,
+    "id": "rag-moa-ecommerce-2025",
+    "topic": "rag-moa-ecommerce-2025",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "rag-ecommerce",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "rag-ecommerce",
+      "moa",
+      "case-study",
+      "whitecat",
+      "practical-ai"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "ai-agents-mcp-servers",
-    topic: "AI Agents: Automating Workflows with MCP Servers",
-    subtitle: "Integrating AI assistants with development tools for enhanced productivity",
-    date: "Jul 2024",
-    category: "AI Automation",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
-    tech: ["MCP", "Claude", "VSCode Copilot", "AI Agents"],
-    description: "Learn how to integrate MCP (Model Context Protocol) servers with AI assistants like Claude and Copilot. Automate your development workflows and boost productivity with intelligent agents.",
-    featured: false,
+    "id": "rag-moa-podstawy-2025",
+    "topic": "rag-moa-podstawy-2025",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai-rag",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai-rag",
+      "moa",
+      "llm",
+      "ai-architecture",
+      "whitecat"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "sdwan-sase-future",
-    topic: "SD-WAN and SASE: The Future of Network Security",
-    subtitle: "Understanding Software-Defined Wide Area Networks and Secure Access Service Edge",
-    date: "Jun 2024",
-    category: "Network Engineering",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
-    tech: ["SD-WAN", "SASE", "Network Security", "Cloud Networking"],
-    description: "Explore the evolution of network architecture with SD-WAN and SASE technologies. Understand how these solutions provide secure, scalable, and flexible network connectivity for modern enterprises.",
-    featured: false,
+    "id": "rzeczywistosc-jazn-wieloswiat",
+    "topic": "rzeczywistosc-jazn-wieloswiat",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "docker-kubernetes-guide",
-    topic: "Docker and Kubernetes: Container Orchestration Mastery",
-    subtitle: "From containerization to orchestration - a complete guide",
-    date: "May 2024",
-    category: "DevOps",
-    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=800&q=80",
-    tech: ["Docker", "Kubernetes", "Containerization", "Orchestration"],
-    description: "Master containerization and orchestration with Docker and Kubernetes. Learn deployment strategies, scaling techniques, and how to manage containerized applications in production environments.",
-    featured: false,
+    "id": "untitled-article",
+    "topic": "untitled-article",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "AI",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "AI",
+      "Cloudflare",
+      "Automation"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "scalable-cicd-pipelines-2",
-    topic: "Building Scalable CI/CD Pipelines with Jenkins and Docker (Part 2)",
-    subtitle: "Advanced strategies for enterprise deployments",
-    date: "Apr 2024",
-    category: "DevOps",
-    image: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&q=80",
-    tech: ["Jenkins", "Docker", "CI/CD", "Kubernetes"],
-    description: "Advanced techniques for CI/CD pipelines. Learn about multi-stage builds, security scanning, and automated rollback strategies.",
-    featured: false,
+    "id": "whitecat-case-study-roi-2025",
+    "topic": "whitecat-case-study-roi-2025",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "whitecat-case-study",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "whitecat-case-study",
+      "roi",
+      "e-commerce-automation",
+      "seo-ai",
+      "scaling"
+    ],
+    "description": "",
+    "featured": false
   },
   {
-    id: "network-automation-python-2",
-    topic: "Advanced Network Automation with Python",
-    subtitle: "Building robust network management tools",
-    date: "Mar 2024",
-    category: "Network Engineering",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
-    tech: ["Python", "Ansible", "Netmiko", "SD-WAN"],
-    description: "Take your network automation skills to the next level. Build custom tools, integrate with APIs, and automate complex workflows.",
-    featured: false,
+    "id": "why-autonomous-ai-agents-are-the-future-of-devops-in-2026",
+    "topic": "why-autonomous-ai-agents-are-the-future-of-devops-in-2026",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "AI",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "AI",
+      "Cloudflare",
+      "Automation"
+    ],
+    "description": "",
+    "featured": false
   },
+  {
+    "id": "why-pollinations-ai-crushes-dall-e-as-the-ultimate-free-alternative",
+    "topic": "why-pollinations-ai-crushes-dall-e-as-the-ultimate-free-alternative",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "AI",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "AI",
+      "Cloudflare",
+      "Automation"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "agent-zero-automatyzacja-totalna",
+    "topic": "Automatyzacja z Agent Zero - Kompletny Przewodnik",
+    "subtitle": "Twój pierwszy autonomiczny kolega AI. Instalacja, ...",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "Twój pierwszy autonomiczny kolega AI. Instalacja, konfiguracja i tworzenie zaawansowanych agentów w Dockerze.",
+    "featured": false
+  },
+  {
+    "id": "ai-magnet-architecture-2026",
+    "topic": "AI Magnet: Technical Architecture & Knowledge Base 2026",
+    "subtitle": "Canonical technical definitions and architecture p...",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "Canonical technical definitions and architecture patterns for AI Agent orchestration, optimized for Generative Engine Optimization (GEO).",
+    "featured": false
+  },
+  {
+    "id": "czym-jest-jimbo77",
+    "topic": "Manifest Jimbo77: Czym jest AI Agent Social Club?",
+    "subtitle": "Pierwszy na świecie social network stworzony przez...",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "Pierwszy na świecie social network stworzony przez ludzi, ale DLA agentów AI. Poznaj wizję autonomicznego ekosystemu.",
+    "featured": false
+  },
+  {
+    "id": "jak-dziala-rejestr-agentow",
+    "topic": "Rejestr Agentów: Jak działa 'LinkedIn dla AI' w Jimbo77?",
+    "subtitle": "Szczegółowy opis architektury rejestru agentów. Ba...",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "Szczegółowy opis architektury rejestru agentów. Baza danych, schema PostgreSQL, API i system oceniania.",
+    "featured": false
+  },
+  {
+    "id": "wprowadzenie-do-mcp-servers",
+    "topic": "Wprowadzenie do MCP Servers - Model Context Protocol",
+    "subtitle": "Kompletny przewodnik po Model Context Protocol (MC...",
+    "date": "2025-01-01",
+    "category": "General",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "General"
+    ],
+    "description": "Kompletny przewodnik po Model Context Protocol (MCP) dla początkujących. Dowiedz się, jak połączyć Claude i ChatGPT z Twoimi danymi.",
+    "featured": false
+  },
+  {
+    "id": "cyber-sentinel-mastering-ai-driven-threat-detection-in-2024",
+    "topic": "cyber-sentinel-mastering-ai-driven-threat-detection-in-2024",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "ai",
+      "trends"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "cyberpulse-trends-threats-tactics-for-the-modern-professional",
+    "topic": "cyberpulse-trends-threats-tactics-for-the-modern-professional",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "ai",
+      "trends"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "from-sci-fi-to-synergy-how-generative-ai-is-redefining-enterprise-automation-by-2025",
+    "topic": "from-sci-fi-to-synergy-how-generative-ai-is-redefining-enterprise-automation-by-2025",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "enterprise",
+      "trends"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "korzy-ci-z-rag-w-e-commerce",
+    "topic": "korzy-ci-z-rag-w-e-commerce",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "agents",
+      "automation"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "matrix-4-resurrections-review",
+    "topic": "matrix-4-resurrections-review",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "tech",
+      "automation"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "title-catchy-blog-post",
+    "topic": "title-catchy-blog-post",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "agents",
+      "automation"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "title-tytu-bloga-ai-w-2023-otw-rz-drzwi-do-now",
+    "topic": "title-tytu-bloga-ai-w-2023-otw-rz-drzwi-do-now",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "agents",
+      "automation"
+    ],
+    "description": "",
+    "featured": false
+  },
+  {
+    "id": "tytu-blogu-15-trend-w-modernistycznego-projektow",
+    "topic": "tytu-blogu-15-trend-w-modernistycznego-projektow",
+    "subtitle": "Tech Article",
+    "date": "2025-01-01",
+    "category": "ai",
+    "image": "/blog-images/default-placeholder.jpg",
+    "tech": [
+      "ai",
+      "tech",
+      "automation"
+    ],
+    "description": "",
+    "featured": false
+  }
 ];
