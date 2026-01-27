@@ -1,5 +1,4 @@
-﻿// Cloudflare R2 CDN via Worker (custom domain: cdn.jimbo77.org - pending route config)
-const ASSET_URL = "https://r2-public-mybonzo.7f490d58a478c6baccb0ae01ea1d87c3.workers.dev/blog-images";
+﻿const ASSET_URL = "/blog-images";
 
 export const blogPosts = [
     {
