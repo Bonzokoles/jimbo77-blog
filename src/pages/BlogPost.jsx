@@ -13,7 +13,8 @@ import {
   Divider,
   Card,
   CardBody,
-  Chip
+  Chip,
+  Image
 } from "@heroui/react";
 import { ChevronLeft, ChevronRight, Home, Calendar, Clock, Tag } from 'lucide-react';
 import BlogLayout from '../layouts/BlogLayout';
@@ -140,15 +141,15 @@ const BlogPost = () => {
         <Divider className="mb-12 bg-white/5" />
 
         {/* Hero Image */}
-        <div className="mb-16 -mx-4 md:-mx-12 lg:-mx-24 relative group">
-          <div className="absolute inset-0 bg-cyan-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+        <div className="mb-16 -mx-4 md:-mx-12 lg:-mx-24 relative group overflow-hidden md:rounded-3xl">
+          <div className="absolute inset-0 bg-cyan-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-0" />
           <Image
             src={blog.image}
             alt={blog.title}
-            className="w-full aspect-video md:aspect-[21/9] object-cover rounded-none md:rounded-3xl border border-white/10 shadow-2xl relative z-10"
+            className="w-full aspect-video md:aspect-[21/9] object-cover border border-white/10 shadow-2xl relative z-10"
             radius="none"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-20 md:rounded-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-20 pointer-events-none" />
         </div>
 
         {/* Article Content */}

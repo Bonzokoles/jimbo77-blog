@@ -17,14 +17,14 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                 className={`group relative rounded-2xl overflow-hidden flex flex-col h-full bg-slate-900/50 border border-slate-800 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all ${isFeatured ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-900/20' : ''}`}
             >
                 {/* Image */}
-                <div className={`relative overflow-hidden ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
+                <div className={`relative w-full overflow-hidden ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
                     <Image
                         src={blog.image}
                         alt={blog.topic}
                         radius="none"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60 z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-60 z-10 pointer-events-none" />
                     <div className="absolute top-4 left-4 z-20">
                         <Chip
                             variant="glass"
