@@ -16,6 +16,8 @@ Error: Vectorize query failed: internal error
 
 Mimo poprawnych bindingów w `wrangler.toml`, Worker nie mógł komunikować się z bazą wektorową.
 
+![RAG Workflow](/blog-images/rag-workflow-dark-premium.svg)
+
 ## 🔍 Techniczna Diagnoza
 
 1.  **Weryfikacja Bindingów**: Sprawdziliśmy `pumo-products` (Vectorize) i `pumo-db` (D1). Wszystko wyglądało poprawnie.

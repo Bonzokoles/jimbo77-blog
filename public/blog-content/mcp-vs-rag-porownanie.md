@@ -21,6 +21,11 @@ MCP to:
 
 ### Retrieval-Augmented Generation (RAG)
 
+Są to dwa fundamenty nowoczesnej AI, ale służą do zupełnie innych zadań.
+
+![RAG vs MCP Comparison](/blog-images/rag-comparison-minimalist.svg)
+
+---
 RAG to:
 - Dynamiczne rozszerzanie wiedzy modelu
 - Pobieranie informacji z external sources

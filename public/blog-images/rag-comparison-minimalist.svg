@@ -174,28 +174,28 @@
   <g>
     <text class="subtitle" x="50" y="750" font-weight="bold" font-size="16">🎯 Quick Decision Guide</text>
     
-    <rect x="50" y="770" width="230" height="100" rx="6" fill="#e3f2fd" stroke="#1a73e8" stroke-width="2"/>
+    <!-- Background Removed -->
     <text class="label" x="65" y="790" font-weight="bold" fill="#1a73e8">🟦 LangChain</text>
     <text class="label" x="65" y="808" font-size="11">Best for building RAG QA</text>
     <text class="label" x="65" y="823" font-size="11">apps with proven, stable</text>
     <text class="label" x="65" y="838" font-size="11">patterns &amp; large community</text>
     <text class="label" x="65" y="853" font-size="11" font-weight="600">⏱️ Learning: 1-2 weeks</text>
     
-    <rect x="320" y="770" width="230" height="100" rx="6" fill="#fff3e0" stroke="#f39c12" stroke-width="2"/>
+    <!-- Background Removed -->
     <text class="label" x="335" y="790" font-weight="bold" fill="#f39c12">🟧 LlamaIndex</text>
     <text class="label" x="335" y="808" font-size="11">Advanced retrieval, complex</text>
     <text class="label" x="335" y="823" font-size="11">document operations, and</text>
     <text class="label" x="335" y="838" font-size="11">specialized search patterns</text>
     <text class="label" x="335" y="853" font-size="11" font-weight="600">⏱️ Learning: 2-4 weeks</text>
     
-    <rect x="590" y="770" width="230" height="100" rx="6" fill="#f3e5f5" stroke="#9b59b6" stroke-width="2"/>
+    <!-- Background Removed -->
     <text class="label" x="605" y="790" font-weight="bold" fill="#9b59b6">🟪 Custom</text>
     <text class="label" x="605" y="808" font-size="11">Full control, minimal deps,</text>
     <text class="label" x="605" y="823" font-size="11">cost-optimized, or very</text>
     <text class="label" x="605" y="838" font-size="11">specific use cases</text>
     <text class="label" x="605" y="853" font-size="11" font-weight="600">⏱️ Learning: 1-3 weeks</text>
     
-    <rect x="860" y="770" width="190" height="100" rx="6" fill="#ffebee" stroke="#e74c3c" stroke-width="2"/>
+    <!-- Background Removed -->
     <text class="label" x="875" y="790" font-weight="bold" fill="#e74c3c">🟥 CrewAI</text>
     <text class="label" x="875" y="808" font-size="11">Multi-agent teams,</text>
     <text class="label" x="875" y="823" font-size="11">role-based workflows,</text>

@@ -30,7 +30,7 @@
   <text x="800" y="515" font-size="10" fill="#cbd5e1" text-anchor="middle">(300+ lokacji)</text>
   
   <!-- KV Storage - Top Left -->
-  <rect x="200" y="120" width="250" height="180" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="10"/>
+  <!-- Background Removed -->
   <circle cx="325" cy="160" r="35" fill="#10b981" opacity="0.3" stroke="#10b981" stroke-width="2"/>
   <text x="325" y="175" font-size="32" text-anchor="middle">🔑</text>
   <text x="325" y="225" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">KV Storage</text>
@@ -40,7 +40,7 @@
   <line x1="450" y1="210" x2="730" y2="380" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5"/>
   
   <!-- D1 Database - Top Right -->
-  <rect x="1150" y="120" width="250" height="180" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="10"/>
+  <!-- Background Removed -->
   <circle cx="1275" cy="160" r="35" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="2"/>
   <text x="1275" y="175" font-size="32" text-anchor="middle">🗄️</text>
   <text x="1275" y="225" font-size="14" font-weight="bold" fill="#f59e0b" text-anchor="middle">D1 Database</text>
@@ -50,7 +50,7 @@
   <line x1="1150" y1="210" x2="870" y2="380" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5"/>
   
   <!-- R2 Storage - Bottom Left -->
-  <rect x="200" y="600" width="250" height="180" fill="#1e293b" stroke="#a855f7" stroke-width="2" rx="10"/>
+  <!-- Background Removed -->
   <circle cx="325" cy="640" r="35" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="2"/>
   <text x="325" y="655" font-size="32" text-anchor="middle">💾</text>
   <text x="325" y="705" font-size="14" font-weight="bold" fill="#a855f7" text-anchor="middle">R2 Storage</text>
@@ -60,7 +60,7 @@
   <line x1="450" y1="690" x2="730" y2="520" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,5"/>
   
   <!-- Workers AI - Bottom Right -->
-  <rect x="1150" y="600" width="250" height="180" fill="#1e293b" stroke="#ec4899" stroke-width="2" rx="10"/>
+  <!-- Background Removed -->
   <circle cx="1275" cy="640" r="35" fill="#ec4899" opacity="0.3" stroke="#ec4899" stroke-width="2"/>
   <text x="1275" y="655" font-size="32" text-anchor="middle">🤖</text>
   <text x="1275" y="705" font-size="14" font-weight="bold" fill="#ec4899" text-anchor="middle">Workers AI</text>
@@ -76,7 +76,7 @@
   <text x="1000" y="580" font-size="12" fill="#ec4899" font-weight="bold">← Run Models →</text>
   
   <!-- Bottom info -->
-  <rect x="100" y="820" width="1400" height="60" fill="#0a3f51" stroke="#06b6d4" stroke-width="1" rx="5"/>
+  <!-- Background Removed -->
   <text x="800" y="845" font-size="14" fill="#38bdf8" text-anchor="middle" font-weight="bold">Wszystko działa na globalnej sieci Cloudflare z ultra-niskim latency</text>
   <text x="800" y="865" font-size="12" fill="#cbd5e1" text-anchor="middle">Kod wykonuje się w izolowanych V8 Isolates &lt; 1ms od użytkownika</text>
 </svg>

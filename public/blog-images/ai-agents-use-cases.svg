@@ -21,10 +21,10 @@
   
   <!-- UC1: Content Creation -->
   <g id="uc1">
-    <rect x="50" y="130" width="520" height="320" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="8"/>
+    <!-- Background Removed -->
     
     <!-- Header -->
-    <rect x="50" y="130" width="520" height="50" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="8" opacity="0.5"/>
+    <!-- Background Removed -->
     <text x="310" y="165" font-size="16" font-weight="bold" text-anchor="middle" fill="#22c55e">📝 Content Creation System</text>
     
     <!-- Description -->
@@ -62,10 +62,10 @@
   
   <!-- UC2: Customer Support -->
   <g id="uc2">
-    <rect x="640" y="130" width="520" height="320" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="8"/>
+    <!-- Background Removed -->
     
     <!-- Header -->
-    <rect x="640" y="130" width="520" height="50" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="8" opacity="0.5"/>
+    <!-- Background Removed -->
     <text x="900" y="165" font-size="16" font-weight="bold" text-anchor="middle" fill="#f59e0b">🎯 AI Customer Support</text>
     
     <!-- Description -->
@@ -103,10 +103,10 @@
   
   <!-- UC3: Financial Analysis -->
   <g id="uc3">
-    <rect x="1230" y="130" width="520" height="320" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" rx="8"/>
+    <!-- Background Removed -->
     
     <!-- Header -->
-    <rect x="1230" y="130" width="520" height="50" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" rx="8" opacity="0.5"/>
+    <!-- Background Removed -->
     <text x="1490" y="165" font-size="16" font-weight="bold" text-anchor="middle" fill="#8b5cf6">💰 Financial Analysis</text>
     
     <!-- Description -->
@@ -146,10 +146,10 @@
   
   <!-- UC4: Research &amp; Development -->
   <g id="uc4">
-    <rect x="50" y="520" width="520" height="320" fill="#1e293b" stroke="#ec4899" stroke-width="2" rx="8"/>
+    <!-- Background Removed -->
     
     <!-- Header -->
-    <rect x="50" y="520" width="520" height="50" fill="#1e293b" stroke="#ec4899" stroke-width="2" rx="8" opacity="0.5"/>
+    <!-- Background Removed -->
     <text x="310" y="555" font-size="16" font-weight="bold" text-anchor="middle" fill="#ec4899">🔬 Research Paper Generation</text>
     
     <!-- Description -->
@@ -187,10 +187,10 @@
   
   <!-- UC5: Product Development -->
   <g id="uc5">
-    <rect x="640" y="520" width="520" height="320" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="8"/>
+    <!-- Background Removed -->
     
     <!-- Header -->
-    <rect x="640" y="520" width="520" height="50" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="8" opacity="0.5"/>
+    <!-- Background Removed -->
     <text x="900" y="555" font-size="16" font-weight="bold" text-anchor="middle" fill="#22c55e">🛠️ Product Development</text>
     
     <!-- Description -->
@@ -228,10 +228,10 @@
   
   <!-- UC6: Marketing Campaign -->
   <g id="uc6">
-    <rect x="1230" y="520" width="520" height="320" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="8"/>
+    <!-- Background Removed -->
     
     <!-- Header -->
-    <rect x="1230" y="520" width="520" height="50" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="8" opacity="0.5"/>
+    <!-- Background Removed -->
     <text x="1490" y="555" font-size="16" font-weight="bold" text-anchor="middle" fill="#f59e0b">📢 Marketing Campaign</text>
     
     <!-- Description -->
@@ -268,7 +268,7 @@
   </g>
   
   <!-- Bottom: Key Statistics -->
-  <rect x="50" y="920" width="1700" height="230" fill="#1a1f35" stroke="#38bdf8" stroke-width="1" rx="6" opacity="0.8"/>
+  <!-- Background Removed -->
   
   <text x="70" y="950" font-size="16" font-weight="bold" fill="#38bdf8">Impact Metrics Across Industries</text>
   

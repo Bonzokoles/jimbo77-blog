@@ -19,7 +19,7 @@
   
   <!-- USE CASE 1: API Gateway -->
   <g id="usecase1">
-    <rect x="50" y="130" width="540" height="280" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="130" cy="170" r="30" fill="#06b6d4"/>
     <text x="130" y="185" font-size="36" text-anchor="middle">🚪</text>
     <text x="320" y="200" font-size="18" font-weight="bold" fill="#06b6d4">API Gateway</text>
@@ -37,7 +37,7 @@
   
   <!-- USE CASE 2: Content Transformation -->
   <g id="usecase2">
-    <rect x="620" y="130" width="540" height="280" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="700" cy="170" r="30" fill="#10b981"/>
     <text x="700" y="185" font-size="36" text-anchor="middle">🎨</text>
     <text x="890" y="200" font-size="18" font-weight="bold" fill="#10b981">Content Transform</text>
@@ -55,7 +55,7 @@
   
   <!-- USE CASE 3: Web Scraping -->
   <g id="usecase3">
-    <rect x="1190" y="130" width="540" height="280" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="1270" cy="170" r="30" fill="#f59e0b"/>
     <text x="1270" y="185" font-size="36" text-anchor="middle">🕷️</text>
     <text x="1460" y="200" font-size="18" font-weight="bold" fill="#f59e0b">Web Scraping</text>
@@ -75,7 +75,7 @@
   
   <!-- USE CASE 4: Serverless Proxy -->
   <g id="usecase4">
-    <rect x="50" y="470" width="540" height="280" fill="#1e293b" stroke="#a855f7" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="130" cy="510" r="30" fill="#a855f7"/>
     <text x="130" y="525" font-size="36" text-anchor="middle">🔀</text>
     <text x="320" y="540" font-size="18" font-weight="bold" fill="#a855f7">Proxy/Middleware</text>
@@ -93,7 +93,7 @@
   
   <!-- USE CASE 5: AI Inference -->
   <g id="usecase5">
-    <rect x="620" y="470" width="540" height="280" fill="#1e293b" stroke="#ec4899" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="700" cy="510" r="30" fill="#ec4899"/>
     <text x="700" y="525" font-size="36" text-anchor="middle">🤖</text>
     <text x="890" y="540" font-size="18" font-weight="bold" fill="#ec4899">Workers AI</text>
@@ -111,7 +111,7 @@
   
   <!-- USE CASE 6: Analytics -->
   <g id="usecase6">
-    <rect x="1190" y="470" width="540" height="280" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="1270" cy="510" r="30" fill="#10b981"/>
     <text x="1270" y="525" font-size="36" text-anchor="middle">📊</text>
     <text x="1460" y="540" font-size="18" font-weight="bold" fill="#10b981">Analytics</text>
@@ -131,7 +131,7 @@
   
   <!-- USE CASE 7: Edge Cache -->
   <g id="usecase7">
-    <rect x="50" y="810" width="540" height="240" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="130" cy="850" r="30" fill="#06b6d4"/>
     <text x="130" y="865" font-size="36" text-anchor="middle">⚡</text>
     <text x="320" y="880" font-size="18" font-weight="bold" fill="#06b6d4">Smart Caching</text>
@@ -145,7 +145,7 @@
   
   <!-- USE CASE 8: Webhooks -->
   <g id="usecase8">
-    <rect x="620" y="810" width="540" height="240" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="700" cy="850" r="30" fill="#f59e0b"/>
     <text x="700" y="865" font-size="36" text-anchor="middle">🪝</text>
     <text x="890" y="880" font-size="18" font-weight="bold" fill="#f59e0b">Webhook Handler</text>
@@ -159,7 +159,7 @@
   
   <!-- USE CASE 9: CORS Everywhere -->
   <g id="usecase9">
-    <rect x="1190" y="810" width="540" height="240" fill="#1e293b" stroke="#a855f7" stroke-width="2" rx="10"/>
+    <!-- Background Removed -->
     <circle cx="1270" cy="850" r="30" fill="#a855f7"/>
     <text x="1270" y="865" font-size="36" text-anchor="middle">🔐</text>
     <text x="1460" y="880" font-size="18" font-weight="bold" fill="#a855f7">CORS/Auth</text>

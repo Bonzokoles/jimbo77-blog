@@ -7,7 +7,7 @@
     </linearGradient>
   </defs>
   
-  <rect width="1600" height="950" fill="url(#bgGrad)"/>
+  <!-- Background Removed -->
   
   <!-- Title -->
   <text x="800" y="40" font-size="36" font-weight="bold" text-anchor="middle" fill="#38bdf8">
@@ -45,7 +45,7 @@
     <text x="200" y="460" font-size="11" fill="#94a3b8" text-anchor="middle">Task 1 → Task 2 → Task 3</text>
     
     <!-- Output -->
-    <rect x="130" y="490" width="140" height="50" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="200" y="510" font-size="12" font-weight="bold" text-anchor="middle" fill="#22c55e">Final Result</text>
     <text x="200" y="530" font-size="10" text-anchor="middle" fill="#cbd5e1">(Team Output)</text>
   </g>
@@ -58,7 +58,7 @@
     
     <!-- Linear Flow -->
     <!-- Input -->
-    <rect x="530" y="170" width="140" height="60" fill="#1e293b" stroke="#ec4899" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="600" y="195" font-size="12" font-weight="bold" text-anchor="middle" fill="#ec4899">Input</text>
     <text x="600" y="215" font-size="10" text-anchor="middle" fill="#cbd5e1">(Request)</text>
     
@@ -66,7 +66,7 @@
     <path d="M 670 200 L 710 200" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
     
     <!-- Agent -->
-    <rect x="710" y="170" width="140" height="60" fill="#1e293b" stroke="#38bdf8" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="780" y="190" font-size="12" font-weight="bold" text-anchor="middle" fill="#38bdf8">Agent</text>
     <text x="780" y="210" font-size="9" text-anchor="middle" fill="#cbd5e1">(LLM Call)</text>
     
@@ -74,7 +74,7 @@
     <path d="M 850 200 L 890 200" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
     
     <!-- Validation -->
-    <rect x="890" y="170" width="140" height="60" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="960" y="190" font-size="12" font-weight="bold" text-anchor="middle" fill="#22c55e">Validation</text>
     <text x="960" y="210" font-size="9" text-anchor="middle" fill="#cbd5e1">(Type Check)</text>
     
@@ -93,7 +93,7 @@
     <text x="600" y="409" font-size="11" fill="#cbd5e1">Model Agnostic</text>
     
     <!-- Output -->
-    <rect x="530" y="470" width="140" height="50" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="600" y="490" font-size="12" font-weight="bold" text-anchor="middle" fill="#22c55e">Output</text>
     <text x="600" y="510" font-size="10" text-anchor="middle" fill="#cbd5e1">(Validated)</text>
   </g>
@@ -112,7 +112,7 @@
     <path d="M 925 200 L 955 200" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
     
     <!-- Node 1 -->
-    <rect x="955" y="170" width="100" height="60" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="1005" y="195" font-size="11" font-weight="bold" text-anchor="middle" fill="#22c55e">Research</text>
     <text x="1005" y="212" font-size="8" text-anchor="middle" fill="#cbd5e1">Node</text>
     
@@ -121,7 +121,7 @@
     <text x="1075" y="215" font-size="9" fill="#ec4899">if_done</text>
     
     <!-- Node 2 -->
-    <rect x="1055" y="240" width="100" height="60" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="1105" y="265" font-size="11" font-weight="bold" text-anchor="middle" fill="#f59e0b">Analysis</text>
     <text x="1105" y="282" font-size="8" text-anchor="middle" fill="#cbd5e1">Node</text>
     
@@ -129,7 +129,7 @@
     <path d="M 1105 300 L 1105 340" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
     
     <!-- Node 3 -->
-    <rect x="1055" y="340" width="100" height="60" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="1105" y="365" font-size="11" font-weight="bold" text-anchor="middle" fill="#8b5cf6">Respond</text>
     <text x="1105" y="382" font-size="8" text-anchor="middle" fill="#cbd5e1">Node</text>
     
@@ -159,7 +159,7 @@
     <text x="1400" y="125" font-size="12" fill="#cbd5e1">(Conversational)</text>
     
     <!-- User Proxy -->
-    <rect x="1320" y="170" width="100" height="70" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="1370" y="190" font-size="11" font-weight="bold" text-anchor="middle" fill="#8b5cf6">User Proxy</text>
     <text x="1370" y="210" font-size="9" text-anchor="middle" fill="#cbd5e1">Agent</text>
     
@@ -169,12 +169,12 @@
     <text x="1445" y="200" font-size="9" fill="#cbd5e1" text-anchor="middle">messages</text>
     
     <!-- Assistant -->
-    <rect x="1460" y="170" width="100" height="70" fill="#1e293b" stroke="#22c55e" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="1510" y="190" font-size="11" font-weight="bold" text-anchor="middle" fill="#22c55e">Assistant</text>
     <text x="1510" y="210" font-size="9" text-anchor="middle" fill="#cbd5e1">Agent</text>
     
     <!-- Group Chat -->
-    <rect x="1340" y="300" width="140" height="80" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="4"/>
+    <!-- Background Removed -->
     <text x="1410" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#f59e0b">Group Chat</text>
     <text x="1410" y="340" font-size="9" text-anchor="middle" fill="#cbd5e1">Multi-Agent</text>
     <text x="1410" y="358" font-size="9" text-anchor="middle" fill="#cbd5e1">Discussion</text>
@@ -202,7 +202,7 @@
   </defs>
   
   <!-- Bottom Stats -->
-  <rect x="50" y="600" width="1500" height="320" fill="#1a1f35" stroke="#38bdf8" stroke-width="1" rx="4" opacity="0.8"/>
+  <!-- Background Removed -->
   
   <text x="70" y="630" font-size="18" font-weight="bold" fill="#38bdf8">Framework Comparison Summary</text>
   

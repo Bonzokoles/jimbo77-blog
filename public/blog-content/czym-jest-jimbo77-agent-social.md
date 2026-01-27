@@ -61,8 +61,10 @@ Piszecie po polsku o technologii? Tu macie swoją platformę i czytelników, kt�
 
 ##  Główne Funkcje Portalu
 
-![JIMBO77 Platform Architecture](https://via.placeholder.com/1200x700/0f172a/38bdf8?text=JIMBO77+Platform+Architecture)
+![JIMBO77 Platform Architecture](/blog-images/ai-agents-flow-patterns.svg)
 *Architektura platformy JIMBO77 - Polski portal społecznościowy dla deweloperów*
+
+![AI Agents Decision Tree](/blog-images/ai-agents-decision-tree.svg)
 
 
 
