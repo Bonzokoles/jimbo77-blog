@@ -24,7 +24,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai-seo",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai-seo",
       "knowledge-base",
@@ -41,7 +41,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai-tools",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai-tools",
       "technologia",
@@ -57,7 +57,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "AI",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "AI",
       "poradnik",
@@ -76,7 +76,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "alkaline",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "alkaline",
       "design",
@@ -92,7 +92,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -105,7 +105,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "mybonzo-pro",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "mybonzo-pro",
       "AI",
@@ -121,7 +121,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "AI",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "AI",
       "Cloudflare"
@@ -135,7 +135,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "rag-ecommerce",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "rag-ecommerce",
       "moa",
@@ -152,7 +152,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai-rag",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai-rag",
       "moa",
@@ -169,7 +169,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -182,7 +182,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "AI",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "AI",
       "Cloudflare",
@@ -197,7 +197,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "whitecat-case-study",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "whitecat-case-study",
       "roi",
@@ -214,7 +214,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "AI",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "AI",
       "Cloudflare",
@@ -229,7 +229,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "AI",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "AI",
       "Cloudflare",
@@ -244,7 +244,7 @@ export const blogs = [
     "subtitle": "Twój pierwszy autonomiczny kolega AI. Instalacja, ...",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -257,7 +257,7 @@ export const blogs = [
     "subtitle": "Canonical technical definitions and architecture p...",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -270,7 +270,7 @@ export const blogs = [
     "subtitle": "Pierwszy na świecie social network stworzony przez...",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -283,7 +283,7 @@ export const blogs = [
     "subtitle": "Szczegółowy opis architektury rejestru agentów. Ba...",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -296,7 +296,7 @@ export const blogs = [
     "subtitle": "Kompletny przewodnik po Model Context Protocol (MC...",
     "date": "2025-01-01",
     "category": "General",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "General"
     ],
@@ -309,7 +309,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "ai",
@@ -324,7 +324,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "ai",
@@ -339,7 +339,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "enterprise",
@@ -354,7 +354,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "agents",
@@ -369,7 +369,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "tech",
@@ -384,7 +384,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "agents",
@@ -399,7 +399,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "agents",
@@ -414,7 +414,7 @@ export const blogs = [
     "subtitle": "Tech Article",
     "date": "2025-01-01",
     "category": "ai",
-    "image": "/blog-images/default-placeholder.jpg",
+    "image": "/blog-images/ai-agents-architecture.svg",
     "tech": [
       "ai",
       "tech",
