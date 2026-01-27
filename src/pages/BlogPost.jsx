@@ -139,6 +139,18 @@ const BlogPost = () => {
 
         <Divider className="mb-12 bg-white/5" />
 
+        {/* Hero Image */}
+        <div className="mb-16 -mx-4 md:-mx-12 lg:-mx-24 relative group">
+          <div className="absolute inset-0 bg-cyan-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+          <Image
+            src={blog.image}
+            alt={blog.title}
+            className="w-full aspect-video md:aspect-[21/9] object-cover rounded-none md:rounded-3xl border border-white/10 shadow-2xl relative z-10"
+            radius="none"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-20 md:rounded-3xl" />
+        </div>
+
         {/* Article Content */}
         <article className="prose prose-invert lg:prose-xl max-w-none mb-16">
           <Suspense fallback={<BlogSkeleton />}>

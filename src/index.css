@@ -91,6 +91,25 @@
     .prose td {
         @apply px-4 py-3 text-slate-300 border-b border-white/5 !important;
     }
+
+    /* Break-out Images & SVGs */
+    .prose img {
+        @apply rounded-2xl border border-white/10 my-16 mx-auto shadow-2xl transition-all duration-500 hover:border-cyan-500/30;
+        max-width: 100%;
+    }
+
+    .prose img[src$=".svg"] {
+        @apply w-full lg:w-[130%] lg:-ml-[15%] max-w-none bg-slate-900/40 backdrop-blur-sm p-8 border-cyan-500/10;
+    }
+
+    /* Tech-Noir Typography Enhancements */
+    .prose h2 {
+        @apply text-3xl font-bold text-white mt-16 mb-8 tracking-tight border-l-4 border-cyan-500 pl-6 !important;
+    }
+
+    .prose h3 {
+        @apply text-xl font-bold text-cyan-400 mt-12 mb-6 !important;
+    }
 }
 
 /* Sci-Fi HUD Effects */
