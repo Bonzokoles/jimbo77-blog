@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg { fill: #0f1419; }
+      .title { font-family: 'Segoe UI', Arial; font-size: 28px; font-weight: bold; fill: #00d9ff; }
+      .subtitle { font-family: 'Segoe UI', Arial; font-size: 14px; fill: #7dd3c0; }
+      .label { font-family: 'Segoe UI', Arial; font-size: 12px; fill: #ffffff; font-weight: 500; }
+      .arrow { stroke: #00d9ff; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .glass-box { fill: rgba(0, 217, 255, 0.08); stroke: #00d9ff; stroke-width: 2; border-radius: 12px; }
+      .glass-box-purple { fill: rgba(168, 85, 247, 0.08); stroke: #a855f7; stroke-width: 2; }
+      .glass-box-orange { fill: rgba(249, 115, 22, 0.08); stroke: #f97316; stroke-width: 2; }
+      .header { fill: #1a1f2e; }
+      .step-number { font-family: 'Segoe UI', Arial; font-size: 16px; font-weight: bold; fill: #00d9ff; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#00d9ff" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect class="bg" width="1200" height="800"/>
+  
+  <!-- Title -->
+  <text class="title" x="600" y="40" text-anchor="middle">🔍 RAG ARCHITECTURE - Glassmorphism Style</text>
+  
+  <!-- INGESTION PIPELINE -->
+  <g>
+    <text class="subtitle" x="150" y="90" font-weight="bold">INGESTION PIPELINE</text>
+    
+    <!-- Step 1: Load -->
+    <rect class="glass-box" x="80" y="120" width="140" height="80" rx="8"/>
+    <text class="step-number" x="150" y="145" text-anchor="middle">1</text>
+    <text class="label" x="150" y="165" text-anchor="middle">Load Documents</text>
+    <text class="label" x="150" y="180" text-anchor="middle" font-size="11">PDF • JSON • Web</text>
+    
+    <!-- Step 2: Chunk -->
+    <rect class="glass-box" x="80" y="230" width="140" height="80" rx="8"/>
+    <text class="step-number" x="150" y="255" text-anchor="middle">2</text>
+    <text class="label" x="150" y="275" text-anchor="middle">Chunk Text</text>
+    <text class="label" x="150" y="290" text-anchor="middle" font-size="11">512 tokens • 20% overlap</text>
+    
+    <!-- Step 3: Embed -->
+    <rect class="glass-box" x="80" y="340" width="140" height="80" rx="8"/>
+    <text class="step-number" x="150" y="365" text-anchor="middle">3</text>
+    <text class="label" x="150" y="385" text-anchor="middle">Create Embeddings</text>
+    <text class="label" x="150" y="400" text-anchor="middle" font-size="11">Semantic vectors</text>
+    
+    <!-- Step 4: Store -->
+    <rect class="glass-box" x="80" y="450" width="140" height="80" rx="8"/>
+    <text class="step-number" x="150" y="475" text-anchor="middle">4</text>
+    <text class="label" x="150" y="495" text-anchor="middle">Store Vectors</text>
+    <text class="label" x="150" y="510" text-anchor="middle" font-size="11">FAISS • Pinecone</text>
+    
+    <!-- Arrows -->
+    <path class="arrow" d="M 150 200 L 150 230"/>
+    <path class="arrow" d="M 150 310 L 150 340"/>
+    <path class="arrow" d="M 150 420 L 150 450"/>
+  </g>
+  
+  <!-- RETRIEVAL PIPELINE -->
+  <g>
+    <text class="subtitle" x="530" y="90" font-weight="bold">RETRIEVAL PIPELINE</text>
+    
+    <!-- Step 1: Query -->
+    <rect class="glass-box-purple" x="460" y="120" width="140" height="80" rx="8"/>
+    <text class="step-number" x="530" y="145" text-anchor="middle" style="fill: #a855f7;">1</text>
+    <text class="label" x="530" y="165" text-anchor="middle">User Query</text>
+    <text class="label" x="530" y="180" text-anchor="middle" font-size="11">Natural language</text>
+    
+    <!-- Step 2: Embed Query -->
+    <rect class="glass-box-purple" x="460" y="230" width="140" height="80" rx="8"/>
+    <text class="step-number" x="530" y="255" text-anchor="middle" style="fill: #a855f7;">2</text>
+    <text class="label" x="530" y="275" text-anchor="middle">Embed Query</text>
+    <text class="label" x="530" y="290" text-anchor="middle" font-size="11">Vector embedding</text>
+    
+    <!-- Step 3: Search -->
+    <rect class="glass-box-purple" x="460" y="340" width="140" height="80" rx="8"/>
+    <text class="step-number" x="530" y="365" text-anchor="middle" style="fill: #a855f7;">3</text>
+    <text class="label" x="530" y="385" text-anchor="middle">Similarity Search</text>
+    <text class="label" x="530" y="400" text-anchor="middle" font-size="11">Top K results</text>
+    
+    <!-- Step 4: Rerank -->
+    <rect class="glass-box-purple" x="460" y="450" width="140" height="80" rx="8"/>
+    <text class="step-number" x="530" y="475" text-anchor="middle" style="fill: #a855f7;">4</text>
+    <text class="label" x="530" y="495" text-anchor="middle">Reranking</text>
+    <text class="label" x="530" y="510" text-anchor="middle" font-size="11">Cross-encoder</text>
+    
+    <!-- Arrows -->
+    <path class="arrow" d="M 530 200 L 530 230" stroke="#a855f7"/>
+    <path class="arrow" d="M 530 310 L 530 340" stroke="#a855f7"/>
+    <path class="arrow" d="M 530 420 L 530 450" stroke="#a855f7"/>
+  </g>
+  
+  <!-- GENERATION PIPELINE -->
+  <g>
+    <text class="subtitle" x="910" y="90" font-weight="bold">GENERATION PIPELINE</text>
+    
+    <!-- Step 1: Build Prompt -->
+    <rect class="glass-box-orange" x="840" y="120" width="140" height="80" rx="8"/>
+    <text class="step-number" x="910" y="145" text-anchor="middle" style="fill: #f97316;">1</text>
+    <text class="label" x="910" y="165" text-anchor="middle">Build Prompt</text>
+    <text class="label" x="910" y="180" text-anchor="middle" font-size="11">Query + Context</text>
+    
+    <!-- Step 2: Call LLM -->
+    <rect class="glass-box-orange" x="840" y="230" width="140" height="80" rx="8"/>
+    <text class="step-number" x="910" y="255" text-anchor="middle" style="fill: #f97316;">2</text>
+    <text class="label" x="910" y="275" text-anchor="middle">Call LLM</text>
+    <text class="label" x="910" y="290" text-anchor="middle" font-size="11">GPT-4 • Claude</text>
+    
+    <!-- Step 3: Stream Response -->
+    <rect class="glass-box-orange" x="840" y="340" width="140" height="80" rx="8"/>
+    <text class="step-number" x="910" y="365" text-anchor="middle" style="fill: #f97316;">3</text>
+    <text class="label" x="910" y="385" text-anchor="middle">Stream Response</text>
+    <text class="label" x="910" y="400" text-anchor="middle" font-size="11">Real-time output</text>
+    
+    <!-- Step 4: Return with Sources -->
+    <rect class="glass-box-orange" x="840" y="450" width="140" height="80" rx="8"/>
+    <text class="step-number" x="910" y="475" text-anchor="middle" style="fill: #f97316;">4</text>
+    <text class="label" x="910" y="495" text-anchor="middle">Return + Sources</text>
+    <text class="label" x="910" y="510" text-anchor="middle" font-size="11">With citations</text>
+    
+    <!-- Arrows -->
+    <path class="arrow" d="M 910 200 L 910 230" stroke="#f97316"/>
+    <path class="arrow" d="M 910 310 L 910 340" stroke="#f97316"/>
+    <path class="arrow" d="M 910 420 L 910 450" stroke="#f97316"/>
+  </g>
+  
+  <!-- Connecting arrows between pipelines -->
+  <path class="arrow" d="M 220 490 L 460 490" stroke="#00d9ff" stroke-dasharray="5,5"/>
+  <path class="arrow" d="M 600 490 L 840 490" stroke="#f97316" stroke-dasharray="5,5"/>
+  
+  <!-- Bottom info -->
+  <rect class="header" x="0" y="580" width="1200" height="220"/>
+  <text class="subtitle" x="40" y="620" font-weight="bold">KEY BENEFITS</text>
+  
+  <text class="label" x="40" y="655">✅ Accurate answers from your own data</text>
+  <text class="label" x="40" y="675">✅ Reduced hallucinations</text>
+  <text class="label" x="40" y="695">✅ Transparent sources &amp; citations</text>
+  
+  <text class="label" x="600" y="655">✅ Production-ready implementation</text>
+  <text class="label" x="600" y="675">✅ Real-time semantic search</text>
+  <text class="label" x="600" y="695">✅ Scalable to millions of documents</text>
+  
+  <text class="subtitle" x="40" y="740" font-size="12">Best for: E-commerce QA • Customer Support • Internal Docs • Knowledge Management • AI-powered Search</text>
+  <text class="subtitle" x="40" y="765" font-size="12">Frameworks: LangChain • LlamaIndex • Custom Python • CrewAI • LangGraph</text>
+</svg>

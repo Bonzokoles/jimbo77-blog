@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg { fill: #0a0e27; }
+      .neon-blue { stroke: #00ffff; fill: none; stroke-width: 2; filter: drop-shadow(0 0 10px #00ffff); }
+      .neon-pink { stroke: #ff00ff; fill: none; stroke-width: 2; filter: drop-shadow(0 0 10px #ff00ff); }
+      .neon-green { stroke: #00ff00; fill: none; stroke-width: 2; filter: drop-shadow(0 0 10px #00ff00); }
+      .neon-orange { stroke: #ff6600; fill: none; stroke-width: 2; filter: drop-shadow(0 0 10px #ff6600); }
+      .neon-text-title { font-family: 'Arial Black', Arial; font-size: 32px; font-weight: bold; fill: #00ffff; filter: drop-shadow(0 0 5px #00ffff); }
+      .neon-text { font-family: 'Arial', sans-serif; font-size: 14px; fill: #ffffff; filter: drop-shadow(0 0 3px #00ffff); }
+      .neon-label { font-family: 'Arial', sans-serif; font-size: 12px; fill: #00ff00; font-weight: bold; }
+      .glow-box { fill: rgba(0, 255, 255, 0.05); }
+    </style>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background with grid -->
+  <rect class="bg" width="1200" height="800"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00ffff" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+  
+  <!-- Title -->
+  <text class="neon-text-title" x="600" y="50" text-anchor="middle">⚡ RAG FLOW - NEON CYBERPUNK ⚡</text>
+  
+  <!-- LEFT SIDE: SEMANTIC SEARCH -->
+  <g>
+    <rect class="neon-blue glow-box" x="40" y="100" width="200" height="300" rx="10" filter="url(#glow)"/>
+    <rect class="neon-blue" x="40" y="100" width="200" height="300" rx="10"/>
+    
+    <text class="neon-label" x="140" y="130" text-anchor="middle">SEMANTIC SEARCH</text>
+    
+    <circle cx="140" cy="180" r="25" class="neon-blue"/>
+    <text class="neon-text" x="140" y="188" text-anchor="middle" font-size="20">🔍</text>
+    
+    <text class="neon-text" x="140" y="230" text-anchor="middle" font-size="11">User Query</text>
+    <text class="neon-text" x="140" y="250" text-anchor="middle" font-size="11">↓</text>
+    <text class="neon-text" x="140" y="270" text-anchor="middle" font-size="11">Vector Embedding</text>
+    <text class="neon-text" x="140" y="290" text-anchor="middle" font-size="11">↓</text>
+    <text class="neon-text" x="140" y="310" text-anchor="middle" font-size="11">Find Similar Docs</text>
+    <text class="neon-text" x="140" y="330" text-anchor="middle" font-size="11">↓</text>
+    <text class="neon-text" x="140" y="350" text-anchor="middle" font-size="11">Top K Results</text>
+  </g>
+  
+  <!-- CENTER: FUSION ZONE -->
+  <g>
+    <line class="neon-pink" x1="240" y1="250" x2="380" y2="250" stroke-dasharray="10,5"/>
+    <line class="neon-pink" x1="820" y1="250" x2="960" y2="250" stroke-dasharray="10,5"/>
+    
+    <!-- Fusion circle -->
+    <circle cx="600" cy="250" r="60" class="neon-pink"/>
+    <circle cx="600" cy="250" r="50" class="neon-green"/>
+    <text class="neon-text" x="600" y="265" text-anchor="middle" font-size="50">⚡</text>
+  </g>
+  
+  <!-- RIGHT SIDE: GENERATION -->
+  <g>
+    <rect class="neon-orange glow-box" x="960" y="100" width="200" height="300" rx="10" filter="url(#glow)"/>
+    <rect class="neon-orange" x="960" y="100" width="200" height="300" rx="10"/>
+    
+    <text class="neon-label" x="1060" y="130" text-anchor="middle" style="fill: #ff6600; filter: drop-shadow(0 0 5px #ff6600);">GENERATION</text>
+    
+    <circle cx="1060" cy="180" r="25" class="neon-orange"/>
+    <text class="neon-text" x="1060" y="188" text-anchor="middle" font-size="20">🧠</text>
+    
+    <text class="neon-text" x="1060" y="230" text-anchor="middle" font-size="11">Build Prompt</text>
+    <text class="neon-text" x="1060" y="250" text-anchor="middle" font-size="11">↓</text>
+    <text class="neon-text" x="1060" y="270" text-anchor="middle" font-size="11">Call LLM</text>
+    <text class="neon-text" x="1060" y="290" text-anchor="middle" font-size="11">↓</text>
+    <text class="neon-text" x="1060" y="310" text-anchor="middle" font-size="11">Generate Answer</text>
+    <text class="neon-text" x="1060" y="330" text-anchor="middle" font-size="11">↓</text>
+    <text class="neon-text" x="1060" y="350" text-anchor="middle" font-size="11">Return with Sources</text>
+  </g>
+  
+  <!-- RETRIEVAL OPTIONS (Bottom Section) -->
+  <g>
+    <text class="neon-text-title" x="600" y="460" text-anchor="middle" font-size="18">🎯 RETRIEVAL STRATEGIES</text>
+    
+    <!-- Strategy 1: Basic -->
+    <rect class="neon-blue glow-box" x="80" y="490" width="150" height="120" rx="8" filter="url(#glow)"/>
+    <rect class="neon-blue" x="80" y="490" width="150" height="120" rx="8"/>
+    <text class="neon-label" x="155" y="515" text-anchor="middle" font-size="11">BASIC SEARCH</text>
+    <text class="neon-text" x="155" y="535" text-anchor="middle" font-size="10">Vector similarity</text>
+    <text class="neon-text" x="155" y="550" text-anchor="middle" font-size="10">Fast &amp; simple</text>
+    <text class="neon-text" x="155" y="565" text-anchor="middle" font-size="10">Good for</text>
+    <text class="neon-text" x="155" y="577" text-anchor="middle" font-size="10">precise queries</text>
+    
+    <!-- Strategy 2: Hybrid -->
+    <rect class="neon-green glow-box" x="330" y="490" width="150" height="120" rx="8" filter="url(#glow)"/>
+    <rect class="neon-green" x="330" y="490" width="150" height="120" rx="8"/>
+    <text class="neon-label" x="405" y="515" text-anchor="middle" font-size="11">HYBRID SEARCH</text>
+    <text class="neon-text" x="405" y="535" text-anchor="middle" font-size="10">Semantic + Keyword</text>
+    <text class="neon-text" x="405" y="550" text-anchor="middle" font-size="10">Best of both</text>
+    <text class="neon-text" x="405" y="565" text-anchor="middle" font-size="10">⭐ Recommended</text>
+    <text class="neon-text" x="405" y="577" text-anchor="middle" font-size="10">for production</text>
+    
+    <!-- Strategy 3: Multi-Step -->
+    <rect class="neon-pink glow-box" x="580" y="490" width="150" height="120" rx="8" filter="url(#glow)"/>
+    <rect class="neon-pink" x="580" y="490" width="150" height="120" rx="8"/>
+    <text class="neon-label" x="655" y="515" text-anchor="middle" font-size="11">MULTI-STEP</text>
+    <text class="neon-text" x="655" y="535" text-anchor="middle" font-size="10">Iterative refinement</text>
+    <text class="neon-text" x="655" y="550" text-anchor="middle" font-size="10">Query expansion</text>
+    <text class="neon-text" x="655" y="565" text-anchor="middle" font-size="10">Complex queries</text>
+    <text class="neon-text" x="655" y="577" text-anchor="middle" font-size="10">↑ Expensive</text>
+    
+    <!-- Strategy 4: Reranking -->
+    <rect class="neon-orange glow-box" x="830" y="490" width="150" height="120" rx="8" filter="url(#glow)"/>
+    <rect class="neon-orange" x="830" y="490" width="150" height="120" rx="8"/>
+    <text class="neon-label" x="905" y="515" text-anchor="middle" font-size="11">RERANKING</text>
+    <text class="neon-text" x="905" y="535" text-anchor="middle" font-size="10">Cross-encoder ranking</text>
+    <text class="neon-text" x="905" y="550" text-anchor="middle" font-size="10">Better accuracy</text>
+    <text class="neon-text" x="905" y="565" text-anchor="middle" font-size="10">Slower but worth it</text>
+    <text class="neon-text" x="905" y="577" text-anchor="middle" font-size="10">for critical queries</text>
+  </g>
+  
+  <!-- KEY METRICS (Top Right) -->
+  <g>
+    <rect class="neon-green glow-box" x="900" y="10" width="280" height="70" rx="8" filter="url(#glow)"/>
+    <rect class="neon-green" x="900" y="10" width="280" height="70" rx="8"/>
+    <text class="neon-label" x="1040" y="30" text-anchor="middle" font-size="11">PERFORMANCE METRICS</text>
+    <text class="neon-text" x="910" y="50" font-size="10">⏱️ Latency: 200-500ms  |  🎯 Accuracy: 95%+  |  💰 Cost: Low</text>
+  </g>
+</svg>
