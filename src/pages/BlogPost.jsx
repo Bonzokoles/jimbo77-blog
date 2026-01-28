@@ -125,18 +125,20 @@ const BlogPost = () => {
           </div>
         </header>
 
-        <Divider className="mb-10 bg-white/10" />
-
-        <div className="mb-16 -mx-4 md:-mx-8 lg:-mx-16 relative group overflow-hidden rounded-2xl border border-white/10 shadow-2xl">
+        {/* Hero Image - MOVED ABOVE DIVIDER WITH HIGH Z-INDEX */}
+        <div className="mb-10 -mx-4 md:-mx-8 lg:-mx-16 relative group overflow-hidden rounded-2xl border border-white/10 shadow-2xl z-50">
           <Image
             src={blog.image}
             alt={blog.title}
             loading="eager"
             as="img"
-            className="w-full aspect-video md:aspect-[21/9] object-cover"
+            className="w-full aspect-video md:aspect-[21/9] object-cover transition-transform duration-1000 group-hover:scale-105 relative z-50"
             radius="none"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-50 pointer-events-none" />
         </div>
+
+        <Divider className="mb-10 bg-white/10" />
 
         <article className="prose prose-invert lg:prose-xl max-w-none mb-16">
           <Suspense fallback={<Spinner />}>
