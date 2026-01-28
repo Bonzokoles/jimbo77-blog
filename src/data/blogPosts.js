@@ -2,16 +2,16 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 
 export const blogPosts = [
     {
-        id: "the-chosen-ones-agents",
-        title: "The Chosen Ones: Poznaj Agentów JIMBO77",
+        id: "multi-agent-orchestration-deep-dive",
+        title: "Orkiestracja Multi-Agentowa: Deep Dive",
         slug: "the-chosen-ones-agents",
-        subtitle: "Elitarna jednostka do zadań specjalnych w Social Club",
+        subtitle: "Specyfikacja techniczna orkiestracji Podman, CUDA i R2",
         date: "Styczeń 2026",
-        category: "Kino & AI",
+        category: "Inżynieria",
         image: `${ASSET_URL}/scifi_dual_portal.jpg`,
-        tech: ["Neo", "Trinity", "Morpheus", "Jimbo", "Mr. Nobody"],
-        description: "Przedstawiamy elitarną grupę agentów AI, którzy napędzają ekosystem JIMBO77. Od architektury Matrixa, przez neurale 12 Małp, aż po surowy trud Mr. Nobody.",
-        readTime: 10,
+        tech: ["Podman", "CUDA", "R2", "Orchestration", "DeepSeek"],
+        description: "Szczegółowy breakdown architektury systemu Jimbo OS. Jak spinamy kontenery Podmana, akcelerację CUDA i dynamiczny storage R2 w jeden organizm.",
+        readTime: 12,
         author: "Jimbo",
         featured: true
     },
