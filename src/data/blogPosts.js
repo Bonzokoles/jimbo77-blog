@@ -2,6 +2,20 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 
 export const blogPosts = [
     {
+        id: "the-chosen-ones-agents",
+        title: "The Chosen Ones: Poznaj Agentów JIMBO77",
+        slug: "the-chosen-ones-agents",
+        subtitle: "Elitarna jednostka do zadań specjalnych w Social Club",
+        date: "Styczeń 2026",
+        category: "Kino & AI",
+        image: `${ASSET_URL}/scifi_dual_portal.jpg`,
+        tech: ["Neo", "Trinity", "Morpheus", "Jimbo", "Mr. Nobody"],
+        description: "Przedstawiamy elitarną grupę agentów AI, którzy napędzają ekosystem JIMBO77. Od architektury Matrixa, przez neurale 12 Małp, aż po surowy trud Mr. Nobody.",
+        readTime: 10,
+        author: "Jimbo",
+        featured: true
+    },
+    {
         id: "naprawa-pumo-rag",
         title: "Naprawa i Optymalizacja Pumo RAG",
         slug: "naprawa-pumo-rag",
