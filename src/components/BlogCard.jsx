@@ -16,74 +16,51 @@ const BlogCard = ({ blog, index, isFeatured }) => {
             <div
                 className={`group relative rounded-2xl overflow-hidden flex flex-col h-full bg-slate-900/50 border border-slate-800 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all ${isFeatured ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-900/20' : ''}`}
             >
-                {/* Image */}
-                <div className={`relative w-full overflow-hidden ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
-                    <Image
-                        src={blog.image}
-                        alt={blog.title}
-                        radius="none"
-                        loading="eager"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-60 z-10 pointer-events-none" />
-                    <div className="absolute top-4 left-4 z-20">
-                        <Chip
-                            variant="glass"
-                            size="sm"
-                            className="bg-black/50 backdrop-blur-md text-cyan-400 border-cyan-500/30"
-                        >
-                            {blog.category}
-                        </Chip>
-                    </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex-1 flex flex-col min-h-[300px] z-10">
+                {/* Header Content (Move Above Image) */}
+                <div className="p-6 pb-2 z-10">
                     <div className="flex items-center gap-2 text-slate-400 text-xs mb-3">
                         <Calendar size={14} />
                         <span>{blog.date}</span>
                         <span>•</span>
-                        <span>{blog.category}</span>
+                        <span className="text-cyan-400">{blog.category}</span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
-                        {blog.topic}
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
+                        {blog.title}
                     </h3>
-
-                    {/* Subtitle */}
+                    
                     {blog.subtitle && (
-                        <p className="text-slate-300 text-sm mb-3 font-medium line-clamp-2">
+                        <p className="text-slate-300 text-sm mb-3 font-medium line-clamp-2 italic">
                             {blog.subtitle}
                         </p>
                     )}
+                </div>
 
-                    <p className="text-slate-400 text-sm mb-4 flex-1">
-                        {blog.description.length > 100
-                            ? `${blog.description.substring(0, 100)}... `
-                            : blog.description}
+                {/* Image Section (Now Under Title) */}
+                <div className={`relative w-full overflow-hidden mx-auto px-4 ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
+                    <Image
+                        src={blog.image}
+                        alt={blog.title}
+                        radius="lg"
+                        loading="eager"
+                        as="img"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 border border-white/5 shadow-inner"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-40 z-10 pointer-events-none" />
+                </div>
+
+                {/* Footer Content */}
+                <div className="p-6 pt-4 flex-1 flex flex-col z-10">
+                    <p className="text-slate-400 text-sm mb-4 line-clamp-3">
+                        {blog.description}
                     </p>
 
-                    {/* Tech Tags */}
-                    <div className="flex flex-wrap gap-2 mb-6">
+                    <div className="flex flex-wrap gap-2 mb-6 mt-auto">
                         {blog.tech.slice(0, 3).map((tech, i) => (
-                            <Chip
-                                key={i}
-                                size="sm"
-                                variant="flat"
-                                className="bg-slate-800 text-slate-300 border-slate-700"
-                            >
+                            <Chip key={i} size="sm" variant="flat" className="bg-slate-800/50 text-slate-300 border-slate-700">
                                 {tech}
                             </Chip>
                         ))}
-                        {blog.tech.length > 3 && (
-                            <Chip
-                                size="sm"
-                                variant="flat"
-                                className="bg-slate-800 text-slate-300 border-slate-700"
-                            >
-                                +{blog.tech.length - 3}
-                            </Chip>
-                        )}
                     </div>
 
                     <Button
