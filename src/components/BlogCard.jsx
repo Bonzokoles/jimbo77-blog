@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { Chip, Button } from "@heroui/react";
+import JimboArticleFrame from './JimboArticleFrame';
 
 const BlogCard = ({ blog, index, isFeatured }) => {
     return (
@@ -29,16 +30,13 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                     </h3>
                 </div>
 
-                {/* IMAGE ZONE - Fixed with Method #1 (Raw img) */}
-                <div className={`relative w-full overflow-hidden mx-auto px-4 bg-slate-800/50 ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
-                    <img 
-                        src={blog.image} 
-                        alt={blog.title} 
-                        className="w-full h-full object-cover relative z-20 transition-transform duration-700 group-hover:scale-105" 
-                        loading="eager"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60 z-30 pointer-events-none" />
-                </div>
+                {/* IMAGE ZONE - Now with High-Tech Frame */}
+                <JimboArticleFrame
+                    src={blog.image}
+                    alt={blog.title}
+                    className={`mx-4 ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}
+                    isFeatured={isFeatured}
+                />
 
                 {/* Footer Content */}
                 <div className="p-6 pt-4 flex-1 flex flex-col z-10">
