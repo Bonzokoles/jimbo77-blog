@@ -18,35 +18,34 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                 className={`group relative rounded-2xl overflow-hidden flex flex-col h-full bg-slate-900/50 border border-slate-800 hover:border-cyan-500/50 hover:shadow-2xl transition-all shadow-lg`}
             >
                 {/* Header Content */}
-                <div className="p-6 pb-2 z-10">
-                    <div className="flex items-center gap-2 text-slate-400 text-xs mb-3">
-                        <Calendar size={14} />
+                <div className="p-6 pb-4 z-10">
+                    <div className="flex items-center gap-2 text-slate-400 text-[10px] uppercase tracking-widest mb-3 font-mono">
+                        <Calendar size={12} className="text-cyan-500/50" />
                         <span>{blog.date}</span>
-                        {blog.isDynamic && <Chip size="sm" variant="flat" color="success" className="h-4 text-[10px] uppercase">R2 Live</Chip>}
+                        {blog.isDynamic && <span className="text-green-500">[R2_LIVE]</span>}
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
+                    <h3 className="text-xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">
                         {blog.title}
                     </h3>
+
+                    {/* THE FRAME ZONE */}
+                    <JimboArticleFrame
+                        src={blog.image}
+                        alt={blog.title}
+                        className={`${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}
+                    />
                 </div>
 
-                {/* IMAGE ZONE - Now with High-Tech Frame */}
-                <JimboArticleFrame
-                    src={blog.image}
-                    alt={blog.title}
-                    className={`mx-4 ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}
-                    isFeatured={isFeatured}
-                />
-
                 {/* Footer Content */}
-                <div className="p-6 pt-4 flex-1 flex flex-col z-10">
-                    <p className="text-slate-400 text-sm mb-4 line-clamp-2 italic">
+                <div className="p-6 pt-0 flex-1 flex flex-col z-10">
+                    <p className="text-slate-400 text-sm mb-6 line-clamp-2 italic font-sans border-l border-cyan-500/20 pl-3">
                         {blog.subtitle || blog.description}
                     </p>
 
                     <div className="flex flex-wrap gap-2 mb-6 mt-auto">
                         {(blog.tech || []).slice(0, 3).map((t, i) => (
-                            <Chip key={i} size="sm" variant="flat" className="bg-slate-800/50 text-slate-300 border-slate-700">
+                            <Chip key={i} size="sm" variant="flat" className="bg-cyan-950/20 text-cyan-600 text-[10px] border border-cyan-900/30">
                                 {t}
                             </Chip>
                         ))}
@@ -58,9 +57,9 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                         variant="ghost"
                         color="primary"
                         endContent={<ArrowRight size={16} />}
-                        className="w-full font-bold uppercase tracking-widest text-xs border-cyan-500/30 text-cyan-400 hover:!bg-cyan-500 hover:!text-white transition-all shadow-lg hover:shadow-cyan-500/20"
+                        className="w-full font-mono text-xs uppercase tracking-widest border-cyan-500/30 text-cyan-400 hover:!bg-cyan-500 hover:!text-white transition-all shadow-lg hover:shadow-cyan-500/20"
                     >
-                        Read Article
+                        Access Protocol
                     </Button>
                 </div>
             </div>
