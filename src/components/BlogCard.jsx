@@ -37,16 +37,16 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                 </div>
 
                 {/* Image Section (Now Under Title) */}
-                <div className={`relative w-full overflow-hidden mx-auto px-4 ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
+                <div className={`relative w-full overflow-hidden mx-auto px-4 z-50 ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
                     <Image
                         src={blog.image}
                         alt={blog.title}
                         radius="lg"
                         loading="eager"
                         as="img"
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 border border-white/5 shadow-inner"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 border border-white/5 shadow-inner relative z-50"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-40 z-10 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-40 z-50 pointer-events-none" />
                 </div>
 
                 {/* Footer Content */}
