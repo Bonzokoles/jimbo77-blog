@@ -17,7 +17,7 @@ A curated collection of text-to-image prompts for Midjourney, DALL-E 3, and Stab
 ## January 15, 2026
 
 ### 🏗️ Architectural Survey
-![Architectural Survey](/blog-images/Architectural%20Survey.jpg)
+![Architectural Survey](https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-images/Architectural%20Survey.jpg)
 
 **Model:** Architectural Specimen
 **Prompt:**

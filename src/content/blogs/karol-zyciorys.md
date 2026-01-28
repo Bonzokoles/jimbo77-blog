@@ -1,7 +1,7 @@
 ---
 cover:
   {
-    src: "./images/og-image.png",
+    src: ".https://r2-public-mybonzo.stolarnia-ams.workers.dev/images/og-image.png",
     alt: "Karol Życiorys - Historia jednego życia",
   }
 title: "Karol Życiorys - Historia jednego życia"

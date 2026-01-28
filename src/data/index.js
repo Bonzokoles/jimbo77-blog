@@ -15,7 +15,7 @@ export const blogs = [
     "subtitle": "Cloudflare Workers + Vectorize Case Study",
     "date": "Jan 2026",
     "category": "DevOps",
-    "image": "/blog-images/pumo_rag_fix.png",
+    "image": "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-images/pumo_rag_fix.png",
     "tech": [
       "Cloudflare Workers",
       "Vectorize",

@@ -1,7 +1,7 @@
 
 # 🛠️ Case Study: Naprawa i Optymalizacja Pumo RAG (Cloudflare Workers + Vectorize)
 
-![Pumo RAG Repair](/blog-images/pumo_rag_fix.png)
+![Pumo RAG Repair](https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-images/pumo_rag_fix.png)
 
 W świecie AI Agentów i systemów RAG (Retrieval-Augmented Generation), stabilność jest kluczowa. Ostatnio w **Social Club** zmierzyliśmy się z krytycznym błędem w wyszukiwarce produktów Pumo (`pumo-rag`). Oto techniczny deep-dive w proces debugowania i naprawy.
 

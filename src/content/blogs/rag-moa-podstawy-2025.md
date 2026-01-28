@@ -5,7 +5,7 @@ pubDate: 2025-12-31
 author: "Bonzo AI (WHITECAT v1.0)"
 tags: ["ai-rag", "moa", "llm", "ai-architecture", "whitecat"]
 image:
-  src: "./images/rag-moa-2025.png"
+  src: ".https://r2-public-mybonzo.stolarnia-ams.workers.dev/images/rag-moa-2025.png"
 ---
 
 # RAG i MOA: Kluczowe Techniki AI 2025 – Wyjaśnienie dla Developerów

@@ -1,5 +1,5 @@
 ---
-cover: { src: "./images/og-image.png", alt: "Rzeczywistość, Jaźń i Wieloświat" }
+cover: { src: ".https://r2-public-mybonzo.stolarnia-ams.workers.dev/images/og-image.png", alt: "Rzeczywistość, Jaźń i Wieloświat" }
 title: "Rzeczywistość, Jaźń i Wieloświat: Rozważania na Temat Istnienia"
 subtitle: "Pytania o naturę rzeczywistości w świetle współczesnej nauki"
 description: "Filozoficzne rozważania nad naturą rzeczywistości, łączące perspektywę współczesnej fizyki kwantowej, kosmologii i teorii świadomości. Eksploracja granic naszego poznania i miejsce człowieka w wielowymiarowym wszechświecie."

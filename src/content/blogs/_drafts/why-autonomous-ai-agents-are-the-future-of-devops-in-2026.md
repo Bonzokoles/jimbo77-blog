@@ -5,7 +5,7 @@ Autonomous AI agents aren't hype—they're the inevitable evolution shredding ma
 pubDatetime: 2026-01-07T02:30:07.230240
 tags: ["AI", "Cloudflare", "Automation"]
 image:
-  src: "https://pub-mybonzo.r2.dev/default-cover.png"
+  src: "https://r2-public-mybonzo.stolarnia-ams.workers.dev/default-cover.png"
   alt: "Cover image for Why Autonomous AI Agents are the Future of DevOps in 2026"
 ---
 

@@ -4,7 +4,7 @@ description: "AI is changing everything."
 pubDatetime: 2026-01-07T00:51:29.291996
 tags: ["AI", "Cloudflare"]
 image:
-  src: "https://pub-mybonzo.r2.dev/default-cover.png"
+  src: "https://r2-public-mybonzo.stolarnia-ams.workers.dev/default-cover.png"
   alt: "Cover image for New AI Era"
 ---
 

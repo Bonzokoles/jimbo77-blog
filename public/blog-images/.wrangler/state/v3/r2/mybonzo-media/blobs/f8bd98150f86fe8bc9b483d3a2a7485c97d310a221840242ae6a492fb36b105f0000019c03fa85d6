@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1800 1100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1800" height="1100" fill="url(#bgGradient)"/>
+  
+  <!-- Title -->
+  <text x="900" y="70" font-size="52" font-weight="bold" fill="#38bdf8" text-anchor="middle" font-family="Arial, sans-serif">
+    🎯 Cloudflare Workers - Real-World Use Cases
+  </text>
+  
+  <!-- ROW 1 -->
+  
+  <!-- USE CASE 1: API Gateway -->
+  <g id="usecase1">
+    <!-- Background Removed -->
+    <circle cx="130" cy="170" r="30" fill="#06b6d4"/>
+    <text x="130" y="185" font-size="36" text-anchor="middle">🚪</text>
+    <text x="320" y="200" font-size="18" font-weight="bold" fill="#06b6d4">API Gateway</text>
+    
+    <line x="70" y="220" x="550" y="220" stroke="#334155" stroke-width="1"/>
+    
+    <text x="90" y="250" font-size="12" fill="#cbd5e1">✅ Request routing</text>
+    <text x="90" y="272" font-size="12" fill="#cbd5e1">✅ Rate limiting</text>
+    <text x="90" y="294" font-size="12" fill="#cbd5e1">✅ Authentication</text>
+    <text x="90" y="316" font-size="12" fill="#cbd5e1">✅ Caching layer</text>
+    <text x="90" y="338" font-size="12" fill="#cbd5e1">✅ Request transformation</text>
+    
+    <text x="90" y="375" font-size="11" fill="#94a3b8" font-style="italic">💰 Savings: -60% API calls</text>
+  </g>
+  
+  <!-- USE CASE 2: Content Transformation -->
+  <g id="usecase2">
+    <!-- Background Removed -->
+    <circle cx="700" cy="170" r="30" fill="#10b981"/>
+    <text x="700" y="185" font-size="36" text-anchor="middle">🎨</text>
+    <text x="890" y="200" font-size="18" font-weight="bold" fill="#10b981">Content Transform</text>
+    
+    <line x="640" y="220" x="1120" y="220" stroke="#334155" stroke-width="1"/>
+    
+    <text x="660" y="250" font-size="12" fill="#cbd5e1">✅ HTML rewriting</text>
+    <text x="660" y="272" font-size="12" fill="#cbd5e1">✅ CSS/JS minification</text>
+    <text x="660" y="294" font-size="12" fill="#cbd5e1">✅ Image optimization</text>
+    <text x="660" y="316" font-size="12" fill="#cbd5e1">✅ JSON transformation</text>
+    <text x="660" y="338" font-size="12" fill="#cbd5e1">✅ Bot detection</text>
+    
+    <text x="660" y="375" font-size="11" fill="#94a3b8" font-style="italic">⚡ Latency: 15-50ms</text>
+  </g>
+  
+  <!-- USE CASE 3: Web Scraping -->
+  <g id="usecase3">
+    <!-- Background Removed -->
+    <circle cx="1270" cy="170" r="30" fill="#f59e0b"/>
+    <text x="1270" y="185" font-size="36" text-anchor="middle">🕷️</text>
+    <text x="1460" y="200" font-size="18" font-weight="bold" fill="#f59e0b">Web Scraping</text>
+    
+    <line x="1210" y="220" x="1690" y="220" stroke="#334155" stroke-width="1"/>
+    
+    <text x="1230" y="250" font-size="12" fill="#cbd5e1">✅ Price monitoring</text>
+    <text x="1230" y="272" font-size="12" fill="#cbd5e1">✅ Data aggregation</text>
+    <text x="1230" y="294" font-size="12" fill="#cbd5e1">✅ SEO monitoring</text>
+    <text x="1230" y="316" font-size="12" fill="#cbd5e1">✅ Competitor tracking</text>
+    <text x="1230" y="338" font-size="12" fill="#cbd5e1">✅ Feed parsing</text>
+    
+    <text x="1230" y="375" font-size="11" fill="#94a3b8" font-style="italic">⏱️ Scheduled: Cron jobs</text>
+  </g>
+  
+  <!-- ROW 2 -->
+  
+  <!-- USE CASE 4: Serverless Proxy -->
+  <g id="usecase4">
+    <!-- Background Removed -->
+    <circle cx="130" cy="510" r="30" fill="#a855f7"/>
+    <text x="130" y="525" font-size="36" text-anchor="middle">🔀</text>
+    <text x="320" y="540" font-size="18" font-weight="bold" fill="#a855f7">Proxy/Middleware</text>
+    
+    <line x="70" y="560" x="550" y="560" stroke="#334155" stroke-width="1"/>
+    
+    <text x="90" y="590" font-size="12" fill="#cbd5e1">✅ Request forwarding</text>
+    <text x="90" y="612" font-size="12" fill="#cbd5e1">✅ Header injection</text>
+    <text x="90" y="634" font-size="12" fill="#cbd5e1">✅ Response caching</text>
+    <text x="90" y="656" font-size="12" fill="#cbd5e1">✅ Cors handling</text>
+    <text x="90" y="678" font-size="12" fill="#cbd5e1">✅ Security filtering</text>
+    
+    <text x="90" y="715" font-size="11" fill="#94a3b8" font-style="italic">🛡️ DDoS protection built-in</text>
+  </g>
+  
+  <!-- USE CASE 5: AI Inference -->
+  <g id="usecase5">
+    <!-- Background Removed -->
+    <circle cx="700" cy="510" r="30" fill="#ec4899"/>
+    <text x="700" y="525" font-size="36" text-anchor="middle">🤖</text>
+    <text x="890" y="540" font-size="18" font-weight="bold" fill="#ec4899">Workers AI</text>
+    
+    <line x="640" y="560" x="1120" y="560" stroke="#334155" stroke-width="1"/>
+    
+    <text x="660" y="590" font-size="12" fill="#cbd5e1">✅ Text generation</text>
+    <text x="660" y="612" font-size="12" fill="#cbd5e1">✅ Image generation</text>
+    <text x="660" y="634" font-size="12" fill="#cbd5e1">✅ Translation</text>
+    <text x="660" y="656" font-size="12" fill="#cbd5e1">✅ Sentiment analysis</text>
+    <text x="660" y="678" font-size="12" fill="#cbd5e1">✅ Custom models</text>
+    
+    <text x="660" y="715" font-size="11" fill="#94a3b8" font-style="italic">⚙️ GPU-powered at edge</text>
+  </g>
+  
+  <!-- USE CASE 6: Analytics -->
+  <g id="usecase6">
+    <!-- Background Removed -->
+    <circle cx="1270" cy="510" r="30" fill="#10b981"/>
+    <text x="1270" y="525" font-size="36" text-anchor="middle">📊</text>
+    <text x="1460" y="540" font-size="18" font-weight="bold" fill="#10b981">Analytics</text>
+    
+    <line x="1210" y="560" x="1690" y="560" stroke="#334155" stroke-width="1"/>
+    
+    <text x="1230" y="590" font-size="12" fill="#cbd5e1">✅ Event collection</text>
+    <text x="1230" y="612" font-size="12" fill="#cbd5e1">✅ User tracking</text>
+    <text x="1230" y="634" font-size="12" fill="#cbd5e1">✅ Performance metrics</text>
+    <text x="1230" y="656" font-size="12" fill="#cbd5e1">✅ A/B testing</text>
+    <text x="1230" y="678" font-size="12" fill="#cbd5e1">✅ Real-time dashboards</text>
+    
+    <text x="1230" y="715" font-size="11" fill="#94a3b8" font-style="italic">📈 Process at edge</text>
+  </g>
+  
+  <!-- ROW 3 -->
+  
+  <!-- USE CASE 7: Edge Cache -->
+  <g id="usecase7">
+    <!-- Background Removed -->
+    <circle cx="130" cy="850" r="30" fill="#06b6d4"/>
+    <text x="130" y="865" font-size="36" text-anchor="middle">⚡</text>
+    <text x="320" y="880" font-size="18" font-weight="bold" fill="#06b6d4">Smart Caching</text>
+    
+    <line x="70" y="900" x="550" y="900" stroke="#334155" stroke-width="1"/>
+    
+    <text x="90" y="930" font-size="12" fill="#cbd5e1">✅ Stale-while-revalidate</text>
+    <text x="90" y="952" font-size="12" fill="#cbd5e1">✅ Conditional caching</text>
+    <text x="90" y="974" font-size="12" fill="#cbd5e1">✅ Cache invalidation</text>
+  </g>
+  
+  <!-- USE CASE 8: Webhooks -->
+  <g id="usecase8">
+    <!-- Background Removed -->
+    <circle cx="700" cy="850" r="30" fill="#f59e0b"/>
+    <text x="700" y="865" font-size="36" text-anchor="middle">🪝</text>
+    <text x="890" y="880" font-size="18" font-weight="bold" fill="#f59e0b">Webhook Handler</text>
+    
+    <line x="640" y="900" x="1120" y="900" stroke="#334155" stroke-width="1"/>
+    
+    <text x="660" y="930" font-size="12" fill="#cbd5e1">✅ Event processing</text>
+    <text x="660" y="952" font-size="12" fill="#cbd5e1">✅ Queue integration</text>
+    <text x="660" y="974" font-size="12" fill="#cbd5e1">✅ Retry logic</text>
+  </g>
+  
+  <!-- USE CASE 9: CORS Everywhere -->
+  <g id="usecase9">
+    <!-- Background Removed -->
+    <circle cx="1270" cy="850" r="30" fill="#a855f7"/>
+    <text x="1270" y="865" font-size="36" text-anchor="middle">🔐</text>
+    <text x="1460" y="880" font-size="18" font-weight="bold" fill="#a855f7">CORS/Auth</text>
+    
+    <line x="1210" y="900" x="1690" y="900" stroke="#334155" stroke-width="1"/>
+    
+    <text x="1230" y="930" font-size="12" fill="#cbd5e1">✅ CORS handling</text>
+    <text x="1230" y="952" font-size="12" fill="#cbd5e1">✅ JWT validation</text>
+    <text x="1230" y="974" font-size="12" fill="#cbd5e1">✅ Rate limiting</text>
+  </g>
+</svg>

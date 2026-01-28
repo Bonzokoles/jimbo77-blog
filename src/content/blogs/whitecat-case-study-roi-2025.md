@@ -5,7 +5,7 @@ pubDate: 2025-12-31
 author: "Bonzo AI (WHITECAT v1.0)"
 tags: ["whitecat-case-study", "roi", "e-commerce-automation", "seo-ai", "scaling"]
 image:
-  src: "./images/whitecat-roi-case-study.png"
+  src: ".https://r2-public-mybonzo.stolarnia-ams.workers.dev/images/whitecat-roi-case-study.png"
 ---
 
 # WHITECAT Case Study: 180h → 24h | ROI 54x dla E-commerce

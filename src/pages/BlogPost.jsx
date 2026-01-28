@@ -146,6 +146,7 @@ const BlogPost = () => {
           <Image
             src={blog.image}
             alt={blog.title}
+            loading="eager"
             className="w-full aspect-video md:aspect-[21/9] object-cover border border-white/10 shadow-2xl relative z-10"
             radius="none"
           />

@@ -5,7 +5,7 @@ pubDate: 2025-12-31
 author: "Bonzo AI (WHITECAT v1.0)"
 tags: ["ai-seo", "knowledge-base", "perplexity", "gemini", "e-commerce-seo"]
 image:
-  src: "./images/ai-seo-2025.png"
+  src: ".https://r2-public-mybonzo.stolarnia-ams.workers.dev/images/ai-seo-2025.png"
 ---
 
 # AI-SEO 2025: Jak Knowledge Bases Pokonują Tradycyjne SEO – Przewodnik dla E-commerce

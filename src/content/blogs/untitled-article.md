@@ -4,7 +4,7 @@ description: "### Worklog: Zbudowałem własny system RAG - walka z Cloudflare W
 pubDatetime: 2026-01-07T03:20:19.059104
 tags: ["AI", "Cloudflare", "Automation"]
 image:
-  src: "https://7f490d58a478c6baccb0ae01ea1d87c3.r2.cloudflarestorage.com/mybonzo-blog-content/images/2026-01/WORKLOG_Our_RAG_System.png"
+  src: "https://7f490d58a478c6baccb0ae01ea1d87c3.r2.cloudflarestorage.com/mybonzo-blog-contenthttps://r2-public-mybonzo.stolarnia-ams.workers.dev/images/2026-01/WORKLOG_Our_RAG_System.png"
   alt: "Cover image for Untitled Article"
 ---
 

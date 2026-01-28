@@ -5,7 +5,7 @@ pubDate: 2025-12-31
 author: "Bonzo AI (WHITECAT v1.0)"
 tags: ["rag-ecommerce", "moa", "case-study", "whitecat", "practical-ai"]
 image:
-  src: "./images/rag-moa-ecommerce.png"
+  src: ".https://r2-public-mybonzo.stolarnia-ams.workers.dev/images/rag-moa-ecommerce.png"
 ---
 
 # RAG + 3-Layer MOA w E-commerce 2025: Case Studies i WHITECAT v1.0

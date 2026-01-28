@@ -5,7 +5,7 @@ DALL-E locks you into paywalls and data-hoarding while Pollinations AI delivers 
 pubDatetime: 2026-01-07T03:15:18.178250
 tags: ["AI", "Cloudflare", "Automation"]
 image:
-  src: "https://pub-mybonzo.r2.dev/default-cover.png"
+  src: "https://r2-public-mybonzo.stolarnia-ams.workers.dev/default-cover.png"
   alt: "Cover image for Why Pollinations AI Crushes DALL-E as the Ultimate Free Alternative"
 ---
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1600" height="900" fill="url(#bgGradient)"/>
+  
+  <!-- Title -->
+  <text x="800" y="60" font-size="48" font-weight="bold" fill="#38bdf8" text-anchor="middle" font-family="Arial, sans-serif">
+    ⚔️ Workers vs AWS Lambda - Porównanie 2025
+  </text>
+  
+  <!-- WORKERS SIDE - LEFT -->
+  <!-- Background Removed -->
+  
+  <circle cx="250" cy="180" r="35" fill="#06b6d4"/>
+  <text x="250" y="195" font-size="40" text-anchor="middle">⚡</text>
+  <text x="420" y="210" font-size="20" font-weight="bold" fill="#06b6d4">Cloudflare Workers</text>
+  
+  <!-- WORKERS METRICS -->
+  <g id="workers-metrics">
+    <!-- Cold Starts -->
+    <!-- Background Removed -->
+    <text x="120" y="285" font-size="13" font-weight="bold" fill="#10b981">⚡ Cold Starts</text>
+    <text x="120" y="310" font-size="12" fill="#cbd5e1">~1 millisecond</text>
+    <!-- Background Removed -->
+    <text x="600" y="305" font-size="32" text-anchor="middle" fill="#10b981" font-weight="bold">✅ SUPER!</text>
+    
+    <!-- Global Locations -->
+    <!-- Background Removed -->
+    <text x="120" y="385" font-size="13" font-weight="bold" fill="#06b6d4">🌍 Globalne lokacje</text>
+    <text x="120" y="410" font-size="12" fill="#cbd5e1">300+ data centers</text>
+    <!-- Background Removed -->
+    <text x="600" y="405" font-size="32" text-anchor="middle" fill="#06b6d4" font-weight="bold">✅ WINS</text>
+    
+    <!-- Setup Time -->
+    <!-- Background Removed -->
+    <text x="120" y="485" font-size="13" font-weight="bold" fill="#10b981">⚙️ Setup Time</text>
+    <text x="120" y="510" font-size="12" fill="#cbd5e1">3 komendy (wrangler init, write code, deploy)</text>
+    <!-- Background Removed -->
+    <text x="600" y="505" font-size="32" text-anchor="middle" fill="#10b981" font-weight="bold">✅ EASY</text>
+    
+    <!-- Infrastructure -->
+    <!-- Background Removed -->
+    <text x="120" y="585" font-size="13" font-weight="bold" fill="#10b981">🏗️ Infrastructure</text>
+    <text x="120" y="610" font-size="12" fill="#cbd5e1">Brak! Cloudflare zarządza wszystkim</text>
+    <!-- Background Removed -->
+    <text x="600" y="605" font-size="32" text-anchor="middle" fill="#10b981" font-weight="bold">✅ ZERO</text>
+    
+    <!-- Price (typical) -->
+    <!-- Background Removed -->
+    <text x="120" y="685" font-size="13" font-weight="bold" fill="#f59e0b">💰 Típowa cena</text>
+    <text x="120" y="710" font-size="12" fill="#cbd5e1">$0.15 za milion requestów + KV storage</text>
+    <!-- Background Removed -->
+    <text x="600" y="705" font-size="32" text-anchor="middle" fill="#10b981" font-weight="bold">✅ CHEAP</text>
+  </g>
+  
+  <!-- LAMBDA SIDE - RIGHT -->
+  <!-- Background Removed -->
+  
+  <circle cx="1010" cy="180" r="35" fill="#ef4444"/>
+  <text x="1010" y="195" font-size="40" text-anchor="middle">Λ</text>
+  <text x="1180" y="210" font-size="20" font-weight="bold" fill="#ef4444">AWS Lambda</text>
+  
+  <!-- LAMBDA METRICS -->
+  <g id="lambda-metrics">
+    <!-- Cold Starts -->
+    <!-- Background Removed -->
+    <text x="880" y="285" font-size="13" font-weight="bold" fill="#ef4444">❌ Cold Starts</text>
+    <text x="880" y="310" font-size="12" fill="#cbd5e1">100-500 milliseconds (albo więcej!)</text>
+    <!-- Background Removed -->
+    <text x="1360" y="305" font-size="32" text-anchor="middle" fill="#ef4444" font-weight="bold">❌ SLOW</text>
+    
+    <!-- Global Locations -->
+    <!-- Background Removed -->
+    <text x="880" y="385" font-size="13" font-weight="bold" fill="#ef4444">🌍 Globalne lokacje</text>
+    <text x="880" y="410" font-size="12" fill="#cbd5e1">~15 regionów (musisz replikować kod)</text>
+    <!-- Background Removed -->
+    <text x="1360" y="405" font-size="32" text-anchor="middle" fill="#ef4444" font-weight="bold">❌ MANUAL</text>
+    
+    <!-- Setup Time -->
+    <!-- Background Removed -->
+    <text x="880" y="485" font-size="13" font-weight="bold" fill="#ef4444">⚙️ Setup Time</text>
+    <text x="880" y="510" font-size="12" fill="#cbd5e1">IAM roles, VPC, Environment vars, Permissions...</text>
+    <!-- Background Removed -->
+    <text x="1360" y="505" font-size="32" text-anchor="middle" fill="#ef4444" font-weight="bold">❌ COMPLEX</text>
+    
+    <!-- Infrastructure -->
+    <!-- Background Removed -->
+    <text x="880" y="585" font-size="13" font-weight="bold" fill="#ef4444">🏗️ Infrastructure</text>
+    <text x="880" y="610" font-size="12" fill="#cbd5e1">CloudWatch, VPC, Security Groups, Load Balancing...</text>
+    <!-- Background Removed -->
+    <text x="1360" y="605" font-size="32" text-anchor="middle" fill="#ef4444" font-weight="bold">❌ COMPLEX</text>
+    
+    <!-- Price (typical) -->
+    <!-- Background Removed -->
+    <text x="880" y="685" font-size="13" font-weight="bold" fill="#ef4444">💰 Típowa cena</text>
+    <text x="880" y="710" font-size="12" fill="#cbd5e1">$0.20/milion requests + $0.000008333/GB-sec (compute)</text>
+    <!-- Background Removed -->
+    <text x="1360" y="705" font-size="32" text-anchor="middle" fill="#ef4444" font-weight="bold">❌ PRICEY</text>
+  </g>
+  
+  <!-- VERDICT -->
+  <!-- Background Removed -->
+  <text x="800" y="855" font-size="14" fill="#06b6d4" text-anchor="middle" font-weight="bold" font-family="Arial, sans-serif">
+    🏆 Dla 2025: Workers dla speed &amp; edge, Lambda dla heavy computing. Workers wygrywają dla 90% use case'ów.
+  </text>
+</svg>

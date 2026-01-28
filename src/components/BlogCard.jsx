@@ -20,8 +20,9 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                 <div className={`relative w-full overflow-hidden ${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}>
                     <Image
                         src={blog.image}
-                        alt={blog.topic}
+                        alt={blog.title}
                         radius="none"
+                        loading="eager"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-60 z-10 pointer-events-none" />
