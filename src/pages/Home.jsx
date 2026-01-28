@@ -20,7 +20,7 @@ const Home = () => {
     const filteredPosts = blogPosts.filter(post => {
         const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.description.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCategory = selectedCategory === "all" || post.tags.includes(selectedCategory);
+        const matchesCategory = selectedCategory === "all" || (post.tech && post.tech.includes(selectedCategory));
         return matchesSearch && matchesCategory;
     });
 
@@ -108,10 +108,10 @@ const Home = () => {
                                                 blog={{
                                                     image: post.image,
                                                     topic: post.title,
-                                                    category: post.category || post.tags[0],
+                                                    category: post.category || (post.tech && post.tech[0]),
                                                     date: post.date,
                                                     description: post.description,
-                                                    tech: post.tags,
+                                                    tech: post.tech || [],
                                                     slug: post.slug,
                                                     subtitle: post.subtitle || ""
                                                 }}
