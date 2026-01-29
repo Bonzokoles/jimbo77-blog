@@ -30,11 +30,13 @@ const BlogCard = ({ blog, index, isFeatured }) => {
                     </h3>
 
                     {/* THE FRAME ZONE */}
-                    <JimboArticleFrame
-                        src={blog.image}
-                        alt={blog.title}
-                        className={`${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}
-                    />
+                    <div className="relative z-50">
+                        <JimboArticleFrame
+                            src={blog.image}
+                            alt={blog.title}
+                            className={`${isFeatured ? 'h-64 md:h-80' : 'h-48'}`}
+                        />
+                    </div>
                 </div>
 
                 {/* Footer Content */}
