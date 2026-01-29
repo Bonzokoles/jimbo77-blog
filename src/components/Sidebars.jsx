@@ -5,6 +5,7 @@ import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, T
 export const SidebarLeft = () => {
     // Technical navigation items
     const navItems = [
+        { name: "Neural Map", icon: "🗺️", path: "/graph", color: "primary" },
         { name: "Neural Networks", icon: "🧠", count: 234, color: "primary" },
         { name: "Python Core", icon: "🐍", count: 189, color: "success" },
         { name: "React Frontend", icon: "⚛️", count: 156, color: "secondary" },
@@ -57,14 +58,18 @@ export const SidebarLeft = () => {
                     {navItems.map((item) => (
                         <Button
                             key={item.name}
+                            as={item.path ? Link : "button"}
+                            to={item.path}
                             variant="light"
                             className="justify-start text-slate-400 hover:text-cyan-600 hover:bg-white/5 h-12 group transition-all duration-300"
                         >
                             <span className="text-2xl mr-2 group-hover:scale-105 transition-transform opacity-70 group-hover:opacity-100">{item.icon}</span>
                             <span className="font-sans tracking-wide flex-1 text-left">{item.name}</span>
-                            <Chip size="sm" variant="flat" className={`bg-${item.color}-900/10 text-${item.color}-700 text-xs border border-${item.color}-900/20 min-w-[30px]`}>
-                                {item.count}
-                            </Chip>
+                            {item.count !== undefined && (
+                                <Chip size="sm" variant="flat" className={`bg-${item.color}-900/10 text-${item.color}-700 text-xs border border-${item.color}-900/20 min-w-[30px]`}>
+                                    {item.count}
+                                </Chip>
+                            )}
                         </Button>
                     ))}
                 </nav>

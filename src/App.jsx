@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import BlogPost from './pages/BlogPost';
+import Graph from './pages/Graph';
 import RootLayout from './layouts/RootLayout';
 
 import Logs from './pages/Logs';
@@ -15,6 +16,7 @@ const App = () => {
                 <Route element={<RootLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route path="/graph" element={<Graph />} />
                     <Route path="/logs" element={<Logs />} />
                     <Route path="/core" element={<Core />} />
                     <Route path="/community" element={<Community />} />
