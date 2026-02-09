@@ -53,7 +53,11 @@ const Home = () => {
     const filteredPosts = allPosts.filter(post => {
         const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase()));
-        const matchesCategory = selectedCategory === "all" || (post.tech && post.tech.includes(selectedCategory));
+        
+        const matchesCategory = selectedCategory === "all" || 
+            (post.category === selectedCategory) ||
+            (post.tech && post.tech.some(t => t.toLowerCase() === selectedCategory.toLowerCase()));
+            
         return matchesSearch && matchesCategory;
     });
 
@@ -105,10 +109,18 @@ const Home = () => {
                                     onValueChange={setSearchTerm}
                                 />
                                 <div className="flex gap-2 min-w-[300px]">
-                                    <Select size="sm" placeholder="Kategoria" defaultSelectedKeys={["all"]} className="w-full">
-                                        <SelectItem key="all" value="all">Wszystkie</SelectItem>
-                                        <SelectItem key="ai" value="ai">AI Agents</SelectItem>
-                                        <SelectItem key="dev" value="dev">Development</SelectItem>
+                                    <Select 
+                                        size="sm" 
+                                        label="Kategoria" 
+                                        defaultSelectedKeys={["all"]} 
+                                        className="w-full"
+                                        onChange={(e) => setSelectedCategory(e.target.value)}
+                                    >
+                                        <SelectItem key="all">Wszystkie</SelectItem>
+                                        <SelectItem key="Edukacja">Edukacja</SelectItem>
+                                        <SelectItem key="Strategia">Strategia</SelectItem>
+                                        <SelectItem key="Wizja">Wizja</SelectItem>
+                                        <SelectItem key="GEO">GEO</SelectItem>
                                     </Select>
                                     {isLoading && <Spinner size="sm" color="primary" />}
                                 </div>
