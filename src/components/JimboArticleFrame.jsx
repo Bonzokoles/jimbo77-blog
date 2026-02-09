@@ -30,8 +30,8 @@ const JimboArticleFrame = ({ src, alt, className = "" }) => {
             </div>
 
             {/* --- Scanline / Grid Effect --- */}
-            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,255,0,0.02)_50%)] bg-[length:100%_4px] pointer-events-none z-30" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-[length:20px_20px] pointer-events-none z-30" />
+            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,255,0,0.02)_50%)] bg-[length:100%_4px] pointer-events-none z-30 opacity-30" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-[length:20px_20px] pointer-events-none z-30 opacity-30" />
 
             {/* --- State Handlers --- */}
             {isLoading && !hasError && (
@@ -63,7 +63,7 @@ const JimboArticleFrame = ({ src, alt, className = "" }) => {
             )}
 
             {/* --- Aesthetic Bottom Glow --- */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-25 pointer-events-none opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-25 pointer-events-none opacity-40" />
         </div>
     );
 };
