@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, Input, Select, SelectItem, Card, Spinner } from "@heroui/react";
 import BlogCard from '../components/BlogCard';
 import { SidebarLeft, SidebarRight } from '../components/Sidebars';
+import SEO from '../components/SEO';
+import SchemaOrg from '../components/SchemaOrg';
 
 import { blogPosts as staticPosts } from '../data/blogPosts';
 
@@ -59,7 +61,17 @@ const Home = () => {
     const hasMore = visiblePosts < filteredPosts.length;
 
     return (
-        <div className="min-h-screen bg-transparent pt-8 pb-12">
+        <>
+            <SEO 
+                title="Home"
+                description="Polski hub technologiczny AI & DevOps. Blog z case studies, architekturami systemów AI, MCP, Cloudflare Workers AI i multi-agent orchestration."
+                url="/"
+                type="website"
+            />
+            <SchemaOrg type="website" />
+            <SchemaOrg type="organization" />
+            
+            <div className="min-h-screen bg-transparent pt-8 pb-12">
             <div className="container mx-auto px-4 max-w-[1920px]">
                 <div className="lg:hidden text-center mb-12">
                     <h1 className="font-display text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
@@ -149,6 +161,7 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

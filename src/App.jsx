@@ -8,6 +8,7 @@ import RootLayout from './layouts/RootLayout';
 import Logs from './pages/Logs';
 import Core from './pages/Core';
 import Community from './pages/Community';
+import Tools from './pages/Tools';
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                     <Route path="/logs" element={<Logs />} />
                     <Route path="/core" element={<Core />} />
                     <Route path="/community" element={<Community />} />
+                    <Route path="/tools" element={<Tools />} />
                 </Route>
             </Routes>
         </Router>

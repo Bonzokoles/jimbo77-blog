@@ -63,6 +63,10 @@ const Footer = () => {
 
                 {/* 3. TECH STACK & SYSTEM (End) */}
                 <div className="flex flex-col md:flex-row items-center gap-4 shrink-0 text-xs text-slate-500">
+                    <Link to="/tools" className="text-cyan-500 hover:text-cyan-400 transition-colors font-mono text-[10px] uppercase tracking-wider">
+                        🛠 Dev Tools
+                    </Link>
+                    <div className="hidden md:block w-1 h-1 bg-slate-700 rounded-full"></div>
                     <div className="flex items-center gap-2">
                         <span className="text-cyan-600 font-mono">&lt;Stack /&gt;</span>
                         <div className="flex gap-1">

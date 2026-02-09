@@ -5,6 +5,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
 import { blogPosts as staticPosts } from '../data/blogPosts';
+import SEO from '../components/SEO';
+import SchemaOrg from '../components/SchemaOrg';
 import {
   Skeleton,
   Breadcrumbs,
@@ -17,6 +19,7 @@ import {
 import { Home, Calendar, Clock } from 'lucide-react';
 import BlogLayout from '../layouts/BlogLayout';
 import JimboArticleFrame from '../components/JimboArticleFrame';
+import RecommendedTools from '../components/RecommendedTools';
 
 const WORKER_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev";
 
@@ -88,6 +91,30 @@ const BlogPost = () => {
 
   return (
     <BlogLayout>
+      <SEO 
+        title={blog.title}
+        description={blog.description || blog.subtitle}
+        image={blog.image}
+        url={`/blog/${blog.slug}`}
+        type="article"
+        author={blog.author}
+        tags={blog.tech || []}
+        publishedTime={blog.date ? new Date(blog.date).toISOString() : undefined}
+      />
+      <SchemaOrg 
+        type="blogPosting"
+        data={{
+          title: blog.title,
+          description: blog.description || blog.subtitle,
+          image: blog.image,
+          slug: blog.slug,
+          author: blog.author,
+          tech: blog.tech,
+          category: blog.category,
+          readTime: blog.readTime,
+          publishedTime: blog.date ? new Date(blog.date).toISOString() : undefined
+        }}
+      />
       <div className="max-w-4xl mx-auto px-4 pb-24 text-white">
         <div className="mb-8">
           <Breadcrumbs variant="flat" classNames={{ list: "bg-slate-900/50 border border-white/5 backdrop-blur-md px-4 py-2 rounded-full" }}>
@@ -126,6 +153,11 @@ const BlogPost = () => {
             </ReactMarkdown>
           </Suspense>
         </article>
+
+        {/* Recommended Tools Section */}
+        {(blog.category === 'Technologia' || blog.category === 'Inżynieria') && (
+          <RecommendedTools />
+        )}
 
         <Divider className="mb-12 bg-white/5" />
       </div>

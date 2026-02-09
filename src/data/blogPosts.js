@@ -168,5 +168,61 @@ export const blogPosts = [
         readTime: 18,
         author: "JIMBO77 Team",
         featured: false
+    },
+    {
+        id: "jak-ai-boty-czytaja-strony-geo",
+        title: "Jak AI Boty Czytają Strony? GEO Guide",
+        slug: "jak-ai-boty-czytaja-strony-geo",
+        subtitle: "Generative Engine Optimization - optymalizacja treści dla AI crawlerów",
+        date: "Luty 2026",
+        category: "Edukacja",
+        image: '/blog-images/geo_ai_crawlers_dark.jpg',
+        tech: ["GEO", "SEO", "AI Crawlers", "HTML", "JavaScript"],
+        description: "Kompletny przewodnik po AI crawlerach (GPTBot, PerplexityBot, Claude-Web) i strukturze HTML optymalizowanej dla generative engines. Google JavaScript SEO guidelines, caching strategies, FAQ optimization.",
+        readTime: 12,
+        author: "Jimbo",
+        featured: true
+    },
+    {
+        id: "llms-txt-przewodnik-dla-ai-crawlerow",
+        title: "llms.txt - Przewodnik dla AI Crawlerów",
+        slug: "llms-txt-przewodnik-dla-ai-crawlerow",
+        subtitle: "Standard llms.txt vs robots.txt - kompletne templates i multi-domain strategia",
+        date: "Luty 2026",
+        category: "Edukacja",
+        image: '/blog-images/llmstxt_guide_dark.jpg',
+        tech: ["llms.txt", "GEO", "AI Crawlers", "Markdown"],
+        description: "Wszystko o standardzie llms.txt: anatomia struktury Markdown, porównanie z robots.txt, complete JIMBO77 template, cross-domain navigation, llms-full.txt dla API docs, code generators (TypeScript, Cloudflare Worker).",
+        readTime: 10,
+        author: "JIMBO77 Team",
+        featured: true
+    },
+    {
+        id: "jak-sledzic-ai-boty-strategia-geo",
+        title: "Jak Śledzić AI Boty i Budować Strategię GEO",
+        slug: "jak-sledzic-ai-boty-strategia-geo",
+        subtitle: "Bot tracking via Cloudflare Workers, D1 analytics, top URLs per bot",
+        date: "Luty 2026",
+        category: "Edukacja",
+        image: '/blog-images/bot_tracking_dark.jpg',
+        tech: ["Bot Tracking", "Cloudflare Workers", "D1", "SQL", "Analytics"],
+        description: "Implementacja bot tracking systemu: User-Agent detection, D1 bot_logs table, SQL queries dla top URLs/error rates/performance, dashboard analytics, ELK Stack integration, GEO strategy based on logs.",
+        readTime: 13,
+        author: "Jimbo",
+        featured: false
+    },
+    {
+        id: "ai-bot-reputation-score-system",
+        title: "System Ocen dla AI Botów – AI Bot Reputation Score",
+        slug: "ai-bot-reputation-score-system",
+        subtitle: "5-dimensional scoring model: traffic value, citation rate, technical behavior",
+        date: "Luty 2026",
+        category: "Strategia",
+        image: '/blog-images/bot_reputation_dark.jpg',
+        tech: ["AI SEO", "Bot Analytics", "D1", "Scoring Systems", "GEO"],
+        description: "Bot reputation scoring formula: weighted 5 dimensions (Traffic Value 30%, Citation Rate 25%, Engagement Quality 25%, Technical Behavior 15%, Commercial Intent 5%). S-tier: PerplexityBot 9.52, GPTBot 9.14. Use cases: differentiated robots.txt, dynamic response times, custom sitemaps.",
+        readTime: 14,
+        author: "JIMBO77 Team",
+        featured: false
     }
 ];

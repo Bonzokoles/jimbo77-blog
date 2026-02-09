@@ -15,18 +15,22 @@
     "test:mobile": "vitest run src/tests/mobile-responsiveness.test.jsx"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.985.0",
     "@heroui/react": "^2.8.7",
     "@vitest/ui": "^4.0.18",
     "@xyflow/react": "^12.10.0",
+    "dotenv": "^17.2.4",
     "framer-motion": "^11.11.17",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.292.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
     "react-markdown": "^9.1.0",
     "react-router-dom": "^6.20.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
+    "replicate": "^1.4.0",
     "vitest": "^4.0.18"
   },
   "devDependencies": {
