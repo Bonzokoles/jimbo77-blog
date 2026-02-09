@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { HeroUIProvider } from "@heroui/react";
 import Home from './pages/Home';
 import BlogPost from './pages/BlogPost';
 import Graph from './pages/Graph';
@@ -10,9 +11,10 @@ import Core from './pages/Core';
 import Community from './pages/Community';
 import Tools from './pages/Tools';
 
-const App = () => {
+const AppContent = () => {
+    const navigate = useNavigate();
     return (
-        <Router>
+        <HeroUIProvider navigate={navigate}>
             <Routes>
                 <Route element={<RootLayout />}>
                     <Route path="/" element={<Home />} />
@@ -24,6 +26,14 @@ const App = () => {
                     <Route path="/tools" element={<Tools />} />
                 </Route>
             </Routes>
+        </HeroUIProvider>
+    );
+};
+
+const App = () => {
+    return (
+        <Router>
+            <AppContent />
         </Router>
     );
 };
