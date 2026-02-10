@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Linkedin, Mail, Terminal, Activity, Cpu, Wrench } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail, Terminal, Activity, Cpu, Wrench, BookOpen } from 'lucide-react';
 import { personalInfo } from '../data';
 
 const Navbar = () => {
@@ -23,6 +23,7 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'SYSTEM', path: '/', icon: <Terminal size={14} /> },
+        { name: 'BLOG', path: '/bloghub', icon: <BookOpen size={14} /> },
         { name: 'LOGS', path: '/logs', icon: <Activity size={14} /> },
         { name: 'CORE', path: '/core', icon: <Cpu size={14} /> },
         { name: 'COMMUNITY', path: '/community', icon: <Activity size={14} /> },
