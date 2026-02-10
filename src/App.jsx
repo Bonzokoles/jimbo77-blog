@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import BlogPost from './pages/BlogPost';
 import Graph from './pages/Graph';
 import RootLayout from './layouts/RootLayout';
+import BlogHub from './components/BlogHub';
 
 import Logs from './pages/Logs';
 import Core from './pages/Core';
@@ -17,6 +18,7 @@ const App = () => {
                 <Route element={<RootLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route path="/bloghub" element={<BlogHub />} />
                     <Route path="/graph" element={<Graph />} />
                     <Route path="/logs" element={<Logs />} />
                     <Route path="/core" element={<Core />} />
