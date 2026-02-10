@@ -72,8 +72,8 @@ const ArticleReader = ({ article, onBack, onEdit }) => {
 
           {article.tags && article.tags.length > 0 && (
             <div className="reader-tags">
-              {article.tags.map((tag, idx) => (
-                <span key={idx} className="reader-tag">
+              {article.tags.map((tag) => (
+                <span key={tag} className="reader-tag">
                   #{tag}
                 </span>
               ))}
