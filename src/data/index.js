@@ -1,10 +1,10 @@
 export const personalInfo = {
-  name: "Jimbo",
+  name: "Karol Lisson Bonzo",
   role: "AI Architect & Automation Guru",
-  email: "contact@jimbo.org",
+  email: "karol@jimbo77.com",
   github: "https://github.com/Bonzokoles",
-  linkedin: "https://linkedin.com/in/jimbo",
-  twitter: "https://twitter.com/jimbo77"
+  linkedin: "https://linkedin.com/in/karol-bonzo",
+  twitter: "https://twitter.com/bonzokoles"
 };
 
 export const blogs = [
