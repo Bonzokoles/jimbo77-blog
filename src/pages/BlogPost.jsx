@@ -26,10 +26,15 @@ const WORKER_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev";
 const BlogSkeleton = () => (
   <div className="max-w-4xl mx-auto px-4 pt-24 space-y-8">
     <div className="space-y-3">
-      <Skeleton className="w-1/4 h-4 rounded-lg bg-slate-800" />
-      <Skeleton className="w-3/4 h-12 rounded-lg bg-slate-800" />
+      <Skeleton className="w-1/4 h-4 rounded-lg bg-slate-700/50" />
+      <Skeleton className="w-3/4 h-12 rounded-lg bg-slate-700/50" />
     </div>
-    <Skeleton className="w-full h-96 rounded-2xl bg-slate-800" />
+    <Skeleton className="w-full h-96 rounded-2xl bg-slate-700/50" />
+    <div className="space-y-4">
+      <Skeleton className="w-full h-4 rounded-lg bg-slate-700/30" />
+      <Skeleton className="w-5/6 h-4 rounded-lg bg-slate-700/30" />
+      <Skeleton className="w-4/6 h-4 rounded-lg bg-slate-700/30" />
+    </div>
   </div>
 );
 

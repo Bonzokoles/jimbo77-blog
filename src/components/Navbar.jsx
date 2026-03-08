@@ -33,7 +33,7 @@ const Navbar = () => {
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled
             ? 'bg-slate-950/80 backdrop-blur-md border-cyan-500/30'
-            : 'bg-transparent border-transparent'
+            : 'bg-slate-950/50 backdrop-blur-sm border-white/5'
             }`}>
             {/* Top decorative line */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent opacity-50" />

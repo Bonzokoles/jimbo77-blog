@@ -32,7 +32,6 @@ const BlogLayout = ({ children }) => {
 
             {/* Blog Content Wrapper */}
             <main className="relative z-10 pt-24 pb-20">
-                <div className="absolute inset-x-0 top-0 h-[50vh] bg-gradient-to-b from-slate-950/50 to-transparent pointer-events-none" />
                 <div className="relative z-10">
                     {children}
                 </div>
