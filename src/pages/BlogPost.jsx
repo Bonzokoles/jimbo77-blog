@@ -23,6 +23,13 @@ import RecommendedTools from '../components/RecommendedTools';
 
 const WORKER_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev";
 
+/** Safe ISO date — returns undefined for invalid/unparseable dates */
+const safeISODate = (dateStr) => {
+  if (!dateStr) return undefined;
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? undefined : d.toISOString();
+};
+
 const BlogSkeleton = () => (
   <div className="max-w-4xl mx-auto px-4 pt-24 space-y-8">
     <div className="space-y-3">
@@ -69,8 +76,9 @@ const BlogPost = () => {
           contentUrl = `${WORKER_URL}/texts/${slug}.md`;
           metadata = {
             title: `Article #${slug}`,
+            slug,
             category: "R2 Dynamic Hub",
-            date: "Recent",
+            date: new Date().toISOString(),
             readTime: 10,
             image: `${WORKER_URL}/hero/${slug}.jpg`
           };
@@ -132,7 +140,7 @@ const BlogPost = () => {
         type="article"
         author={blog.author}
         tags={blog.tech || []}
-        publishedTime={blog.date ? new Date(blog.date).toISOString() : undefined}
+        publishedTime={safeISODate(blog.date)}
       />
       <SchemaOrg 
         type="blogPosting"
@@ -145,7 +153,7 @@ const BlogPost = () => {
           tech: blog.tech,
           category: blog.category,
           readTime: blog.readTime,
-          publishedTime: blog.date ? new Date(blog.date).toISOString() : undefined
+          publishedTime: safeISODate(blog.date)
         }}
       />
       <div className="max-w-4xl mx-auto px-4 pb-24 text-white">
