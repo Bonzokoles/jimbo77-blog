@@ -14,10 +14,10 @@ import {
   Button,
   Divider,
   Chip,
-  Spinner
+  Spinner,
+  Progress
 } from "@heroui/react";
 import { Home, Calendar, Clock } from 'lucide-react';
-import BlogLayout from '../layouts/BlogLayout';
 import JimboArticleFrame from '../components/JimboArticleFrame';
 import RecommendedTools from '../components/RecommendedTools';
 
@@ -44,6 +44,17 @@ const BlogPost = () => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const currentScroll = window.scrollY;
+      setScrollProgress((currentScroll / totalScroll) * 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -101,7 +112,18 @@ const BlogPost = () => {
   if (loading || !blog) return <BlogSkeleton />;
 
   return (
-    <BlogLayout>
+    <div className="min-h-screen bg-transparent pt-8 pb-12">
+      <Progress
+        aria-label="Reading progress"
+        size="sm"
+        value={scrollProgress}
+        color="primary"
+        className="fixed top-0 left-0 right-0 z-50 rounded-none pointer-events-none"
+        classNames={{
+          indicator: "bg-gradient-to-r from-cyan-400 to-blue-600 shadow-[0_0_10px_rgba(34,211,238,0.5)]",
+          track: "bg-transparent"
+        }}
+      />
       <SEO 
         title={blog.title}
         description={blog.description || blog.subtitle}
@@ -172,7 +194,7 @@ const BlogPost = () => {
 
         <Divider className="mb-12 bg-white/5" />
       </div>
-    </BlogLayout>
+    </div>
   );
 };
 
