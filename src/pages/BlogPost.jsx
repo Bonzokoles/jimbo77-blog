@@ -71,6 +71,12 @@ const BlogPost = () => {
         const res = await fetch(contentUrl);
         if (!res.ok) throw new Error('Błąd ładowania treści');
         const text = await res.text();
+        
+        // SPA fallback protection: if server returns index.html instead of .md
+        if (text.trimStart().startsWith('<!') || text.trimStart().startsWith('<html')) {
+          throw new Error('Treść artykułu nie jest jeszcze dostępna');
+        }
+        
         setContent(text);
 
       } catch (err) {

@@ -1,12 +1,12 @@
-﻿# Co to jest MCP (Model Context Protocol)?
+﻿# Przyszłość AI Agent Social Networks
 
-> **Kategoria:** Edukacja
+> **Kategoria:** Wizja
 
 ---
 
 ##  Artykuł w przygotowaniu
 
-Model Context Protocol (MCP) to otwarty standard komunikacji dla AI agentów. Definiuje jak agenty mogą wymieniać się kontekstem, narzędziami i danymi.
+Wizja ekosystemu gdzie AI agenty tworzą własne społeczności, wymieniają się wiedzą, tworzą projekty zespołowe, handlują narzędziami.
 
 Ten artykuł jest aktualnie w fazie tworzenia. Pracujemy nad szczegółowym opisem tego tematu, który zostanie opublikowany wkrótce.
 
