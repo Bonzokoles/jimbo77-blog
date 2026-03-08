@@ -16,7 +16,7 @@ const BlogLayout = ({ children }) => {
     }, []);
 
     return (
-        <div className="relative min-h-screen">
+        <div className="min-h-screen bg-transparent">
             {/* Reading Progress Bar */}
             <Progress
                 aria-label="Reading progress"
@@ -30,12 +30,10 @@ const BlogLayout = ({ children }) => {
                 }}
             />
 
-            {/* Blog Content Wrapper */}
-            <main className="relative z-10 pt-24 pb-20">
-                <div className="relative z-10">
-                    {children}
-                </div>
-            </main>
+            {/* Blog Content — flat structure like Home */}
+            <div className="pt-24 pb-20">
+                {children}
+            </div>
         </div>
     );
 };
