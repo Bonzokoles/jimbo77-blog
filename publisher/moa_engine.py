@@ -7,10 +7,10 @@ Orchestrates parallel calls to multiple AI providers and synthesizes the best re
 Providers:
   - DeepSeek (via OpenRouter) — main writer, strong Polish
   - Google Gemma 3 27B (via OpenRouter, free) — second voice
-  - Meta Llama 3.3 70B (via OpenRouter) — third voice, different perspective
-  - OpenAI GPT-5-nano (optional) — premium synthesis
+  - Qwen 2.5 72B (via OpenRouter) — third voice, excellent multilingual/Polish
+  - OpenAI GPT-5-nano (optional) — premium synthesis + QA review
 
-Strategy: All models get the same prompt → parallel execution → aggregation.
+Strategy: All models get the same prompt → parallel execution → aggregation → QA review.
 """
 
 import os
@@ -96,7 +96,7 @@ class MOAEngine:
         else:
             enriched_prompt = prompt
 
-        writers = ["deepseek", "gemma", "llama"]
+        writers = ["deepseek", "gemma", "qwen"]
         self.logger.info(f"Phase 2: {len(writers)} writers in parallel...")
         tasks = [self._call_model(p, enriched_prompt) for p in writers]
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -111,10 +111,13 @@ class MOAEngine:
 
         self.logger.info(f"Phase 2: {len(ok)}/{len(writers)} writers responded")
         if len(ok) == 1:
-            return ok[0].content
+            synthesized = ok[0].content
+        else:
+            # ── PHASE 3: SYNTHESIS ──
+            synthesized = await self._aggregate(ok, prompt, research)
 
-        # ── PHASE 3: SYNTHESIS ──
-        return await self._aggregate(ok, prompt, research)
+        # ── PHASE 4: QA REVIEW ──
+        return await self._qa_review(synthesized)
 
     # ------------------------------------------------------------------
     # Dispatcher
@@ -130,24 +133,24 @@ class MOAEngine:
                 model_id="google/gemma-3-27b-it:free",
                 name="gemma-3-27b",
             )
-        elif provider == "llama":
-            # Primary: Llama 3.3 70B, fallback: WizardLM-2-8x22b
+        elif provider == "qwen":
+            # Primary: Qwen 2.5 72B (excellent Polish), fallback: Qwen 2.5 32B
             try:
                 return await self._call_openrouter(
                     prompt,
                     t0,
-                    model_id="meta-llama/llama-3.3-70b-instruct",
-                    name="llama-3.3-70b",
+                    model_id="qwen/qwen-2.5-72b-instruct",
+                    name="qwen-2.5-72b",
                 )
             except Exception as e:
                 self.logger.warning(
-                    f"Llama 3.3 failed ({e}), trying WizardLM fallback..."
+                    f"Qwen 72B failed ({e}), trying Qwen 32B fallback..."
                 )
                 return await self._call_openrouter(
                     prompt,
                     t0,
-                    model_id="microsoft/wizardlm-2-8x22b",
-                    name="wizardlm-2-8x22b",
+                    model_id="qwen/qwen-2.5-32b-instruct",
+                    name="qwen-2.5-32b",
                 )
         elif provider == "openai":
             return await self._call_openai(prompt, t0)
@@ -237,7 +240,7 @@ class MOAEngine:
                 )
 
     # ------------------------------------------------------------------
-    # Aggregation / Synthesis — "Jimbo's voice"
+    # Aggregation / Synthesis — "Karol's voice"
     # ------------------------------------------------------------------
     async def _aggregate(
         self, responses: List[MOAResponse], original: str, research: str = ""
@@ -252,11 +255,11 @@ class MOAEngine:
         if research:
             research_block = f"""\n\nAKTUALNE FAKTY Z WEBA (Perplexity):\n{research}\n\nUżyj tych faktów żeby artykuł był aktualny i wiarygodny.\n"""
 
-        synthesis_prompt = f"""Jesteś Jimbo — 48-letni polski bloger technologiczny i programista. Masz {len(responses)} wersje tekstu.{research_block}
+        synthesis_prompt = f"""Jesteś Karol — 48-letni polski bloger technologiczny i programista. Masz {len(responses)} wersje tekstu.{research_block}
 
 ZADANIE: Stwórz JEDEN gotowy artykuł na bloga, łącząc najlepsze fragmenty.
 
-STYL JIMBO (OBOWIĄZKOWY):
+STYL KAROLA (OBOWIĄZKOWY):
 - Pisz po polsku, prosto i zrozumiale. Ton: rzeczowy, konkretny, dojrzały.
 - Minimum ciężkich technicznych terminów. Jak musisz użyć — wyjaśnij krótko.
 - Pisz w pierwszej osobie ("sprawdziłem", "przetestowałem", "moim zdaniem", "z mojego doświadczenia").
@@ -293,3 +296,68 @@ Wygeneruj TYLKO gotowy artykuł (bez komentarzy, bez "oto artykuł"):"""
         except Exception as e:
             self.logger.error(f"Aggregation failed: {e}")
             return max(responses, key=lambda x: len(x.content)).content
+
+    # ------------------------------------------------------------------
+    # Phase 4: QA Review — catches language errors before publishing
+    # ------------------------------------------------------------------
+    async def _qa_review(self, article: str) -> str:
+        """
+        Final quality gate: lightweight model reviews the article for:
+        - Non-Polish text (Cyrillic, random English words)
+        - Broken Polish (typos, mangled words)
+        - Style consistency (no AI-isms)
+        - Title vs content claim consistency
+        Returns corrected article or original if QA fails.
+        """
+        self.logger.info("Phase 4: QA Review — sprawdzanie jakości tekstu...")
+
+        qa_prompt = f"""Jesteś redaktorem polskiego bloga technologicznego. Twoim JEDYNYM zadaniem jest korekta tekstu.
+
+SPRAWDŹ I POPRAW:
+1. JĘZYK: Znajdź i zamień wszelkie słowa w obcych alfabetach (cyrylica, chińskie znaki itp.) na ich polskie odpowiedniki.
+2. ANGIELSKIE WSTAWKI: Jeśli w polskim zdaniu pojawia się losowe angielskie słowo (np. "only" zamiast "tylko", "but" zamiast "ale"), zamień je na polskie.
+3. LITERÓWKI: Popraw oczywiste literówki i zniekształcone polskie słowa (np. "glebszych"→"głębszych", "Dłaszych"→"Dalszych", "Protorypowe"→"Prototypowe").
+4. BZDURY NAZEWNICZE: Jeśli widzisz nonsensowne nazwy (np. "Kina badawczo-rozwojowe" zamiast "Centra badawczo-rozwojowe"), popraw na sensowne.
+5. DUPLIKATY: Jeśli są dwie identyczne sekcje (np. dwa "Co z tego wynika?"), zostaw tylko jedną — lepszą.
+6. AUTOR: Autor bloga to Karol (NIE Jimbo). Jeśli w tekście pojawia się "Jestem Jimbo" lub "tu Jimbo", zamień na "tu Karol" lub usuń autodeprezentację.
+7. SPÓJNOŚĆ: Sprawdź czy tytuł/nagłówek nie obiecuje czegoś, czego treść nie potwierdza (np. "20% w Polsce" gdy tekst mówi, że w PL nie ma jeszcze danych).
+
+ZASADY:
+- Zwróć CAŁY poprawiony artykuł — nie komentuj co zmieniłeś.
+- NIE zmieniaj stylu, tonu ani struktury — poprawiasz TYLKO błędy.
+- NIE dodawaj nowych treści — jedynie koryguj istniejące.
+- NIE usuwaj treści merytorycznych — tylko naprawiaj formę.
+- Jeśli tekst jest czysty i nie ma błędów — zwróć go bez zmian.
+
+TEKST DO KOREKTY:
+{article}"""
+
+        # Use DeepSeek for QA (fast, good Polish, cheap)
+        try:
+            res = await self._call_openrouter(
+                qa_prompt,
+                time.time(),
+                model_id="deepseek/deepseek-chat",
+                name="qa-review",
+            )
+            reviewed = res.content.strip()
+
+            # Sanity check: QA shouldn't drastically change article length
+            original_len = len(article.split())
+            reviewed_len = len(reviewed.split())
+            ratio = reviewed_len / max(original_len, 1)
+
+            if 0.7 < ratio < 1.3 and reviewed_len > 200:
+                self.logger.info(
+                    f"Phase 4 done: QA review applied ({original_len}→{reviewed_len} words)"
+                )
+                return reviewed
+            else:
+                self.logger.warning(
+                    f"QA review suspicious (ratio={ratio:.2f}), keeping original"
+                )
+                return article
+
+        except Exception as e:
+            self.logger.warning(f"QA review failed (keeping original): {e}")
+            return article

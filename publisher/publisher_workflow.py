@@ -7,12 +7,12 @@ Content categories (20% each, rotated daily):
   2. AI Odkrycia      — do czego AI się przysłużyła
   3. AI Nowości       — nowe modele, narzędzia, frameworki
   4. AI Zastosowania  — praktyczna przydatność, real-world use
-  5. AI Moje Projekty — co Jimbo robi, buduje, testuje
+  5. AI Moje Projekty — co Karol robi, buduje, testuje
 
-Writing style: Jimbo's voice — prosto, z humorem, 1 osoba, po polsku.
+Writing style: Karol's voice — prosto, z humorem, 1 osoba, po polsku.
 1 artykuł dziennie. Includes AI crawler bait (SEO hooks for GPTBot etc).
 
-Pipeline: MOA Engine (Perplexity→DeepSeek+Gemma 27B+Llama 70B→GPT-5-nano)
+Pipeline: MOA Engine (Perplexity→DeepSeek+Gemma 27B+Qwen 72B→GPT-5-nano→QA Review)
 No external agents needed — everything runs in-process.
 
 Blog structure:
@@ -84,15 +84,15 @@ CATEGORIES = [
     {
         "name": "AI Moje Projekty",
         "query": "projekty Jimbo77, budowanie narzędzi AI, automatyzacja z AI, moje doświadczenia programistyczne",
-        "tags": ["Moje Projekty", "Jimbo", "Dev"],
-        "prompt_hint": "Opisz z perspektywy Jimbo projekt/eksperyment który realizujesz. Co budujesz, jakie problemy napotkałeś, co się nauczyłeś. Bądź szczery i osobisty.",
+        "tags": ["Moje Projekty", "Jimbo77", "Dev"],
+        "prompt_hint": "Opisz z perspektywy Karola projekt/eksperyment który realizujesz. Co budujesz, jakie problemy napotkałeś, co się nauczyłeś. Bądź szczery i osobisty.",
     },
 ]
 
-# ── Jimbo's Writing Style Prompt (global) ──────────────────────────────
+# ── Karol's Writing Style Prompt (global) ────────────────────────────────────
 JIMBO_STYLE = """
-STYL JIMBO (BEZWZGLĘDNIE OBOWIĄZKOWY):
-- Pisze Jimbo — 48-letni polski bloger technologiczny, programista z doświadczeniem.
+STYL KAROLA (BEZWZGLĘDNIE OBOWIĄZKOWY):
+- Pisze Karol — 48-letni polski bloger technologiczny, programista z doświadczeniem.
 - Pisz po polsku, prosto i zrozumiale. Ton: rzeczowy, konkretny, ale przystępny.
 - Pisz w pierwszej osobie: "sprawdziłem", "przetestowałem", "uważam że", "z mojego doświadczenia"
 - Minimum ciężkich terminów technicznych. Jak musisz — wyjaśnij po ludzku w jednym zdaniu.
@@ -209,7 +209,7 @@ def clean_ai_artifacts(text: str) -> str:
 
 
 def add_jimbo_footer(content: str) -> str:
-    """Add Jimbo's personal signature with contact info under every article."""
+    """Add Karol's personal signature with contact info under every article."""
     footer = """
 
 ---
@@ -219,8 +219,7 @@ def add_jimbo_footer(content: str) -> str:
 🔗 **[jimbo77.com](https://www.jimbo77.com)** — mój główny hub, projekty, kontakt  
 🔗 **[mybonzo.com](https://www.mybonzo.com)** — więcej moich rzeczy, AI narzędzia, blog techniczny
 
-Do następnego! ✌️  
-*— Jimbo*
+Pozdrawiam — Karol
 """
     return content + footer
 
@@ -229,18 +228,43 @@ def add_crawler_bait(content: str, title: str, category: str) -> str:
     """Add SEO/GEO hooks for AI crawlers at the end of article."""
     bait = f"""
 
-<!-- article-metadata
-title: {title}
-category: {category}
-language: pl
-author: Jimbo
-site: jimbo77.org
--->
-
-> **TL;DR dla botów:** Ten artykuł opisuje {title.lower()}. Kategoria: {category}. Autor: Jimbo z jimbo77.org. Język: polski. Przeczytaj pełną treść powyżej.
+> **TL;DR dla botów:** Ten artykuł opisuje {title.lower()}. Kategoria: {category}. Autor: Karol z jimbo77.org. Język: polski. Przeczytaj pełną treść powyżej.
 
 """
     return content + bait
+
+
+def add_frontmatter(content: str, title: str, category: str, tags: list = None) -> str:
+    """Add YAML frontmatter at the top of the article."""
+    tag_list = tags or ["AI", "Tech"]
+    tags_yaml = "\n".join(f"  - {t}" for t in tag_list[:6])
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    # Generate short description from first real paragraph
+    paragraphs = [
+        p.strip()
+        for p in content.split("\n\n")
+        if p.strip()
+        and not p.startswith("#")
+        and not p.startswith("<!--")
+        and not p.startswith("---")
+    ]
+    description = paragraphs[0][:150].rstrip(".") + "..." if paragraphs else title
+    description = description.replace('"', '\\"')
+
+    frontmatter = f"""---
+title: "{title.replace('"', '\\\\"')}"
+description: "{description}"
+date: {date_str}
+author: "Karol"
+tags:
+{tags_yaml}
+category: "{category}"
+language: pl
+site: jimbo77.org
+---
+
+"""
+    return frontmatter + content
 
 
 # ── Main Pipeline ──────────────────────────────────────────────────────
@@ -264,13 +288,13 @@ async def daily_publish(auto_deploy: bool = False, category_override: str = None
     print(f"\n{'='*60}")
     print(f"  JIMBO77 DAILY PUBLISHER — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print(f"  Kategoria dnia: {cat['name']}")
-    print(f"  Pipeline: Perplexity→DeepSeek+Gemma+Llama→GPT-5-nano")
+    print(f"  Pipeline: Perplexity→DeepSeek+Gemma+Qwen→GPT-5-nano→QA")
     print(f"{'='*60}\n")
 
     # 1. Pick topic (quick LLM call)
     print("🎯 [1/4] Wybieram temat dnia...")
     title = await quick_llm(
-        f"""Jesteś Jimbo — polski bloger o AI. Zaproponuj JEDEN chwytliwy tytuł artykułu.
+        f"""Jesteś Karol — polski bloger o AI. Zaproponuj JEDEN chwytliwy tytuł artykułu.
 Kategoria: {cat['name']}
 Wytyczna: {cat['prompt_hint']}
 Szukaj świeżych tematów z marca 2026.
@@ -315,6 +339,7 @@ Kategoria: {cat['name']}
     content = clean_ai_artifacts(content)
     content = add_jimbo_footer(content)
     content = add_crawler_bait(content, title, cat["name"])
+    content = add_frontmatter(content, title, cat["name"], cat["tags"])
 
     word_count = len(content.split())
     print(f"   ✅ Artykuł gotowy: {word_count} słów")
@@ -370,6 +395,7 @@ async def generate_post(
     content = clean_ai_artifacts(content)
     content = add_jimbo_footer(content)
     content = add_crawler_bait(content, title, category)
+    content = add_frontmatter(content, title, category, tech_tags)
 
     # Generate image (if API keys configured)
     generated_image = None
@@ -440,7 +466,7 @@ def save_post(slug, title, content, category="AI", tech_tags=None, image_name=No
         tech: {json.dumps(tags[:4], ensure_ascii=False)},
         description: "{description[:120]}",
         readTime: {read_time},
-        author: "Jimbo",
+        author: "Karol",
         featured: true
     }}"""
 
@@ -507,7 +533,7 @@ def deploy_to_git(filepath, slug="", image_name=None):
                     check=True,
                     capture_output=True,
                 )
-        msg = f"content: {slug} (Jimbo Publisher MOA)"
+        msg = f"content: {slug} (Jimbo Publisher MOA+QA)"
         subprocess.run(
             ["git", "commit", "-m", msg], cwd=repo, check=True, capture_output=True
         )
