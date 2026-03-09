@@ -13,7 +13,7 @@ const WORKER_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev";
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
-    const [visiblePosts, setVisiblePosts] = useState(6);
+    const [visiblePosts, setVisiblePosts] = useState(12);
     const [allPosts, setAllPosts] = useState(staticPosts);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -32,12 +32,23 @@ const Home = () => {
                     isDynamic: true
                 }));
 
-                // Combine static and dynamic, limiting to top 30 for the "Main Stream"
-                const combined = [...mappedDynamic, ...staticPosts].slice(0, 30);
+                // Combine and sort by sortDate (newest first)
+                const combined = [...staticPosts, ...mappedDynamic]
+                    .sort((a, b) => {
+                        const dateA = a.sortDate || '2026-01-01';
+                        const dateB = b.sortDate || '2026-01-01';
+                        return dateB.localeCompare(dateA);
+                    })
+                    .slice(0, 30);
                 setAllPosts(combined);
             } catch (e) {
                 console.warn("Using static fallback:", e.message);
-                setAllPosts(staticPosts);
+                const sorted = [...staticPosts].sort((a, b) => {
+                    const dateA = a.sortDate || '2026-01-01';
+                    const dateB = b.sortDate || '2026-01-01';
+                    return dateB.localeCompare(dateA);
+                });
+                setAllPosts(sorted);
             } finally {
                 setIsLoading(false);
             }
@@ -117,10 +128,16 @@ const Home = () => {
                                         onChange={(e) => setSelectedCategory(e.target.value)}
                                     >
                                         <SelectItem key="all">Wszystkie</SelectItem>
+                                        <SelectItem key="AI News">AI News</SelectItem>
+                                        <SelectItem key="AI Odkrycia">AI Odkrycia</SelectItem>
+                                        <SelectItem key="AI Nowości">AI Nowości</SelectItem>
+                                        <SelectItem key="AI Zastosowania">AI Zastosowania</SelectItem>
+                                        <SelectItem key="AI Moje Projekty">AI Moje Projekty</SelectItem>
+                                        <SelectItem key="Technologia">Technologia</SelectItem>
+                                        <SelectItem key="Inżynieria">Inżynieria</SelectItem>
                                         <SelectItem key="Edukacja">Edukacja</SelectItem>
                                         <SelectItem key="Strategia">Strategia</SelectItem>
-                                        <SelectItem key="Wizja">Wizja</SelectItem>
-                                        <SelectItem key="GEO">GEO</SelectItem>
+                                        <SelectItem key="Funkcje">Funkcje</SelectItem>
                                     </Select>
                                     {isLoading && <Spinner size="sm" color="primary" />}
                                 </div>

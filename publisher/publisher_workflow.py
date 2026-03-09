@@ -415,6 +415,7 @@ def save_post(slug, title, content, category="AI", tech_tags=None, image_name=No
         else "'/blog-images/scifi_default.jpg'"
     )
     date_label = month_label_pl()
+    sort_date = datetime.now().strftime("%Y-%m-%d")
     read_time = max(5, len(content.split()) // 200)
 
     # Generate short description from first paragraph
@@ -427,40 +428,41 @@ def save_post(slug, title, content, category="AI", tech_tags=None, image_name=No
     # Escape double quotes in description for JS
     description = description.replace('"', '\\"')
 
-    new_entry = f"""  {{
-    id: "{slug}",
-    title: "{title[:80].replace('"', '\\\\"')}",
-    slug: "{slug}",
-    subtitle: "",
-    date: "{date_label}",
-    category: "{category}",
-    image: {img_ref},
-    tech: {json.dumps(tags[:4], ensure_ascii=False)},
-    description: "{description[:120]}",
-    readTime: {read_time},
-    author: "Jimbo",
-    featured: false
-  }}"""
+    new_entry = f"""    {{
+        id: "{slug}",
+        title: "{title[:80].replace('"', '\\\\"')}",
+        slug: "{slug}",
+        subtitle: "",
+        date: "{date_label}",
+        sortDate: "{sort_date}",
+        category: "{category}",
+        image: {img_ref},
+        tech: {json.dumps(tags[:4], ensure_ascii=False)},
+        description: "{description[:120]}",
+        readTime: {read_time},
+        author: "Jimbo",
+        featured: true
+    }}"""
 
     try:
         if BLOG_POSTS_JS.exists():
             js_content = BLOG_POSTS_JS.read_text(encoding="utf-8")
             # Check if slug already exists
             if f'"{slug}"' not in js_content:
-                # Insert before the closing bracket of the array
-                # Find the last object closing brace + comma or just brace
-                insert_marker = js_content.rfind("];")
-                if insert_marker > 0:
+                # PREPEND: insert as first element after "export const blogPosts = ["
+                insert_marker = js_content.find("export const blogPosts = [")
+                if insert_marker >= 0:
+                    bracket_pos = js_content.index("[", insert_marker)
                     updated = (
-                        js_content[:insert_marker]
-                        + f",\n{new_entry}\n"
-                        + js_content[insert_marker:]
+                        js_content[: bracket_pos + 1]
+                        + f"\n{new_entry},\n"
+                        + js_content[bracket_pos + 1 :]
                     )
                     BLOG_POSTS_JS.write_text(updated, encoding="utf-8")
-                    print(f"📝 blogPosts.js updated with '{slug}'")
+                    print(f"📝 blogPosts.js updated (prepended) with '{slug}'")
                 else:
                     print(
-                        f"⚠️ Couldn't find insertion point in blogPosts.js — add manually:"
+                        f"⚠️ Couldn't find 'export const blogPosts' in blogPosts.js — add manually:"
                     )
                     print(new_entry)
             else:
