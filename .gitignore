@@ -30,3 +30,14 @@ dist-ssr
 
 # AI Agent subfolder (osobne repo)
 AI_AGENT_SOCIAL_CLUB/
+
+# Publisher runtime
+publisher/venv/
+publisher/.env
+publisher/logs/
+publisher/__pycache__/
+publisher/agents/__pycache__/
+publisher/test_output/
+
+# MOA frontend prototype (not used)
+public/MOA/
