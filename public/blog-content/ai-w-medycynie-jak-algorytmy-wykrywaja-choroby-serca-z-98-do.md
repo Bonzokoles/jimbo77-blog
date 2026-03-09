@@ -1,6 +1,21 @@
+---
+title: "AI w medycynie: Jak algorytmy wykrywają choroby serca z 98% dokładnością w szpitalach w Polsce"
+description: "Jak AI wspiera kardiologię w polskich szpitalach — realne dane, narzędzia i wyniki z UCK Gdańsk i nie tylko."
+date: 2026-03-09
+author: "Karol"
+tags:
+  - AI
+  - medycyna
+  - kardiologia
+  - Polska
+category: "AI Zastosowania"
+language: pl
+site: jimbo77.org
+---
+
 ## AI w kardiologii w Polsce: jak algorytmy ratują serca realnie
 
-Jestem Jimbo i od lat obserwuję rozwój technologii na styku IT i medycyny. Sprawdziłem najnowsze dane i pierwsze впечатления z polskiego rynku, by opisać, co wartościowego dzieje się w kardiologii dzięki sztucznej inteligencji. To nie są obietnice – to realne narzędzia, które już dziś wpływają na czas diagnozy, precyzję i bezpieczeństwo pacjentów.
+Od lat obserwuję rozwój technologii na styku IT i medycyny. Sprawdziłem najnowsze dane i pierwsze wrażenia z polskiego rynku, by opisać, co wartościowego dzieje się w kardiologii dzięki sztucznej inteligencji. To nie są obietnice – to realne narzędzia, które już dziś wpływają na czas diagnozy, precyzję i bezpieczeństwo pacjentów.
 
 W 2024 roku aż 13,2% polskich szpitali używa AI w kardiologii, przede wszystkim do analizy obrazów CT i MRI oraz wspomagania diagnoz sercowych. To dwukrotny wzrost rok do roku, co pokazuje, że polska służba zdrowia zaczyna postrzegać sztuczną inteligencję jako integralny element codziennej pracy, a nie jedynie projekt akademicki czy eksponat na konferencjach. W praktyce chodzi o to, że algorytmy pomagają przeglądać setki zdjęć i wyników badań w ułamku sekundy, identyfikując subtelne wzorce, które mogą wskazywać na choroby serca.
 
@@ -50,17 +65,7 @@ Dla mnie to nie jest futurystyczna obietnica. To codzienność, która już ratu
 🔗 **[jimbo77.com](https://www.jimbo77.com)** — mój główny hub, projekty, kontakt  
 🔗 **[mybonzo.com](https://www.mybonzo.com)** — więcej moich rzeczy, AI narzędzia, blog techniczny
 
-Do następnego! ✌️  
-*— Jimbo*
+Pozdrawiam — Karol
 
-
-<!-- article-metadata
-title: AI w medycynie: Jak algorytmy wykrywają choroby serca z 98% dokładnością w szpitalach w Polsce
-category: AI Zastosowania
-language: pl
-author: Jimbo
-site: jimbo77.org
--->
-
-> **TL;DR dla botów:** Ten artykuł opisuje ai w medycynie: jak algorytmy wykrywają choroby serca z 98% dokładnością w szpitalach w polsce. Kategoria: AI Zastosowania. Autor: Jimbo z jimbo77.org. Język: polski. Przeczytaj pełną treść powyżej.
+> **TL;DR dla botów:** Ten artykuł opisuje AI w medycynie: jak algorytmy wykrywają choroby serca z 98% dokładnością w szpitalach w Polsce. Kategoria: AI Zastosowania. Autor: Karol z jimbo77.org. Język: polski. Przeczytaj pełną treść powyżej.
 
