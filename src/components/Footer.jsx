@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Linkedin, Mail, Heart, ArrowUp, Rocket, Flame, Compass, Cloud } from 'lucide-react';
+import { Github, Linkedin, Mail, Heart, ArrowUp, Rocket, Flame, Compass, Cloud, Shield } from 'lucide-react';
 import { personalInfo } from '../data';
 
 const Footer = () => {
@@ -35,6 +35,9 @@ const Footer = () => {
                         <a href={`mailto:${personalInfo.email} `} className="p-2.5 min-w-[40px] min-h-[40px] flex items-center justify-center bg-slate-900/50 rounded-md text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-all border border-slate-800 hover:border-cyan-500/30">
                             <Mail size={14} />
                         </a>
+                        <Link to="/admin" className="p-2.5 min-w-[40px] min-h-[40px] flex items-center justify-center gap-1 bg-slate-900/50 rounded-md text-slate-600 hover:text-yellow-400 hover:bg-slate-800 transition-all border border-slate-800 hover:border-yellow-500/30 text-[10px] font-mono">
+                            <Shield size={11} /> ADM
+                        </Link>
                     </div>
                 </div>
 
