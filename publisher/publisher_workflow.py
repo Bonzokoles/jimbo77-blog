@@ -539,13 +539,21 @@ def save_post(slug, title, content, category="AI", tech_tags=None, image_name=No
     sort_date = datetime.now().strftime("%Y-%m-%d")
     read_time = max(5, len(content.split()) // 200)
 
-    # Generate short description from first paragraph
+    # Generate short description from first real paragraph (skip frontmatter)
+    # Strip YAML frontmatter block (--- ... ---) before parsing
+    body = content
+    if content.startswith("---"):
+        end = content.find("---", 3)
+        if end != -1:
+            body = content[end + 3:].lstrip()
     paragraphs = [
         p.strip()
-        for p in content.split("\n\n")
-        if p.strip() and not p.startswith("#") and not p.startswith("<!--")
+        for p in body.split("\n\n")
+        if p.strip() and not p.startswith("#") and not p.startswith("<!--") and not p.startswith("---")
     ]
     description = paragraphs[0][:150].rstrip(".") + "..." if paragraphs else title
+    # Ensure single line — remove any embedded newlines
+    description = " ".join(description.splitlines())
     # Escape double quotes in description for JS
     description = description.replace('"', '\\"')
 

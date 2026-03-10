@@ -11,9 +11,7 @@ export const blogPosts = [
         category: "AI Moje Projekty",
         image: '/blog-images/jak-latalem-dziury-w-matrixie-mojego-ai-hero.webp',
         tech: ["Moje Projekty", "Jimbo77", "Dev"],
-        description: "---
-title: \"Jak łatałem dziury w matrixie mojego AI-bloga i zrozumiałem, że błędy to najlepsi nauczyciele\"
-description",
+        description: "Siedem razy uruchomiłem publisher zanim zrozumiałem że problem nie jest w kodzie. Był w tym jak myślałem o tym co buduję.",
         readTime: 7,
         author: "Karol",
         featured: true
