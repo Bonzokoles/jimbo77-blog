@@ -19,7 +19,7 @@ export const blogPosts = [
 
     {
         id: "ai-w-rolnictwie-autonomiczne-ciagniki-zwiekszaja-plony-o-20",
-        title: "AI w rolnictwie: autonomiczne ciągniki zwiększają plony o 20% w Polsce",
+        title: "AI w rolnictwie: autonomiczne ciągniki zwiększają plony o 20% — co to oznacza dla Polski?",
         slug: "ai-w-rolnictwie-autonomiczne-ciagniki-zwiekszaja-plony-o-20",
         subtitle: "",
         date: "Marzec 2026",
@@ -27,9 +27,9 @@ export const blogPosts = [
         category: "AI Zastosowania",
         image: '/blog-images/ai-w-rolnictwie-autonomiczne-ciagniki-zw-hero.webp',
         tech: ["AI Zastosowania", "Praktyka", "Biznes"],
-        description: "Cześć, tu Jimbo. Od pewnego czasu śledzę, jak sztuczna inteligencja wkracza do gospodarstw i jak autonomiczne ciągniki z",
+        description: "Autonomiczne ciągniki AI na świecie dają 15–20% wzrostu wydajności. Sprawdzam, co z tego realnie dotyczy polskiego rolnictwa.",
         readTime: 7,
-        author: "Jimbo",
+        author: "Karol",
         featured: true
     },
     {
