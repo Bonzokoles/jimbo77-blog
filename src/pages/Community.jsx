@@ -3,7 +3,8 @@ import { Card, Avatar, Chip, Button, Spinner, Divider } from "@heroui/react";
 import { MessageSquare, Heart, Eye, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield, Mail, Lock,
     User as UserIcon, KeyRound, Image as ImageIcon, X, Search, SortAsc, SortDesc, Edit3, Trash2,
     Settings, Award, Check, Pin, Globe, MapPin, Github, Twitter, Linkedin, Plus, GripVertical,
-    BarChart3, FileText, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+    BarChart3, FileText, ChevronDown, ChevronUp, ExternalLink, Megaphone, Briefcase, HeartHandshake,
+    Newspaper, BookOpen, Video, Lightbulb, ScrollText, Tag, Zap } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import TerminalChat from '../components/TerminalChat';
@@ -945,6 +946,240 @@ const PostCard = ({ post, onClick, onViewProfile }) => {
     );
 };
 
+// ─── LEFT SIDEBAR: MARKETPLACE / OGŁOSZENIA ────────────
+const MarketplaceSidebar = ({ user }) => {
+    const [listings, setListings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showForm, setShowForm] = useState(false);
+    const [filter, setFilter] = useState('');
+    const [title, setTitle] = useState('');
+    const [desc, setDesc] = useState('');
+    const [type, setType] = useState('oferuję');
+    const [contact, setContact] = useState('');
+    const [creating, setCreating] = useState(false);
+
+    const fetchListings = useCallback(async () => {
+        try {
+            const path = filter ? `/api/listings?type=${encodeURIComponent(filter)}` : '/api/listings';
+            const data = await apiFetch(path);
+            setListings(data || []);
+        } catch (e) { console.error(e); }
+        finally { setLoading(false); }
+    }, [filter]);
+
+    useEffect(() => { fetchListings(); }, [fetchListings]);
+
+    const handleCreate = async (e) => {
+        e.preventDefault();
+        if (!title.trim() || !desc.trim()) return;
+        setCreating(true);
+        try {
+            await apiFetch('/api/listings', {
+                method: 'POST',
+                body: JSON.stringify({ title, description: desc, type, contact }),
+            });
+            setTitle(''); setDesc(''); setContact(''); setShowForm(false);
+            fetchListings();
+        } catch (e) { alert(e.message); }
+        finally { setCreating(false); }
+    };
+
+    const handleDelete = async (id) => {
+        if (!confirm('Usunąć ogłoszenie?')) return;
+        try { await apiFetch(`/api/listings/${id}`, { method: 'DELETE' }); fetchListings(); }
+        catch (e) { alert(e.message); }
+    };
+
+    const typeIcon = (t) => t === 'szukam' ? <HeartHandshake size={12} className="text-orange-400" /> : <Briefcase size={12} className="text-green-400" />;
+    const typeLabel = (t) => t === 'szukam' ? 'SZUKAM' : 'OFERUJĘ';
+    const typeColor = (t) => t === 'szukam' ? 'bg-orange-900/20 text-orange-400 border-orange-900/30' : 'bg-green-900/20 text-green-400 border-green-900/30';
+
+    return (
+        <div className="space-y-3">
+            <div className="flex items-center justify-between">
+                <h3 className="font-mono text-xs text-cyan-500 tracking-widest flex items-center gap-1.5">
+                    <Megaphone size={13} /> MARKETPLACE
+                </h3>
+                {user && (
+                    <button onClick={() => setShowForm(!showForm)}
+                        className="text-[10px] px-2 py-1 rounded border border-cyan-500/20 text-cyan-400 font-mono hover:bg-cyan-600/10 transition-colors">
+                        <Plus size={10} className="inline mr-0.5" /> DODAJ
+                    </button>
+                )}
+            </div>
+
+            {/* Filter tabs */}
+            <div className="flex gap-1">
+                {[['', 'Wszystko'], ['szukam', '🔍 Szukam'], ['oferuję', '💼 Oferuję']].map(([val, label]) => (
+                    <button key={val} onClick={() => setFilter(val)}
+                        className={`text-[10px] px-2 py-1 rounded border font-mono transition-colors ${filter === val ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-600 border-white/5'}`}>
+                        {label}
+                    </button>
+                ))}
+            </div>
+
+            {/* Create form */}
+            {showForm && user && (
+                <form onSubmit={handleCreate} className="p-3 rounded-lg bg-black/40 border border-cyan-500/20 space-y-2">
+                    <div className="flex gap-2">
+                        {['oferuję', 'szukam'].map(t => (
+                            <button key={t} type="button" onClick={() => setType(t)}
+                                className={`text-[10px] px-2 py-1 rounded border font-mono flex items-center gap-1 ${type === t ? typeColor(t) : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                                {typeIcon(t)} {typeLabel(t)}
+                            </button>
+                        ))}
+                    </div>
+                    <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Tytuł ogłoszenia..."
+                        maxLength={80} required
+                        className="w-full px-2 py-1.5 rounded bg-white/[0.06] border border-white/10 text-white text-xs
+                                   placeholder:text-slate-600 focus:border-cyan-500/50 outline-none" />
+                    <textarea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Opis..."
+                        maxLength={500} rows={3} required
+                        className="w-full px-2 py-1.5 rounded bg-white/[0.06] border border-white/10 text-white text-xs font-mono
+                                   placeholder:text-slate-600 focus:border-cyan-500/50 outline-none resize-none" />
+                    <input value={contact} onChange={(e) => setContact(e.target.value)} placeholder="Kontakt (opcja)"
+                        maxLength={100}
+                        className="w-full px-2 py-1.5 rounded bg-white/[0.06] border border-white/10 text-white text-xs
+                                   placeholder:text-slate-600 focus:border-cyan-500/50 outline-none" />
+                    <Button type="submit" size="sm" isLoading={creating}
+                        className="w-full bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-[10px]">
+                        <Send size={11} className="mr-1" /> OPUBLIKUJ
+                    </Button>
+                </form>
+            )}
+
+            {/* Listings */}
+            {loading ? <div className="text-center py-4"><Spinner size="sm" color="success" /></div> : (
+                <div className="space-y-2">
+                    {listings.length === 0 ? (
+                        <p className="text-slate-600 text-[11px] font-mono text-center py-4">Brak ogłoszeń</p>
+                    ) : listings.map(l => (
+                        <div key={l.id} className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors">
+                            <div className="flex items-start justify-between gap-1">
+                                <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 mb-1">
+                                        <Chip size="sm" className={`${typeColor(l.type)} text-[9px] font-mono border`}>
+                                            {typeLabel(l.type)}
+                                        </Chip>
+                                        <span className="text-[10px] text-slate-600 font-mono">{timeAgo(l.created_at)}</span>
+                                    </div>
+                                    <h4 className="text-xs text-white font-medium leading-tight">{l.title}</h4>
+                                    <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{l.description}</p>
+                                    <div className="flex items-center gap-2 mt-1.5">
+                                        <span className="text-[10px] text-slate-600">@{l.author_name}</span>
+                                        {l.contact && <span className="text-[10px] text-cyan-600 font-mono">📧 {l.contact}</span>}
+                                    </div>
+                                </div>
+                                {user && (user.id === l.author_id || user.role === 'admin') && (
+                                    <button onClick={() => handleDelete(l.id)}
+                                        className="text-slate-700 hover:text-red-400 transition-colors shrink-0 p-0.5">
+                                        <Trash2 size={11} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ─── RIGHT SIDEBAR: GAZETKA / COMMUNITY INFO ───────────
+const GazetkaSidebar = ({ user }) => {
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [expanded, setExpanded] = useState(null);
+    const [showRules, setShowRules] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            try { const data = await apiFetch('/api/community-news'); setNews(data || []); }
+            catch (e) { console.error(e); }
+            finally { setLoading(false); }
+        })();
+    }, []);
+
+    const rules = news.find(n => n.type === 'rules');
+    const items = news.filter(n => n.type !== 'rules');
+
+    const typeIcon = (t) => {
+        const map = { news: <Newspaper size={12} className="text-blue-400" />, video: <Video size={12} className="text-red-400" />, fact: <Lightbulb size={12} className="text-yellow-400" />, update: <Zap size={12} className="text-green-400" /> };
+        return map[t] || <ScrollText size={12} className="text-slate-400" />;
+    };
+    const typeLabel = (t) => ({ news: 'NOWOŚĆ', video: 'VIDEO', fact: 'FAKT', update: 'UPDATE' }[t] || 'INFO');
+    const typeBg = (t) => ({ news: 'bg-blue-900/15 border-blue-900/20', video: 'bg-red-900/15 border-red-900/20', fact: 'bg-yellow-900/15 border-yellow-900/20', update: 'bg-green-900/15 border-green-900/20' }[t] || 'bg-white/5 border-white/5');
+
+    return (
+        <div className="space-y-3">
+            <h3 className="font-mono text-xs text-cyan-500 tracking-widest flex items-center gap-1.5">
+                <Newspaper size={13} /> GAZETKA
+            </h3>
+
+            {/* Rules button */}
+            {rules && (
+                <button onClick={() => setShowRules(!showRules)}
+                    className="w-full p-2.5 rounded-lg bg-purple-900/15 border border-purple-500/20 text-left hover:border-purple-500/30 transition-colors group">
+                    <div className="flex items-center gap-2">
+                        <BookOpen size={14} className="text-purple-400 shrink-0" />
+                        <span className="text-xs text-purple-300 font-mono tracking-wider">ZASADY COMMUNITY</span>
+                        <ChevronDown size={12} className={`text-purple-400 ml-auto transition-transform ${showRules ? 'rotate-180' : ''}`} />
+                    </div>
+                    {showRules && (
+                        <div className="mt-3 pt-2 border-t border-purple-500/10">
+                            <MarkdownContent>{rules.content}</MarkdownContent>
+                        </div>
+                    )}
+                </button>
+            )}
+
+            {loading ? <div className="text-center py-4"><Spinner size="sm" color="success" /></div> : (
+                <div className="space-y-2">
+                    {items.length === 0 ? (
+                        <p className="text-slate-600 text-[11px] font-mono text-center py-4">Brak aktualności</p>
+                    ) : items.map(item => (
+                        <div key={item.id}
+                            className={`p-2.5 rounded-lg border transition-colors cursor-pointer ${typeBg(item.type)} ${expanded === item.id ? 'border-cyan-500/20' : ''}`}
+                            onClick={() => setExpanded(expanded === item.id ? null : item.id)}>
+                            <div className="flex items-start gap-2">
+                                <div className="mt-0.5 shrink-0">{typeIcon(item.type)}</div>
+                                <div className="min-w-0 flex-grow">
+                                    <div className="flex items-center gap-1.5 mb-0.5">
+                                        <span className="text-[9px] font-mono text-slate-500 uppercase">{typeLabel(item.type)}</span>
+                                        <span className="text-[9px] text-slate-700 font-mono">{timeAgo(item.created_at)}</span>
+                                    </div>
+                                    <h4 className="text-xs text-white font-medium leading-tight">{item.title}</h4>
+                                    {expanded === item.id ? (
+                                        <div className="mt-2 text-[11px]">
+                                            <MarkdownContent>{item.content}</MarkdownContent>
+                                            {item.url && (
+                                                <a href={item.url} target="_blank" rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-1 mt-2 text-cyan-400 hover:underline text-[11px] font-mono">
+                                                    <ExternalLink size={10} /> Otwórz link
+                                                </a>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{item.content.replace(/[#*\[\]]/g, '').slice(0, 60)}...</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {/* Community info footer */}
+            <div className="pt-2 border-t border-white/5 space-y-2">
+                <div className="text-center">
+                    <p className="text-[10px] text-slate-600 font-mono">JIMBO77 COMMUNITY</p>
+                    <p className="text-[10px] text-slate-700 font-mono">Powered by Cloudflare Workers + D1</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 // ─── MAIN COMMUNITY PAGE ────────────────────────────────
 const Community = () => {
     const [user, setUser] = useState(() => {
@@ -1018,7 +1253,7 @@ const Community = () => {
 
     return (
         <div className="min-h-screen pt-28 pb-12 w-full">
-            <div className="container mx-auto px-4 max-w-5xl">
+            <div className="container mx-auto px-4 max-w-[1400px]">
                 <div className="text-center mb-10">
                     <h1 className="font-display text-5xl md:text-6xl text-white mb-3 tracking-widest">
                         COMMUNITY<span className="text-cyan-500">_HUB</span>
@@ -1033,7 +1268,7 @@ const Community = () => {
                     <>
                         {showProfile && <ProfilePanel user={user} onUpdate={setUser} onClose={() => setShowProfile(false)} />}
 
-                        <Card className="bg-black/30 border border-white/5 p-3 mb-6 flex flex-row items-center justify-between">
+                        <Card className="bg-black/30 border border-white/5 p-3 mb-6 flex flex-row flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center gap-3 cursor-pointer" onClick={() => setShowProfile(!showProfile)}>
                                 <Avatar name={user.username} src={user.avatar_url} className="w-8 h-8 bg-slate-900 text-slate-400 text-sm" />
                                 <span className="text-white text-sm hover:text-cyan-400 transition-colors">{user.username}</span>
@@ -1065,48 +1300,79 @@ const Community = () => {
                                 onClose={() => setShowForm(false)} />
                         )}
 
-                        <SearchBar query={searchQuery} setQuery={setSearchQuery}
-                            sortBy={sortBy} setSortBy={setSortBy} sortDir={sortDir} setSortDir={setSortDir}
-                            onSearch={handleSearch} />
+                        {/* ═══ 3-COLUMN LAYOUT ═══ */}
+                        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_260px] gap-5">
 
-                        {categories.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mb-6">
-                                <button onClick={() => { setSelectedCategory(null); setOffset(0); }}
-                                    className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${!selectedCategory ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10 hover:border-cyan-500/20'}`}>
-                                    Wszystkie
-                                </button>
-                                {categories.map(cat => (
-                                    <button key={cat.id} onClick={() => { setSelectedCategory(cat.id); setOffset(0); }}
-                                        className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${selectedCategory === cat.id ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10 hover:border-cyan-500/20'}`}>
-                                        {cat.name}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                            {/* LEFT: Marketplace */}
+                            <aside className="hidden lg:block">
+                                <div className="sticky top-28 bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800">
+                                    <MarketplaceSidebar user={user} />
+                                </div>
+                            </aside>
 
-                        {loading ? (
-                            <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>
-                        ) : posts.length === 0 ? (
-                            <div className="text-center py-20">
-                                <p className="text-slate-600 font-mono text-sm">
-                                    {searchQuery ? `BRAK WYNIKÓW DLA "${searchQuery}"` : 'BRAK POSTÓW — BĄDŹ PIERWSZY!'}
-                                </p>
-                            </div>
-                        ) : (
-                            <div className="space-y-3">
-                                {posts.map(post => <PostCard key={post.id} post={post} onClick={() => setActivePost(post.id)} onViewProfile={(name) => setViewUserDashboard(name)} />)}
-                            </div>
-                        )}
+                            {/* CENTER: Posts */}
+                            <main className="min-w-0">
+                                <SearchBar query={searchQuery} setQuery={setSearchQuery}
+                                    sortBy={sortBy} setSortBy={setSortBy} sortDir={sortDir} setSortDir={setSortDir}
+                                    onSearch={handleSearch} />
 
-                        {total > LIMIT && (
-                            <div className="flex justify-center gap-3 mt-8">
-                                <Button size="sm" isDisabled={offset === 0} onPress={() => setOffset(Math.max(0, offset - LIMIT))}
-                                    className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">← PREV</Button>
-                                <span className="text-xs text-slate-600 font-mono self-center">{offset + 1}–{Math.min(offset + LIMIT, total)} z {total}</span>
-                                <Button size="sm" isDisabled={offset + LIMIT >= total} onPress={() => setOffset(offset + LIMIT)}
-                                    className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">NEXT →</Button>
-                            </div>
-                        )}
+                                {categories.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 mb-6">
+                                        <button onClick={() => { setSelectedCategory(null); setOffset(0); }}
+                                            className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${!selectedCategory ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10 hover:border-cyan-500/20'}`}>
+                                            Wszystkie
+                                        </button>
+                                        {categories.map(cat => (
+                                            <button key={cat.id} onClick={() => { setSelectedCategory(cat.id); setOffset(0); }}
+                                                className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${selectedCategory === cat.id ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10 hover:border-cyan-500/20'}`}>
+                                                {cat.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {loading ? (
+                                    <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>
+                                ) : posts.length === 0 ? (
+                                    <div className="text-center py-20">
+                                        <p className="text-slate-600 font-mono text-sm">
+                                            {searchQuery ? `BRAK WYNIKÓW DLA "${searchQuery}"` : 'BRAK POSTÓW — BĄDŹ PIERWSZY!'}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {posts.map(post => <PostCard key={post.id} post={post} onClick={() => setActivePost(post.id)} onViewProfile={(name) => setViewUserDashboard(name)} />)}
+                                    </div>
+                                )}
+
+                                {total > LIMIT && (
+                                    <div className="flex justify-center gap-3 mt-8">
+                                        <Button size="sm" isDisabled={offset === 0} onPress={() => setOffset(Math.max(0, offset - LIMIT))}
+                                            className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">← PREV</Button>
+                                        <span className="text-xs text-slate-600 font-mono self-center">{offset + 1}–{Math.min(offset + LIMIT, total)} z {total}</span>
+                                        <Button size="sm" isDisabled={offset + LIMIT >= total} onPress={() => setOffset(offset + LIMIT)}
+                                            className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">NEXT →</Button>
+                                    </div>
+                                )}
+
+                                {/* Mobile sidebars collapsed */}
+                                <div className="lg:hidden mt-8 space-y-6">
+                                    <div className="bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4">
+                                        <MarketplaceSidebar user={user} />
+                                    </div>
+                                    <div className="bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4">
+                                        <GazetkaSidebar user={user} />
+                                    </div>
+                                </div>
+                            </main>
+
+                            {/* RIGHT: Gazetka */}
+                            <aside className="hidden lg:block">
+                                <div className="sticky top-28 bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800">
+                                    <GazetkaSidebar user={user} />
+                                </div>
+                            </aside>
+                        </div>
                     </>
                 )}
             </div>
