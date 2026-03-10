@@ -10,6 +10,7 @@ import Logs from './pages/Logs';
 import Core from './pages/Core';
 import Community from './pages/Community';
 import Tools from './pages/Tools';
+import Gallery from './pages/Gallery';
 
 const App = () => {
     return (
@@ -24,6 +25,7 @@ const App = () => {
                     <Route path="/core" element={<Core />} />
                     <Route path="/community" element={<Community />} />
                     <Route path="/tools" element={<Tools />} />
+                    <Route path="/gallery" element={<Gallery />} />
                 </Route>
             </Routes>
         </Router>
