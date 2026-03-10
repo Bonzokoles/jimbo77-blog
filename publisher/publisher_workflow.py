@@ -468,6 +468,7 @@ async def generate_post(
 MODEL_TAG_MAP = {
     "FLUX Pro": "flux-pro",
     "FLUX 1.1 Pro": "flux-1.1-pro",
+    "FLUX 1.1 Pro Ultra": "flux-ultra",
     "FLUX Schnell": "flux-schnell",
     "DALL-E 3": "dalle-3",
     "GPT Image 1": "gpt-image-1",

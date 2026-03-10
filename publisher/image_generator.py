@@ -76,6 +76,17 @@ MODELS = [
             "output_quality": 90,
         },
     },
+    {
+        "id": "black-forest-labs/flux-1.1-pro-ultra",
+        "name": "FLUX 1.1 Pro Ultra",
+        "endpoint": "models",
+        "params": {
+            "aspect_ratio": "16:9",
+            "output_format": "webp",
+            "output_quality": 95,
+            "raw": False,
+        },
+    },
     # ── OpenAI Image Models (via OPENAI_API_KEY) ──────────────────────
     {
         "id": "openai/gpt-image-1",
