@@ -11,6 +11,10 @@ import TerminalChat from '../components/TerminalChat';
 const API = 'https://jimbo77-community.stolarnia-ams.workers.dev';
 
 // ─── Helpers ────────────────────────────────────────────
+const IMG_RE = /!\[[^\]]*\]\(([^)]+)\)/g;
+const extractFirstImage = (text) => { const m = IMG_RE.exec(text); IMG_RE.lastIndex = 0; return m ? m[1] : null; };
+const stripImages = (text) => text.replace(IMG_RE, '').trim();
+
 const timeAgo = (iso) => {
     const diff = Date.now() - new Date(iso).getTime();
     const m = Math.floor(diff / 60000);
@@ -878,34 +882,68 @@ const NewPostForm = ({ categories, onCreated, onClose }) => {
     );
 };
 
-// ─── POST CARD (list item) ──────────────────────────────
-const PostCard = ({ post, onClick, onViewProfile }) => (
-    <Card isPressable onPress={onClick}
-        className="bg-black/30 backdrop-blur-xl border border-white/5 p-4 hover:border-cyan-500/20 transition-all">
-        <div className="flex items-start gap-3">
-            <Avatar name={post.author_name} src={post.author_avatar}
-                className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0 cursor-pointer hover:ring-2 hover:ring-cyan-500/30 transition-all"
-                onClick={(e) => { e.stopPropagation(); onViewProfile?.(post.author_name); }} />
-            <div className="flex-grow min-w-0">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <button onClick={(e) => { e.stopPropagation(); onViewProfile?.(post.author_name); }}
-                        className="text-sm text-slate-300 font-medium hover:text-cyan-400 transition-colors">{post.author_name}</button>
-                    {post.author_role === 'admin' && <Shield size={12} className="text-red-400" />}
-                    {post.is_pinned === 1 && <Chip size="sm" className="bg-yellow-900/20 text-yellow-500 border border-yellow-900/30 text-[10px]">📌 PINNED</Chip>}
-                    {post.category_name && <Chip size="sm" variant="flat" className="bg-white/5 text-slate-500 border border-white/5 text-[10px] font-mono">{post.category_name}</Chip>}
-                    <span className="text-[10px] text-slate-600 font-mono ml-auto"><Clock size={10} className="inline mr-0.5" />{timeAgo(post.created_at)}</span>
-                </div>
-                <h3 className="text-white font-medium truncate">{post.title}</h3>
-                <p className="text-slate-500 text-xs mt-1 line-clamp-2">{post.content}</p>
-                <div className="flex items-center gap-4 mt-2 text-[11px] text-slate-600">
-                    <span className="flex items-center gap-1"><Heart size={12} /> {post.like_count || 0}</span>
-                    <span className="flex items-center gap-1"><MessageSquare size={12} /> {post.comment_count || 0}</span>
-                    <span className="flex items-center gap-1"><Eye size={12} /> {post.view_count || 0}</span>
-                </div>
-            </div>
-        </div>
-    </Card>
+// ─── LIGHTBOX ───────────────────────────────────────────
+const Lightbox = ({ src, onClose }) => (
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out"
+        onClick={onClose}>
+        <img src={src} alt="" className="max-w-full max-h-[90vh] rounded-lg border border-white/10 shadow-2xl object-contain" />
+        <button className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors" onClick={onClose}>
+            <X size={24} />
+        </button>
+    </div>
 );
+
+// ─── POST CARD (list item) ──────────────────────────────
+const PostCard = ({ post, onClick, onViewProfile }) => {
+    const [lightbox, setLightbox] = useState(null);
+    const thumb = extractFirstImage(post.content);
+    const cleanText = stripImages(post.content);
+
+    return (
+        <>
+            {lightbox && <Lightbox src={lightbox} onClose={() => setLightbox(null)} />}
+            <Card isPressable onPress={onClick}
+                className="bg-black/30 backdrop-blur-xl border border-white/5 p-4 hover:border-cyan-500/20 transition-all">
+                <div className="flex items-start gap-3">
+                    <Avatar name={post.author_name} src={post.author_avatar}
+                        className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0 cursor-pointer hover:ring-2 hover:ring-cyan-500/30 transition-all"
+                        onClick={(e) => { e.stopPropagation(); onViewProfile?.(post.author_name); }} />
+                    <div className="flex-grow min-w-0">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <button onClick={(e) => { e.stopPropagation(); onViewProfile?.(post.author_name); }}
+                                className="text-sm text-slate-300 font-medium hover:text-cyan-400 transition-colors">{post.author_name}</button>
+                            {post.author_role === 'admin' && <Shield size={12} className="text-red-400" />}
+                            {post.is_pinned === 1 && <Chip size="sm" className="bg-yellow-900/20 text-yellow-500 border border-yellow-900/30 text-[10px]">📌 PINNED</Chip>}
+                            {post.category_name && <Chip size="sm" variant="flat" className="bg-white/5 text-slate-500 border border-white/5 text-[10px] font-mono">{post.category_name}</Chip>}
+                            <span className="text-[10px] text-slate-600 font-mono ml-auto"><Clock size={10} className="inline mr-0.5" />{timeAgo(post.created_at)}</span>
+                        </div>
+                        <h3 className="text-white font-medium truncate">{post.title}</h3>
+                        <div className="flex gap-3 mt-1">
+                            <div className="flex-grow min-w-0">
+                                {cleanText && <p className="text-slate-500 text-xs line-clamp-2">{cleanText}</p>}
+                            </div>
+                            {thumb && (
+                                <div className="shrink-0 relative group" onClick={(e) => { e.stopPropagation(); setLightbox(thumb); }}>
+                                    <img src={thumb} alt="" loading="lazy"
+                                        className="w-20 h-16 object-cover rounded-lg border border-white/10
+                                                   group-hover:border-cyan-500/40 group-hover:scale-105 transition-all duration-200 cursor-zoom-in" />
+                                    <div className="absolute inset-0 rounded-lg bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                        <Eye size={14} className="text-white/0 group-hover:text-white/80 transition-colors" />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-4 mt-2 text-[11px] text-slate-600">
+                            <span className="flex items-center gap-1"><Heart size={12} /> {post.like_count || 0}</span>
+                            <span className="flex items-center gap-1"><MessageSquare size={12} /> {post.comment_count || 0}</span>
+                            <span className="flex items-center gap-1"><Eye size={12} /> {post.view_count || 0}</span>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </>
+    );
+};
 
 // ─── MAIN COMMUNITY PAGE ────────────────────────────────
 const Community = () => {
