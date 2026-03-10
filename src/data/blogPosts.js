@@ -2,6 +2,24 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 
 export const blogPosts = [
     {
+        id: "jak-latalem-dziury-w-matrixie-mojego-ai-bloga-i-zrozumialem",
+        title: "Jak łatałem dziury w matrixie mojego AI-bloga i zrozumiałem, że błędy to najleps",
+        slug: "jak-latalem-dziury-w-matrixie-mojego-ai-bloga-i-zrozumialem",
+        subtitle: "",
+        date: "Marzec 2026",
+        sortDate: "2026-03-10",
+        category: "AI Moje Projekty",
+        image: '/blog-images/jak-latalem-dziury-w-matrixie-mojego-ai-hero.webp',
+        tech: ["Moje Projekty", "Jimbo77", "Dev"],
+        description: "---
+title: \"Jak łatałem dziury w matrixie mojego AI-bloga i zrozumiałem, że błędy to najlepsi nauczyciele\"
+description",
+        readTime: 7,
+        author: "Karol",
+        featured: true
+    },
+
+    {
         id: "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja",
         title: "Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze ży",
         slug: "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja",
