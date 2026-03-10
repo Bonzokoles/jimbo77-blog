@@ -117,6 +117,8 @@ const TerminalChat = ({ postId = null, maxMessages = 30, title = 'COMMUNITY_TERM
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
+                    'X-Timestamp': String(Math.floor(Date.now() / 1000)),
+                    'X-Nonce': crypto.randomUUID(),
                 },
                 body: JSON.stringify(body),
             });

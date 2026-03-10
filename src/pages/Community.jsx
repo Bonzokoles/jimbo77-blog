@@ -21,6 +21,14 @@ const apiFetch = async (path, opts = {}) => {
     const token = localStorage.getItem('community_token');
     const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
     if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    // Security headers required by backend for POST/PUT/DELETE (replay protection)
+    const method = (opts.method || 'GET').toUpperCase();
+    if (['POST', 'PUT', 'DELETE'].includes(method)) {
+        headers['X-Timestamp'] = String(Math.floor(Date.now() / 1000));
+        headers['X-Nonce'] = crypto.randomUUID();
+    }
+
     const res = await fetch(`${API}${path}`, { ...opts, headers });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
