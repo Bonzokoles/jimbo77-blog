@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Chip, Button, Divider } from "@heroui/react";
 import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database, Users, MessageSquare, UserPlus } from 'lucide-react';
+import TerminalChat from './TerminalChat';
 
 export const SidebarLeft = () => {
     // Technical navigation items
@@ -229,6 +230,13 @@ export const SidebarRight = () => {
                     <UserPlus size={14} className="mr-1" /> Dołącz do Community
                 </Button>
             </Card>
+
+            {/* --- SHOUTBOX TERMINAL --- */}
+            <TerminalChat
+                title="SHOUTBOX"
+                maxMessages={15}
+                className="shrink-0 min-h-[280px] max-h-[350px] relative"
+            />
 
             {/* --- AI TEASER (locked) --- */}
             <Card className="bg-gradient-to-br from-purple-950/30 to-black border border-purple-900/30 p-4 relative overflow-hidden group hover:border-purple-800/50 transition-colors shrink-0">

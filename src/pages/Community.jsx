@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Card, Avatar, Chip, Button, Spinner, Input, Textarea, Divider } from "@heroui/react";
 import { MessageSquare, Heart, Eye, ChevronDown, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield } from 'lucide-react';
+import TerminalChat from '../components/TerminalChat';
 
 const API = 'https://jimbo77-community.stolarnia-ams.workers.dev';
 
@@ -188,39 +189,13 @@ const PostDetail = ({ postId, user, onBack }) => {
                 </div>
             </Card>
 
-            {/* Comments */}
-            <div>
-                <h3 className="font-display text-lg text-slate-300 tracking-widest mb-4">KOMENTARZE ({comments.length})</h3>
-                {comments.length === 0 && <p className="text-slate-600 text-sm font-mono">Brak komentarzy — bądź pierwszy!</p>}
-                <div className="space-y-3">
-                    {comments.map(c => (
-                        <Card key={c.id} className="bg-black/30 border border-white/5 p-4">
-                            <div className="flex items-center gap-2 mb-2">
-                                <Avatar name={c.username} src={c.avatar_url} className="w-7 h-7 bg-slate-900 text-slate-400 text-xs" />
-                                <span className="text-sm text-white">{c.username}</span>
-                                {c.role === 'admin' && <Shield size={12} className="text-red-400" />}
-                                <span className="text-[10px] text-slate-600 ml-auto font-mono">{timeAgo(c.created_at)}</span>
-                            </div>
-                            <p className="text-slate-400 text-sm whitespace-pre-wrap">{c.content}</p>
-                        </Card>
-                    ))}
-                </div>
-
-                {/* New comment form */}
-                {user ? (
-                    <form onSubmit={handleComment} className="mt-4 flex gap-2">
-                        <Textarea value={newComment} onValueChange={setNewComment} placeholder="Napisz komentarz..."
-                            minRows={1} maxRows={4} className="flex-grow"
-                            classNames={{ input: 'text-white', inputWrapper: 'bg-black/30 border-white/10' }} />
-                        <Button type="submit" isLoading={submitting} isIconOnly
-                            className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 self-end">
-                            <Send size={16} />
-                        </Button>
-                    </form>
-                ) : (
-                    <p className="mt-4 text-xs text-slate-600 font-mono text-center">Zaloguj się, aby komentować</p>
-                )}
-            </div>
+            {/* Comments — Terminal Style */}
+            <TerminalChat
+                postId={postId}
+                title={`KOMENTARZE // POST_${postId}`}
+                maxMessages={50}
+                className="min-h-[300px] max-h-[500px] relative"
+            />
         </div>
     );
 };
