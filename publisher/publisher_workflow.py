@@ -44,6 +44,7 @@ BLOG_REPO_DIR = Path(__file__).resolve().parent.parent
 BLOG_CONTENT_DIR = BLOG_REPO_DIR / "public" / "blog-content"
 BLOG_IMAGES_DIR = BLOG_REPO_DIR / "public" / "blog-images"
 BLOG_POSTS_JS = BLOG_REPO_DIR / "src" / "data" / "blogPosts.js"
+GALLERY_INDEX = BLOG_REPO_DIR / "public" / "gallery" / "gallery-index.json"
 
 ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-images"
 
@@ -346,20 +347,20 @@ Kategoria: {cat['name']}
 
     # 3. Generate hero image
     print("🖼️  [3/4] Generowanie obrazka...")
-    image_name = None
+    image_name = image_model = image_prompt = None
     try:
-        image_name = await generate_hero_image(
+        image_name, image_model, image_prompt = await generate_hero_image(
             title, cat["name"], output_dir=str(BLOG_IMAGES_DIR)
         )
         if image_name:
-            print(f"   ✅ Obrazek: {image_name}")
+            print(f"   ✅ Obrazek: {image_name} ({image_model})")
     except Exception as e:
         print(f"   ⚠️ Image failed (continuing): {e}")
 
     # 4. Save + deploy
     print("💾 [4/4] Zapisuję i deploying...")
     slug = slugify(title)
-    filepath = save_post(slug, title, content, cat["name"], cat["tags"], image_name)
+    filepath = save_post(slug, title, content, cat["name"], cat["tags"], image_name, image_model, image_prompt)
 
     if filepath and auto_deploy:
         deploy_to_git(filepath, slug, image_name)
@@ -398,29 +399,78 @@ async def generate_post(
     content = add_frontmatter(content, title, category, tech_tags)
 
     # Generate image (if API keys configured)
-    generated_image = None
+    image_model = image_prompt = None
     try:
-        generated_image = await generate_hero_image(
+        generated_image, image_model, image_prompt = await generate_hero_image(
             title, category, output_dir=str(BLOG_IMAGES_DIR)
         )
         if generated_image:
-            print(f"🖼️  Image: {generated_image}")
+            print(f"🖼️  Image: {generated_image} ({image_model})")
             image_name = generated_image
     except Exception as e:
         print(f"⚠️ Image generation skipped: {e}")
 
     print("✅ Content ready!")
     slug = slugify(title)
-    filepath = save_post(slug, title, content, category, tech_tags, image_name)
+    filepath = save_post(slug, title, content, category, tech_tags, image_name, image_model, image_prompt)
 
     if filepath and auto_deploy:
         deploy_to_git(filepath, slug)
 
 
+# ── Gallery ────────────────────────────────────────────────────────────
+
+MODEL_TAG_MAP = {
+    "FLUX Pro": "flux-pro",
+    "FLUX 1.1 Pro": "flux-1.1-pro",
+    "FLUX Schnell": "flux-schnell",
+    "DALL-E 3": "dalle-3",
+    "GPT Image 1": "gpt-image-1",
+    "GPT Image 1 Mini": "gpt-image-mini",
+}
+
+
+def save_gallery_entry(slug, title, category, image_name, model_name, image_prompt):
+    """Append a new entry to public/gallery/gallery-index.json."""
+    if not image_name:
+        return
+
+    GALLERY_INDEX.parent.mkdir(parents=True, exist_ok=True)
+
+    entries = []
+    if GALLERY_INDEX.exists():
+        try:
+            entries = json.loads(GALLERY_INDEX.read_text(encoding="utf-8"))
+        except Exception:
+            entries = []
+
+    entry_id = f"{slug}-hero"
+    # Skip if already exists
+    if any(e.get("id") == entry_id for e in entries):
+        print(f"⚠️ Gallery entry '{entry_id}' already exists — skipping")
+        return
+
+    model_tag = MODEL_TAG_MAP.get(model_name or "", "flux-pro")
+    entry = {
+        "id": entry_id,
+        "src": f"/blog-images/{image_name}",
+        "topic": category,
+        "model": model_name or "FLUX Pro",
+        "modelTag": model_tag,
+        "prompt": image_prompt or title,
+        "date": datetime.now().strftime("%Y-%m-%d"),
+    }
+
+    entries.insert(0, entry)  # newest first
+    GALLERY_INDEX.write_text(json.dumps(entries, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"🖼️  Gallery index updated: {entry_id}")
+
+
 # ── Save ───────────────────────────────────────────────────────────────
 
 
-def save_post(slug, title, content, category="AI", tech_tags=None, image_name=None):
+def save_post(slug, title, content, category="AI", tech_tags=None, image_name=None,
+              image_model=None, image_prompt=None):
     BLOG_CONTENT_DIR.mkdir(parents=True, exist_ok=True)
     BLOG_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     filepath = BLOG_CONTENT_DIR / f"{slug}.md"
@@ -499,6 +549,9 @@ def save_post(slug, title, content, category="AI", tech_tags=None, image_name=No
     except Exception as e:
         print(f"⚠️ blogPosts.js auto-update failed: {e}")
         print(f"   Add manually:\n{new_entry}")
+
+    # Save gallery entry for the hero image
+    save_gallery_entry(slug, title, category, image_name, image_model, image_prompt)
 
     return filepath
 

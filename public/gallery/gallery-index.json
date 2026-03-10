@@ -1,0 +1,227 @@
+[
+  {
+    "id": "hero-medycyna",
+    "src": "/blog-images/ai-w-medycynie-jak-algorytmy-wykrywaja-c-hero.png",
+    "topic": "AI w medycynie",
+    "model": "FLUX Pro",
+    "modelTag": "flux-pro",
+    "prompt": "AI w medycynie: Jak algorytmy wykrywają choroby serca",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "hero-rolnictwo",
+    "src": "/blog-images/ai-w-rolnictwie-autonomiczne-ciagniki-zw-hero.webp",
+    "topic": "AI w rolnictwie",
+    "model": "FLUX Pro",
+    "modelTag": "flux-pro",
+    "prompt": "AI w rolnictwie: autonomiczne ciągniki zwiększają plony",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-flux-pro-1",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_2_flux_pro.webp",
+    "topic": "AI Agent",
+    "model": "FLUX Pro",
+    "modelTag": "flux-pro",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-flux11pro-1",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_2_flux_1.1_pro.webp",
+    "topic": "AI Agent",
+    "model": "FLUX 1.1 Pro",
+    "modelTag": "flux-1.1-pro",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-flux-pro-2",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_3_flux_pro.webp",
+    "topic": "AI Agent",
+    "model": "FLUX Pro",
+    "modelTag": "flux-pro",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-schnell-1",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_1_flux_schnell_(free).webp",
+    "topic": "AI Agent",
+    "model": "FLUX Schnell",
+    "modelTag": "flux-schnell",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-gpt1-1",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_1_gpt_image_1_(openai).png",
+    "topic": "AI Agent",
+    "model": "GPT Image 1",
+    "modelTag": "gpt-image-1",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-gptmini-1",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_1_gpt_image_1_mini_(openai).png",
+    "topic": "AI Agent",
+    "model": "GPT Image 1 Mini",
+    "modelTag": "gpt-image-mini",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "agent-gptmini-2",
+    "src": "/gallery/buduje-wlasnego-ai-agenta-do-monitorowania-wiadomosci/variant_3_gpt_image_1_mini_(openai).png",
+    "topic": "AI Agent",
+    "model": "GPT Image 1 Mini",
+    "modelTag": "gpt-image-mini",
+    "prompt": "Buduje własnego AI agenta do monitorowania wiadomości",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-flux11pro-1",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_2_flux_1.1_pro.webp",
+    "topic": "Google Gemma 3",
+    "model": "FLUX 1.1 Pro",
+    "modelTag": "flux-1.1-pro",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-flux-pro-1",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_3_flux_pro.webp",
+    "topic": "Google Gemma 3",
+    "model": "FLUX Pro",
+    "modelTag": "flux-pro",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-schnell-1",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_1_flux_schnell_(free).webp",
+    "topic": "Google Gemma 3",
+    "model": "FLUX Schnell",
+    "modelTag": "flux-schnell",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-schnell-2",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_2_flux_schnell_(free).webp",
+    "topic": "Google Gemma 3",
+    "model": "FLUX Schnell",
+    "modelTag": "flux-schnell",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-dalle-1",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_2_dall-e_3_(openai).png",
+    "topic": "Google Gemma 3",
+    "model": "DALL-E 3",
+    "modelTag": "dalle-3",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-dalle-2",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_3_dall-e_3_(openai).png",
+    "topic": "Google Gemma 3",
+    "model": "DALL-E 3",
+    "modelTag": "dalle-3",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-gpt1-1",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_1_gpt_image_1_(openai).png",
+    "topic": "Google Gemma 3",
+    "model": "GPT Image 1",
+    "modelTag": "gpt-image-1",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "gemma-gptmini-1",
+    "src": "/gallery/google-gemma-3-darmowy-model-ktory-zaskakuje/variant_1_gpt_image_1_mini_(openai).png",
+    "topic": "Google Gemma 3",
+    "model": "GPT Image 1 Mini",
+    "modelTag": "gpt-image-mini",
+    "prompt": "Google Gemma 3 - darmowy model który zaskakuje",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-flux11pro-1",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_1_flux_1.1_pro.webp",
+    "topic": "AI w medycynie",
+    "model": "FLUX 1.1 Pro",
+    "modelTag": "flux-1.1-pro",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-flux-pro-1",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_1_flux_pro.webp",
+    "topic": "AI w medycynie",
+    "model": "FLUX Pro",
+    "modelTag": "flux-pro",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-flux11pro-2",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_2_flux_1.1_pro.webp",
+    "topic": "AI w medycynie",
+    "model": "FLUX 1.1 Pro",
+    "modelTag": "flux-1.1-pro",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-flux11pro-3",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_3_flux_1.1_pro.webp",
+    "topic": "AI w medycynie",
+    "model": "FLUX 1.1 Pro",
+    "modelTag": "flux-1.1-pro",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-schnell-1",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_3_flux_schnell_(free).webp",
+    "topic": "AI w medycynie",
+    "model": "FLUX Schnell",
+    "modelTag": "flux-schnell",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-dalle-1",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_2_dall-e_3_(openai).png",
+    "topic": "AI w medycynie",
+    "model": "DALL-E 3",
+    "modelTag": "dalle-3",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-gpt1-1",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_1_gpt_image_1_(openai).png",
+    "topic": "AI w medycynie",
+    "model": "GPT Image 1",
+    "modelTag": "gpt-image-1",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  },
+  {
+    "id": "med-gpt1-2",
+    "src": "/gallery/jak-ai-pomaga-w-diagnostyce-medycznej-konkretne-przypadki/variant_2_gpt_image_1_(openai).png",
+    "topic": "AI w medycynie",
+    "model": "GPT Image 1",
+    "modelTag": "gpt-image-1",
+    "prompt": "Jak AI pomaga w diagnostyce medycznej - konkretne przypadki",
+    "date": "2026-03-09"
+  }
+]

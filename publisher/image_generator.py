@@ -128,14 +128,14 @@ async def generate_hero_image(
     style: str = None,
     output_dir: str = None,
     model_override: str = None,
-) -> Optional[str]:
+) -> tuple:
     """
     Generate a hero image via Replicate (rotating models).
-    Returns the filename (e.g., 'my-article-hero.webp') or None on failure.
+    Returns (filename, model_name, prompt) or (None, None, None) on failure.
     """
     if not REPLICATE_API_TOKEN and not OPENAI_API_KEY:
         print("⚠️  No image API keys set (REPLICATE_API_TOKEN or OPENAI_API_KEY)")
-        return None
+        return None, None, None
 
     visual_hint = CATEGORY_VISUAL_HINTS.get(
         category, "artificial intelligence concept, digital neural network"
@@ -165,21 +165,24 @@ async def generate_hero_image(
         else:
             image_url = await _run_replicate(prompt, model)
 
+        active_model = model
         if not image_url:
             # Retry with fallback model (FLUX Schnell — always works)
             print("⚠️  Retry with FLUX Schnell fallback...")
             fallback = next(m for m in MODELS if "schnell" in m["id"])
             image_url = await _run_replicate(prompt, fallback)
+            if image_url:
+                active_model = fallback
 
         if not image_url:
-            return None
+            return None, None, None
 
         # Safe slug (no Polish chars, no special chars)
         raw = title.lower()[:50]
         pl_map = str.maketrans("ąćęłńóśźżĄĆĘŁŃÓŚŹŻ", "acelnoszzACELNOSZZ")
         slug = raw.translate(pl_map)
         slug = re.sub(r"[^a-z0-9]+", "-", slug).strip("-")[:40].rstrip("-")
-        ext = "png" if model.get("endpoint") == "openai" else "webp"
+        ext = "png" if active_model.get("endpoint") == "openai" else "webp"
         filename = f"{slug}-hero.{ext}"
 
         if output_dir:
@@ -194,12 +197,12 @@ async def generate_hero_image(
 
         save_path.parent.mkdir(parents=True, exist_ok=True)
         await _download_image(image_url, save_path)
-        print(f"✅ Image saved: {save_path} (model: {model['name']})")
-        return filename
+        print(f"✅ Image saved: {save_path} (model: {active_model['name']})")
+        return filename, active_model["name"], prompt
 
     except Exception as e:
         print(f"❌ Image generation failed: {e}")
-        return None
+        return None, None, None
 
 
 async def _run_replicate(prompt: str, model: Dict) -> Optional[str]:

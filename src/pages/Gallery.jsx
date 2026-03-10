@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Chip, Button } from "@heroui/react";
+import { Card, Chip } from "@heroui/react";
 import { X, Star, ImageIcon, Zap, Download } from 'lucide-react';
 import SEO from '../components/SEO';
 
-// ─── Seed data ────────────────────────────────────────────────────────────────
-const GALLERY_ITEMS = [
+// ─── Seed data (fallback if JSON fails to load) ───────────────────────────────
+const GALLERY_SEED = [
     // Buduje własnego AI agenta
     {
         id: 'agent-flux-pro-1',
@@ -250,7 +250,6 @@ const MODEL_COLORS = {
 };
 
 const ALL_MODELS = ['Wszystkie', 'FLUX Pro', 'FLUX 1.1 Pro', 'FLUX Schnell', 'DALL-E 3', 'GPT Image 1', 'GPT Image 1 Mini'];
-const ALL_TOPICS = ['Wszystkie', ...new Set(GALLERY_ITEMS.map(i => i.topic))];
 
 // ─── Star Rating ───────────────────────────────────────────────────────────────
 const StarRating = ({ imageId, size = 14 }) => {
@@ -341,11 +340,21 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 const Gallery = () => {
+    const [items, setItems] = useState(GALLERY_SEED);
     const [modelFilter, setModelFilter] = useState('Wszystkie');
     const [topicFilter, setTopicFilter] = useState('Wszystkie');
     const [lightbox, setLightbox] = useState(null); // index
 
-    const filtered = GALLERY_ITEMS.filter(item =>
+    useEffect(() => {
+        fetch('/gallery/gallery-index.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(data => { if (data?.length) setItems(data); })
+            .catch(() => {});
+    }, []);
+
+    const allTopics = ['Wszystkie', ...new Set(items.map(i => i.topic))];
+
+    const filtered = items.filter(item =>
         (modelFilter === 'Wszystkie' || item.model === modelFilter) &&
         (topicFilter === 'Wszystkie' || item.topic === topicFilter)
     );
@@ -356,9 +365,9 @@ const Gallery = () => {
     const nextItem = () => setLightbox(i => (i + 1) % filtered.length);
 
     const stats = {
-        total: GALLERY_ITEMS.length,
-        models: new Set(GALLERY_ITEMS.map(i => i.model)).size,
-        topics: new Set(GALLERY_ITEMS.map(i => i.topic)).size,
+        total: items.length,
+        models: new Set(items.map(i => i.model)).size,
+        topics: new Set(items.map(i => i.topic)).size,
     };
 
     return (
@@ -403,7 +412,7 @@ const Gallery = () => {
                         </div>
                         <div className="flex flex-wrap gap-2 mt-2">
                             <span className="text-[10px] text-slate-500 font-mono uppercase tracking-wider self-center mr-1">Temat:</span>
-                            {ALL_TOPICS.map(t => (
+                            {allTopics.map(t => (
                                 <button key={t} onClick={() => setTopicFilter(t)}
                                     className={`px-3 py-1 rounded-full text-[11px] font-mono border transition-all ${
                                         topicFilter === t
@@ -416,7 +425,7 @@ const Gallery = () => {
                         </div>
 
                         <p className="text-[11px] text-slate-600 font-mono mt-3">
-                            {filtered.length} z {GALLERY_ITEMS.length} obrazów
+                            {filtered.length} z {items.length} obrazów
                         </p>
                     </div>
 
