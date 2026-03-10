@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Card, Avatar, Chip, Button, Spinner, Input, Textarea, Divider } from "@heroui/react";
-import { MessageSquare, Heart, Eye, ChevronDown, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield } from 'lucide-react';
+import { Card, Avatar, Chip, Button, Spinner, Divider } from "@heroui/react";
+import { MessageSquare, Heart, Eye, ChevronDown, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield, Mail, Lock, User as UserIcon, KeyRound } from 'lucide-react';
 import TerminalChat from '../components/TerminalChat';
 
 const API = 'https://jimbo77-community.stolarnia-ams.workers.dev';
@@ -27,6 +27,30 @@ const apiFetch = async (path, opts = {}) => {
     return data;
 };
 
+// ─── Styled Input (native, dark-mode safe) ──────────────
+const DarkInput = ({ label, icon: Icon, type = 'text', value, onChange, placeholder, required, maxLength, autoFocus, disabled }) => (
+    <div className="space-y-1.5">
+        <label className="text-[11px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1.5">
+            {Icon && <Icon size={12} />} {label}
+        </label>
+        <input
+            type={type}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            required={required}
+            maxLength={maxLength}
+            autoFocus={autoFocus}
+            disabled={disabled}
+            autoComplete={type === 'password' ? 'current-password' : type === 'email' ? 'email' : 'off'}
+            className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 
+                       text-white text-sm font-sans placeholder:text-slate-600
+                       focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20 focus:bg-white/[0.08]
+                       outline-none transition-all duration-200 disabled:opacity-50"
+        />
+    </div>
+);
+
 // ─── AUTH FORMS ─────────────────────────────────────────
 const AuthPanel = ({ onAuth }) => {
     const [mode, setMode] = useState('login'); // login | register
@@ -39,6 +63,25 @@ const AuthPanel = ({ onAuth }) => {
     const [msg, setMsg] = useState(null);
     const [err, setErr] = useState(null);
 
+    // Map English backend errors to Polish
+    const translateError = (msg) => {
+        const map = {
+            'Missing email or password': 'Podaj e-mail i hasło',
+            'Username or Password Error': 'Nieprawidłowy e-mail lub hasło',
+            'Please verify your email first': 'Najpierw zweryfikuj swój e-mail (sprawdź skrzynkę)',
+            'TOTP_REQUIRED': 'Wymagany kod 2FA',
+            'Invalid TOTP code': 'Nieprawidłowy kod 2FA',
+            'Missing email, username or password': 'Wypełnij wszystkie pola',
+            'Email already exists': 'Ten e-mail jest już zarejestrowany',
+            'Username already taken': 'Ta nazwa użytkownika jest zajęta',
+            'Username too long (Max 20 chars)': 'Nazwa max 20 znaków',
+            'Password must be 8-16 characters': 'Hasło musi mieć 8–16 znaków',
+            'Email too long (Max 50 chars)': 'E-mail max 50 znaków',
+            'Turnstile verification failed': 'Weryfikacja CAPTCHA nie powiodła się',
+        };
+        return map[msg] || msg;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErr(null); setMsg(null); setLoading(true);
@@ -46,24 +89,33 @@ const AuthPanel = ({ onAuth }) => {
             if (mode === 'login') {
                 const data = await apiFetch('/api/login', {
                     method: 'POST',
-                    body: JSON.stringify({ email, password, totp_code: totp || undefined }),
+                    body: JSON.stringify({ email: email.trim(), password, totp_code: totp || undefined }),
                 });
                 if (data.token) {
                     localStorage.setItem('community_token', data.token);
                     localStorage.setItem('community_user', JSON.stringify(data.user));
                     onAuth(data.user);
+                } else {
+                    setErr('Brak tokena w odpowiedzi — skontaktuj się z adminem');
                 }
             } else {
-                await apiFetch('/api/register', {
+                // Walidacja frontend
+                if (password.length < 8) { setErr('Hasło musi mieć min. 8 znaków'); setLoading(false); return; }
+                if (password.length > 16) { setErr('Hasło max 16 znaków'); setLoading(false); return; }
+                if (!username.trim()) { setErr('Podaj nazwę użytkownika'); setLoading(false); return; }
+
+                const data = await apiFetch('/api/register', {
                     method: 'POST',
-                    body: JSON.stringify({ email, username, password }),
+                    body: JSON.stringify({ email: email.trim(), username: username.trim(), password }),
                 });
-                setMsg('Rejestracja udana! Sprawdź e-mail, aby potwierdzić konto.');
+                setMsg(data.message || 'Rejestracja udana! Sprawdź e-mail.');
                 setMode('login');
+                setPassword('');
             }
         } catch (error) {
-            if (error.message === 'TOTP_REQUIRED') { setNeedTotp(true); setErr('Wpisz kod 2FA'); }
-            else setErr(error.message);
+            const msg = error.message;
+            if (msg === 'TOTP_REQUIRED') { setNeedTotp(true); setErr('Wpisz kod 2FA z aplikacji'); }
+            else setErr(translateError(msg));
         } finally { setLoading(false); }
     };
 
@@ -74,24 +126,65 @@ const AuthPanel = ({ onAuth }) => {
             </h2>
             <p className="text-slate-500 text-xs text-center mb-6 font-mono">COMMUNITY_AUTH_PROTOCOL</p>
 
-            {msg && <div className="mb-4 p-3 rounded bg-green-900/20 border border-green-500/30 text-green-400 text-xs">{msg}</div>}
-            {err && <div className="mb-4 p-3 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs">{err}</div>}
+            {msg && (
+                <div className="mb-4 p-3 rounded bg-green-900/20 border border-green-500/30 text-green-400 text-xs font-mono">
+                    ✓ {msg}
+                </div>
+            )}
+            {err && (
+                <div className="mb-4 p-3 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">
+                    ✗ {err}
+                </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
-                <Input label="E-mail" type="email" value={email} onValueChange={setEmail} isRequired
-                    classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                <DarkInput
+                    label="E-mail"
+                    icon={Mail}
+                    type="email"
+                    value={email}
+                    onChange={setEmail}
+                    placeholder="twoj@email.com"
+                    required
+                    autoFocus
+                />
+
                 {mode === 'register' && (
-                    <Input label="Nazwa użytkownika" value={username} onValueChange={setUsername} isRequired maxLength={20}
-                        classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                    <DarkInput
+                        label="Nazwa użytkownika"
+                        icon={UserIcon}
+                        value={username}
+                        onChange={setUsername}
+                        placeholder="np. hacker42"
+                        required
+                        maxLength={20}
+                    />
                 )}
-                <Input label="Hasło" type="password" value={password} onValueChange={setPassword} isRequired
-                    classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+
+                <DarkInput
+                    label="Hasło"
+                    icon={Lock}
+                    type="password"
+                    value={password}
+                    onChange={setPassword}
+                    placeholder={mode === 'register' ? '8–16 znaków' : '••••••••'}
+                    required
+                />
+
                 {needTotp && (
-                    <Input label="Kod 2FA (TOTP)" value={totp} onValueChange={setTotp} maxLength={6}
-                        classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                    <DarkInput
+                        label="Kod 2FA (TOTP)"
+                        icon={KeyRound}
+                        value={totp}
+                        onChange={setTotp}
+                        placeholder="123456"
+                        maxLength={6}
+                        autoFocus
+                    />
                 )}
+
                 <Button type="submit" isLoading={loading}
-                    className="w-full bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono tracking-widest">
+                    className="w-full bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono tracking-widest mt-2">
                     {mode === 'login' ? <><LogIn size={14} className="mr-2" /> ZALOGUJ</> : <><UserPlus size={14} className="mr-2" /> ZAREJESTRUJ</>}
                 </Button>
             </form>
@@ -323,12 +416,34 @@ const Community = () => {
                         {showForm && (
                             <Card className="bg-black/40 border border-cyan-500/20 p-5 mb-6">
                                 <h3 className="font-display text-lg text-cyan-500 mb-4 tracking-widest">NOWY_POST</h3>
-                                {formErr && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs">{formErr}</div>}
+                                {formErr && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {formErr}</div>}
                                 <form onSubmit={handleCreatePost} className="space-y-3">
-                                    <Input label="Tytuł (max 30 znaków)" value={title} onValueChange={setTitle} maxLength={30} isRequired
-                                        classNames={{ input: 'text-white', label: 'text-slate-400' }} />
-                                    <Textarea label="Treść (max 3000 znaków)" value={content} onValueChange={setContent} maxLength={3000} isRequired
-                                        minRows={4} classNames={{ input: 'text-white', label: 'text-slate-400', inputWrapper: 'bg-black/30' }} />
+                                    <DarkInput
+                                        label="Tytuł (max 30 znaków)"
+                                        icon={MessageSquare}
+                                        value={title}
+                                        onChange={setTitle}
+                                        placeholder="O czym chcesz napisać?"
+                                        required
+                                        maxLength={30}
+                                    />
+                                    <div className="space-y-1.5">
+                                        <label className="text-[11px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1.5">
+                                            <Send size={12} /> Treść (max 3000 znaków)
+                                        </label>
+                                        <textarea
+                                            value={content}
+                                            onChange={(e) => setContent(e.target.value)}
+                                            placeholder="Napisz treść posta..."
+                                            required
+                                            maxLength={3000}
+                                            rows={4}
+                                            className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 
+                                                       text-white text-sm font-sans placeholder:text-slate-600
+                                                       focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20 focus:bg-white/[0.08]
+                                                       outline-none transition-all duration-200 resize-y min-h-[100px]"
+                                        />
+                                    </div>
                                     {categories.length > 0 && (
                                         <div className="flex flex-wrap gap-2">
                                             <button type="button" onClick={() => setPostCategoryId('')}
