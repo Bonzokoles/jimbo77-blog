@@ -1,5 +1,14 @@
 [
   {
+    "id": "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja-hero",
+    "src": "/blog-images/nowy-przelom-w-ai-chatgpt-5-potrafi-czyt-hero.png",
+    "topic": "AI News",
+    "model": "GPT Image 1 Mini (OpenAI)",
+    "modelTag": "flux-pro",
+    "prompt": "Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze życie?, holographic news broadcast, data streams, floating screens in dark space, digital information flow, sci-fi digital art, cyberpunk aesthetic, dark moody atmosphere, neon glow accents, circuit board patterns, holographic elements, computer art, glitch art influences, deep shadows, high contrast, cinematic composition, 16:9 widescreen, photorealistic details, dark background with technological elements, NOT cartoo",
+    "date": "2026-03-10"
+  },
+  {
     "id": "hero-medycyna",
     "src": "/blog-images/ai-w-medycynie-jak-algorytmy-wykrywaja-c-hero.png",
     "topic": "AI w medycynie",
