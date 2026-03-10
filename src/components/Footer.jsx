@@ -55,10 +55,9 @@ const Footer = () => {
 
                 {/* 2. NEWSLETTER BAR (Center/Fill) */}
                 <div className="flex-1 w-full xl:w-auto border-y xl:border-y-0 xl:border-x border-white/5 py-4 xl:py-0 xl:px-8 bg-black/20 xl:bg-transparent rounded-lg xl:rounded-none">
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                        <div className="text-center md:text-right shrink-0">
-                            <span className="text-xs font-bold text-white uppercase tracking-wider mr-2 block md:inline">Bądź na Bieżąco:</span>
-                            <span className="text-xs text-slate-500">Newsy o AI & DevOps w jednej linii.</span>
+                    <div className="flex flex-col items-center justify-center gap-2">
+                        <div className="text-center">
+                            <span className="text-xs font-bold text-white uppercase tracking-wider block">🔔 BĄDŹ NA BIEŻĄCO</span>
                         </div>
                         <form className="flex gap-2 w-full md:w-auto max-w-md" onSubmit={(e) => e.preventDefault()}>
                             <input

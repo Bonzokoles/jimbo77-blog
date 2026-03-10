@@ -14,7 +14,6 @@ const WORKER_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev";
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
-    const [visiblePosts, setVisiblePosts] = useState(12);
     const [allPosts, setAllPosts] = useState(staticPosts);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -58,10 +57,6 @@ const Home = () => {
         fetchDynamicPosts();
     }, []);
 
-    const loadMore = () => {
-        setVisiblePosts(prev => prev + 4);
-    };
-
     const filteredPosts = allPosts.filter(post => {
         const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -73,8 +68,7 @@ const Home = () => {
         return matchesSearch && matchesCategory;
     });
 
-    const currentPosts = filteredPosts.slice(0, visiblePosts);
-    const hasMore = visiblePosts < filteredPosts.length;
+    const currentPosts = filteredPosts;
 
     return (
         <>
@@ -176,27 +170,6 @@ const Home = () => {
                             </div>
                         )}
 
-                        {hasMore && (
-                            <div className="py-8 text-center">
-                                <Button variant="flat" className="w-full bg-white/5 text-slate-400" onClick={loadMore}>
-                                    LOAD MORE DATA...
-                                </Button>
-                            </div>
-                        )}
-
-                        {/* Bottom bar — older posts redirect */}
-                        <div className="mt-8 py-6 px-4 bg-black/40 backdrop-blur-xl border border-white/5 rounded-xl text-center">
-                            <p className="text-slate-400 text-sm font-mono mb-3">
-                                📰 Starsze wpisy i pełne archiwum artykułów znajdziesz na stronie&nbsp;
-                                <Link to="/bloghub" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 font-semibold transition-colors">
-                                    BLOG
-                                </Link>
-                            </p>
-                            <Button as={Link} to="/bloghub" size="sm" variant="flat"
-                                className="bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-[10px] tracking-widest uppercase">
-                                🗂️ Przejdź do pełnego archiwum →
-                            </Button>
-                        </div>
                     </main>
 
                     <div className="hidden xl:block xl:col-span-3">
@@ -204,9 +177,13 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* Full-width bottom bar under grids */}
-                <div className="mt-10 py-4 border-t border-white/5 text-center">
-                    <p className="text-[11px] text-slate-600 font-mono tracking-wider">
+                {/* Full-width bottom bar */}
+                <div className="mt-8 py-6 border-t border-white/5 text-center">
+                    <Button as={Link} to="/bloghub" size="sm" variant="flat"
+                        className="bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest uppercase px-8 py-2">
+                        🗂️ Przejdź do pełnego archiwum →
+                    </Button>
+                    <p className="mt-4 text-[11px] text-slate-600 font-mono tracking-wider">
                         JIMBO<span className="text-red-500">77</span>.ORG — AI Community Hub &amp; Blog &nbsp;|&nbsp; Powered by R2 + Cloudflare Workers &nbsp;|&nbsp; © 2026
                     </p>
                 </div>

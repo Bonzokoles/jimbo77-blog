@@ -288,7 +288,7 @@ export const SidebarLeft = () => {
                     </div>
                     <div className="flex items-start gap-2">
                         <Mail size={10} className="text-emerald-500 mt-0.5 shrink-0" />
-                        <span>Kontakt: <a href="mailto:admin@jimbo77.org" className="text-cyan-400 hover:underline">admin@jimbo77.org</a></span>
+                        <span>Kontakt: <a href="mailto:karol.bonzo@yahoo.com" className="text-cyan-400 hover:underline">karol.bonzo@yahoo.com</a></span>
                     </div>
                 </div>
                 <div className="flex gap-2 mt-3">
