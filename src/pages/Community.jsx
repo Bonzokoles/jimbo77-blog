@@ -1,122 +1,447 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Avatar, Chip, Button, Spinner } from "@heroui/react";
+import React, { useEffect, useState, useCallback } from 'react';
+import { Card, Avatar, Chip, Button, Spinner, Input, Textarea, Divider } from "@heroui/react";
+import { MessageSquare, Heart, Eye, ChevronDown, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield } from 'lucide-react';
 
-const MOCK_MEMBERS = [
-    { name: "Neo_Anderson", role: "Architect", status: "online", bio: "Constructing the matrix, one commit at a time.", stack: ["React", "Node", "AI"] },
-    { name: "Trinity_X", role: "DevOps", status: "busy", bio: "CI/CD pipelines are my nervous system.", stack: ["K8s", "Docker", "AWS"] },
-];
+const API = 'https://jimbo77-community.stolarnia-ams.workers.dev';
 
-const BACKEND_URL = 'https://social-app-backend.stolarnia-ams.workers.dev';
+// ─── Helpers ────────────────────────────────────────────
+const timeAgo = (iso) => {
+    const diff = Date.now() - new Date(iso).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return 'teraz';
+    if (m < 60) return `${m}m temu`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h temu`;
+    const d = Math.floor(h / 24);
+    return `${d}d temu`;
+};
 
-const Community = () => {
-    const [members, setMembers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const apiFetch = async (path, opts = {}) => {
+    const token = localStorage.getItem('community_token');
+    const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const res = await fetch(`${API}${path}`, { ...opts, headers });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
+};
 
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/users?limit=20`);
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
+// ─── AUTH FORMS ─────────────────────────────────────────
+const AuthPanel = ({ onAuth }) => {
+    const [mode, setMode] = useState('login'); // login | register
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [totp, setTotp] = useState('');
+    const [needTotp, setNeedTotp] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState(null);
+    const [err, setErr] = useState(null);
 
-                if (data.success && data.data) {
-                    // Start formatting backend data to match UI
-                    const formattedDetails = data.data.map(user => ({
-                        name: user.display_name || user.email.split('@')[0],
-                        role: "Member", // Backend doesn't seem to store role yet
-                        status: user.is_online ? "online" : "offline",
-                        bio: user.bio || "No bio available yet.",
-                        stack: ["Agent", "MCP"], // Placeholder stack
-                        avatar: user.avatar_url
-                    }));
-                    setMembers(formattedDetails);
-                } else {
-                    setMembers(MOCK_MEMBERS); // Fallback
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErr(null); setMsg(null); setLoading(true);
+        try {
+            if (mode === 'login') {
+                const data = await apiFetch('/api/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password, totp_code: totp || undefined }),
+                });
+                if (data.token) {
+                    localStorage.setItem('community_token', data.token);
+                    localStorage.setItem('community_user', JSON.stringify(data.user));
+                    onAuth(data.user);
                 }
-            } catch (err) {
-                console.error("Failed to fetch community members:", err);
-                setMembers(MOCK_MEMBERS); // Fallback on error
-                setError(err.message);
-            } finally {
-                setLoading(false);
+            } else {
+                await apiFetch('/api/register', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, username, password }),
+                });
+                setMsg('Rejestracja udana! Sprawdź e-mail, aby potwierdzić konto.');
+                setMode('login');
             }
-        };
+        } catch (error) {
+            if (error.message === 'TOTP_REQUIRED') { setNeedTotp(true); setErr('Wpisz kod 2FA'); }
+            else setErr(error.message);
+        } finally { setLoading(false); }
+    };
 
-        fetchMembers();
+    return (
+        <Card className="bg-black/60 backdrop-blur-xl border border-cyan-500/20 p-6 max-w-md mx-auto">
+            <h2 className="font-display text-2xl text-white mb-1 tracking-widest text-center">
+                {mode === 'login' ? 'LOGOWANIE' : 'REJESTRACJA'}
+            </h2>
+            <p className="text-slate-500 text-xs text-center mb-6 font-mono">COMMUNITY_AUTH_PROTOCOL</p>
+
+            {msg && <div className="mb-4 p-3 rounded bg-green-900/20 border border-green-500/30 text-green-400 text-xs">{msg}</div>}
+            {err && <div className="mb-4 p-3 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs">{err}</div>}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <Input label="E-mail" type="email" value={email} onValueChange={setEmail} isRequired
+                    classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                {mode === 'register' && (
+                    <Input label="Nazwa użytkownika" value={username} onValueChange={setUsername} isRequired maxLength={20}
+                        classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                )}
+                <Input label="Hasło" type="password" value={password} onValueChange={setPassword} isRequired
+                    classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                {needTotp && (
+                    <Input label="Kod 2FA (TOTP)" value={totp} onValueChange={setTotp} maxLength={6}
+                        classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                )}
+                <Button type="submit" isLoading={loading}
+                    className="w-full bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono tracking-widest">
+                    {mode === 'login' ? <><LogIn size={14} className="mr-2" /> ZALOGUJ</> : <><UserPlus size={14} className="mr-2" /> ZAREJESTRUJ</>}
+                </Button>
+            </form>
+
+            <div className="mt-4 text-center">
+                <button onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setErr(null); setMsg(null); setNeedTotp(false); }}
+                    className="text-xs text-slate-500 hover:text-cyan-400 transition-colors font-mono">
+                    {mode === 'login' ? 'Nie masz konta? → ZAREJESTRUJ' : 'Masz konto? → ZALOGUJ'}
+                </button>
+            </div>
+        </Card>
+    );
+};
+
+// ─── POST DETAIL VIEW ───────────────────────────────────
+const PostDetail = ({ postId, user, onBack }) => {
+    const [post, setPost] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+
+    const fetchPost = useCallback(async () => {
+        try {
+            const [p, c] = await Promise.all([
+                apiFetch(`/api/posts/${postId}${user ? `?user_id=${user.id}` : ''}`),
+                apiFetch(`/api/posts/${postId}/comments`),
+            ]);
+            setPost(p);
+            setComments(c);
+        } catch (e) { console.error(e); }
+        finally { setLoading(false); }
+    }, [postId, user]);
+
+    useEffect(() => { fetchPost(); }, [fetchPost]);
+
+    const handleLike = async () => {
+        if (!user) return;
+        try {
+            const res = await apiFetch(`/api/posts/${postId}/like`, { method: 'POST', body: '{}' });
+            setPost(prev => ({
+                ...prev,
+                liked: res.liked,
+                like_count: prev.like_count + (res.liked ? 1 : -1)
+            }));
+        } catch (e) { console.error(e); }
+    };
+
+    const handleComment = async (e) => {
+        e.preventDefault();
+        if (!newComment.trim() || !user) return;
+        setSubmitting(true);
+        try {
+            const c = await apiFetch(`/api/posts/${postId}/comments`, {
+                method: 'POST',
+                body: JSON.stringify({ content: newComment }),
+            });
+            setComments(prev => [...prev, c]);
+            setNewComment('');
+            setPost(prev => ({ ...prev, comment_count: (prev.comment_count || 0) + 1 }));
+        } catch (e) { console.error(e); }
+        finally { setSubmitting(false); }
+    };
+
+    if (loading) return <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>;
+    if (!post) return <p className="text-center text-red-400">Post nie znaleziony.</p>;
+
+    return (
+        <div className="space-y-6">
+            <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors text-sm font-mono">
+                <ArrowLeft size={14}/> POWRÓT DO LISTY
+            </button>
+
+            <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-6">
+                <div className="flex items-center gap-3 mb-4">
+                    <Avatar name={post.author_name} src={post.author_avatar} className="w-10 h-10 bg-slate-900 border border-slate-800 text-slate-400" />
+                    <div>
+                        <span className="text-white font-medium">{post.author_name}</span>
+                        {post.author_role === 'admin' && <Chip size="sm" className="ml-2 bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
+                        <span className="block text-[10px] text-slate-600 font-mono"><Clock size={10} className="inline mr-1" />{timeAgo(post.created_at)}</span>
+                    </div>
+                </div>
+
+                {post.category_name && <Chip size="sm" variant="flat" className="mb-3 bg-cyan-900/10 text-cyan-600 border border-cyan-900/20 font-mono text-[10px]">{post.category_name}</Chip>}
+
+                <h2 className="text-2xl font-bold text-white mb-4">{post.title}</h2>
+                <div className="text-slate-300 leading-relaxed whitespace-pre-wrap mb-6">{post.content}</div>
+
+                <div className="flex items-center gap-6 text-sm text-slate-500 border-t border-white/5 pt-4">
+                    <button onClick={handleLike} className={`flex items-center gap-1.5 transition-colors ${post.liked ? 'text-red-400' : 'hover:text-red-400'}`}>
+                        <Heart size={16} fill={post.liked ? 'currentColor' : 'none'} /> {post.like_count || 0}
+                    </button>
+                    <span className="flex items-center gap-1.5"><MessageSquare size={16} /> {post.comment_count || 0}</span>
+                    <span className="flex items-center gap-1.5"><Eye size={16} /> {post.view_count || 0}</span>
+                </div>
+            </Card>
+
+            {/* Comments */}
+            <div>
+                <h3 className="font-display text-lg text-slate-300 tracking-widest mb-4">KOMENTARZE ({comments.length})</h3>
+                {comments.length === 0 && <p className="text-slate-600 text-sm font-mono">Brak komentarzy — bądź pierwszy!</p>}
+                <div className="space-y-3">
+                    {comments.map(c => (
+                        <Card key={c.id} className="bg-black/30 border border-white/5 p-4">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Avatar name={c.username} src={c.avatar_url} className="w-7 h-7 bg-slate-900 text-slate-400 text-xs" />
+                                <span className="text-sm text-white">{c.username}</span>
+                                {c.role === 'admin' && <Shield size={12} className="text-red-400" />}
+                                <span className="text-[10px] text-slate-600 ml-auto font-mono">{timeAgo(c.created_at)}</span>
+                            </div>
+                            <p className="text-slate-400 text-sm whitespace-pre-wrap">{c.content}</p>
+                        </Card>
+                    ))}
+                </div>
+
+                {/* New comment form */}
+                {user ? (
+                    <form onSubmit={handleComment} className="mt-4 flex gap-2">
+                        <Textarea value={newComment} onValueChange={setNewComment} placeholder="Napisz komentarz..."
+                            minRows={1} maxRows={4} className="flex-grow"
+                            classNames={{ input: 'text-white', inputWrapper: 'bg-black/30 border-white/10' }} />
+                        <Button type="submit" isLoading={submitting} isIconOnly
+                            className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 self-end">
+                            <Send size={16} />
+                        </Button>
+                    </form>
+                ) : (
+                    <p className="mt-4 text-xs text-slate-600 font-mono text-center">Zaloguj się, aby komentować</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+// ─── MAIN COMMUNITY PAGE ────────────────────────────────
+const Community = () => {
+    const [user, setUser] = useState(() => {
+        try { return JSON.parse(localStorage.getItem('community_user')); } catch { return null; }
+    });
+    const [posts, setPosts] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [offset, setOffset] = useState(0);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [activePost, setActivePost] = useState(null);
+
+    // New post form
+    const [showForm, setShowForm] = useState(false);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [postCategoryId, setPostCategoryId] = useState('');
+    const [creating, setCreating] = useState(false);
+    const [formErr, setFormErr] = useState(null);
+
+    const LIMIT = 15;
+
+    const fetchPosts = useCallback(async (off = 0, catId = null) => {
+        setLoading(true);
+        try {
+            let q = `/api/posts?limit=${LIMIT}&offset=${off}`;
+            if (catId) q += `&category_id=${catId}`;
+            const data = await apiFetch(q);
+            setPosts(data.posts || []);
+            setTotal(data.total || 0);
+        } catch (e) { console.error(e); }
+        finally { setLoading(false); }
     }, []);
+
+    const fetchCategories = useCallback(async () => {
+        try {
+            const data = await apiFetch('/api/categories');
+            setCategories(data || []);
+        } catch (e) { console.error(e); }
+    }, []);
+
+    useEffect(() => { fetchCategories(); }, [fetchCategories]);
+    useEffect(() => { fetchPosts(offset, selectedCategory); }, [offset, selectedCategory, fetchPosts]);
+
+    const handleCreatePost = async (e) => {
+        e.preventDefault();
+        if (!title.trim() || !content.trim()) return;
+        setCreating(true); setFormErr(null);
+        try {
+            await apiFetch('/api/posts', {
+                method: 'POST',
+                body: JSON.stringify({ title, content, category_id: postCategoryId || undefined }),
+            });
+            setTitle(''); setContent(''); setPostCategoryId(''); setShowForm(false);
+            fetchPosts(0, selectedCategory);
+            setOffset(0);
+        } catch (e) { setFormErr(e.message); }
+        finally { setCreating(false); }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('community_token');
+        localStorage.removeItem('community_user');
+        setUser(null);
+    };
+
+    // If viewing a single post
+    if (activePost) {
+        return (
+            <div className="min-h-screen pt-8 pb-12 w-full">
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <PostDetail postId={activePost} user={user} onBack={() => setActivePost(null)} />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen pt-8 pb-12 w-full">
-            <div className="container mx-auto px-4 max-w-7xl">
+            <div className="container mx-auto px-4 max-w-5xl">
 
-                {/* Header */}
-                <div className="text-center mb-16">
-                    <h1 className="font-display text-5xl md:text-6xl text-white mb-4 tracking-widest">
-                        NET<span className="text-cyan-500">RUNNERS</span>
+                {/* ─── Header ─── */}
+                <div className="text-center mb-10">
+                    <h1 className="font-display text-5xl md:text-6xl text-white mb-3 tracking-widest">
+                        COMMUNITY<span className="text-cyan-500">_HUB</span>
                     </h1>
-                    <p className="text-slate-400 max-w-2xl mx-auto font-light">
-                        Elitarna społeczność inżynierów, architektów i twórców AI.
-                        Dołącz do sieci i wymieniaj wiedzę w czasie rzeczywistym.
-                        <span className="block text-xs text-green-500/50 mt-2 font-mono">
-                            {loading ? "INITIALIZING_CONNECTION..." : `CONNECTED_TO: ${BACKEND_URL.replace('https://', '')}`}
-                        </span>
+                    <p className="text-slate-500 max-w-xl mx-auto text-sm font-light">
+                        Forum społeczności Jimbo77 — dyskusje, pytania, projekty.
                     </p>
+                    <span className="block text-[10px] text-green-500/50 mt-2 font-mono">
+                        CONNECTED_TO: {API.replace('https://', '')}
+                    </span>
                 </div>
 
-                {/* Grid */}
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <Spinner size="lg" color="success" />
-                    </div>
+                {/* ─── Auth Bar ─── */}
+                {!user ? (
+                    <AuthPanel onAuth={setUser} />
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {members.map((member, idx) => (
-                            <Card key={idx} className="bg-black/40 backdrop-blur-xl border border-white/5 p-6 hover:border-cyan-500/30 transition-all group">
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="relative">
-                                        <Avatar
-                                            name={member.name}
-                                            src={member.avatar}
-                                            className="w-16 h-16 text-xl bg-slate-900 border-2 border-slate-800 text-slate-400"
-                                        />
-                                        <span className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black ${member.status === 'online' ? 'bg-green-500 shadow-[0_0_10px_lime]' :
-                                                member.status === 'busy' ? 'bg-red-500' :
-                                                    member.status === 'away' ? 'bg-yellow-500' : 'bg-slate-600'
-                                            }`}></span>
-                                    </div>
-                                    <Chip
-                                        size="sm"
-                                        variant="flat"
-                                        className="bg-cyan-900/10 text-cyan-500 border border-cyan-500/20 font-mono tracking-wider"
-                                    >
-                                        {member.role.toUpperCase()}
-                                    </Chip>
-                                </div>
-
-                                <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors truncate">
-                                    {member.name}
-                                </h3>
-                                <p className="text-slate-500 text-sm mb-4 h-10 line-clamp-2">
-                                    {member.bio}
-                                </p>
-
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    {member.stack.map(tech => (
-                                        <span key={tech} className="text-[10px] px-2 py-1 rounded bg-white/5 text-slate-400 border border-white/5">
-                                            {tech}
-                                        </span>
-                                    ))}
-                                </div>
-
-                                <Button className="w-full bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-500 border border-cyan-500/20 font-mono text-xs tracking-widest">
-                                    CONNECT_PROTOCOL
+                    <>
+                        {/* Logged-in bar */}
+                        <Card className="bg-black/30 border border-white/5 p-3 mb-6 flex flex-row items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <Avatar name={user.username} src={user.avatar_url} className="w-8 h-8 bg-slate-900 text-slate-400 text-sm" />
+                                <span className="text-white text-sm">{user.username}</span>
+                                {user.role === 'admin' && <Chip size="sm" className="bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
+                            </div>
+                            <div className="flex gap-2">
+                                <Button size="sm" onPress={() => setShowForm(!showForm)}
+                                    className="bg-cyan-600/15 hover:bg-cyan-600/25 text-cyan-400 border border-cyan-500/20 font-mono text-[10px] tracking-wider">
+                                    + NOWY POST
                                 </Button>
-                            </Card>
-                        ))}
-                    </div>
-                )}
+                                <Button size="sm" onPress={handleLogout}
+                                    className="bg-white/5 hover:bg-white/10 text-slate-500 border border-white/10 font-mono text-[10px] tracking-wider">
+                                    WYLOGUJ
+                                </Button>
+                            </div>
+                        </Card>
 
+                        {/* ─── New Post Form ─── */}
+                        {showForm && (
+                            <Card className="bg-black/40 border border-cyan-500/20 p-5 mb-6">
+                                <h3 className="font-display text-lg text-cyan-500 mb-4 tracking-widest">NOWY_POST</h3>
+                                {formErr && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs">{formErr}</div>}
+                                <form onSubmit={handleCreatePost} className="space-y-3">
+                                    <Input label="Tytuł (max 30 znaków)" value={title} onValueChange={setTitle} maxLength={30} isRequired
+                                        classNames={{ input: 'text-white', label: 'text-slate-400' }} />
+                                    <Textarea label="Treść (max 3000 znaków)" value={content} onValueChange={setContent} maxLength={3000} isRequired
+                                        minRows={4} classNames={{ input: 'text-white', label: 'text-slate-400', inputWrapper: 'bg-black/30' }} />
+                                    {categories.length > 0 && (
+                                        <div className="flex flex-wrap gap-2">
+                                            <button type="button" onClick={() => setPostCategoryId('')}
+                                                className={`text-xs px-3 py-1 rounded border font-mono ${!postCategoryId ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                                                Brak kategorii
+                                            </button>
+                                            {categories.map(cat => (
+                                                <button key={cat.id} type="button" onClick={() => setPostCategoryId(cat.id)}
+                                                    className={`text-xs px-3 py-1 rounded border font-mono ${postCategoryId === cat.id ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                                                    {cat.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <Button type="submit" isLoading={creating}
+                                        className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest">
+                                        <Send size={14} className="mr-2" /> OPUBLIKUJ
+                                    </Button>
+                                </form>
+                            </Card>
+                        )}
+
+                        {/* ─── Category Filter ─── */}
+                        {categories.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                <button onClick={() => { setSelectedCategory(null); setOffset(0); }}
+                                    className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${!selectedCategory ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10 hover:border-cyan-500/20'}`}>
+                                    Wszystkie
+                                </button>
+                                {categories.map(cat => (
+                                    <button key={cat.id} onClick={() => { setSelectedCategory(cat.id); setOffset(0); }}
+                                        className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${selectedCategory === cat.id ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10 hover:border-cyan-500/20'}`}>
+                                        {cat.name}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* ─── Posts List ─── */}
+                        {loading ? (
+                            <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>
+                        ) : posts.length === 0 ? (
+                            <div className="text-center py-20">
+                                <p className="text-slate-600 font-mono text-sm">BRAK POSTÓW — BĄDŹ PIERWSZY!</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-3">
+                                {posts.map(post => (
+                                    <Card key={post.id} isPressable onPress={() => setActivePost(post.id)}
+                                        className="bg-black/30 backdrop-blur-xl border border-white/5 p-4 hover:border-cyan-500/20 transition-all">
+                                        <div className="flex items-start gap-3">
+                                            <Avatar name={post.author_name} src={post.author_avatar} className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0" />
+                                            <div className="flex-grow min-w-0">
+                                                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                                    <span className="text-sm text-slate-300 font-medium">{post.author_name}</span>
+                                                    {post.author_role === 'admin' && <Shield size={12} className="text-red-400" />}
+                                                    {post.is_pinned === 1 && <Chip size="sm" className="bg-yellow-900/20 text-yellow-500 border border-yellow-900/30 text-[10px]">PINNED</Chip>}
+                                                    {post.category_name && <Chip size="sm" variant="flat" className="bg-white/5 text-slate-500 border border-white/5 text-[10px] font-mono">{post.category_name}</Chip>}
+                                                    <span className="text-[10px] text-slate-600 font-mono ml-auto"><Clock size={10} className="inline mr-0.5" />{timeAgo(post.created_at)}</span>
+                                                </div>
+                                                <h3 className="text-white font-medium truncate">{post.title}</h3>
+                                                <p className="text-slate-500 text-xs mt-1 line-clamp-2">{post.content}</p>
+                                                <div className="flex items-center gap-4 mt-2 text-[11px] text-slate-600">
+                                                    <span className="flex items-center gap-1"><Heart size={12} /> {post.like_count || 0}</span>
+                                                    <span className="flex items-center gap-1"><MessageSquare size={12} /> {post.comment_count || 0}</span>
+                                                    <span className="flex items-center gap-1"><Eye size={12} /> {post.view_count || 0}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Pagination */}
+                        {total > LIMIT && (
+                            <div className="flex justify-center gap-3 mt-8">
+                                <Button size="sm" isDisabled={offset === 0} onPress={() => setOffset(Math.max(0, offset - LIMIT))}
+                                    className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">← PREV</Button>
+                                <span className="text-xs text-slate-600 font-mono self-center">
+                                    {offset + 1}–{Math.min(offset + LIMIT, total)} z {total}
+                                </span>
+                                <Button size="sm" isDisabled={offset + LIMIT >= total} onPress={() => setOffset(offset + LIMIT)}
+                                    className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">NEXT →</Button>
+                            </div>
+                        )}
+                    </>
+                )}
             </div>
         </div>
     );
