@@ -29,9 +29,15 @@ const apiFetch = async (path, opts = {}) => {
         headers['X-Nonce'] = crypto.randomUUID();
     }
 
-    const res = await fetch(`${API}${path}`, { ...opts, headers });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    let res;
+    try {
+        res = await fetch(`${API}${path}`, { ...opts, headers });
+    } catch (networkErr) {
+        // TypeError: Failed to fetch — CORS block, network down, or DNS failure
+        throw new Error('Nie udało się połączyć z serwerem — sprawdź internet lub spróbuj ponownie');
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Błąd serwera (HTTP ${res.status})`);
     return data;
 };
 
