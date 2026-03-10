@@ -130,7 +130,7 @@ class MOAEngine:
             return await self._call_openrouter(
                 prompt,
                 t0,
-                model_id="google/gemma-3-27b-it:free",
+                model_id="google/gemma-3-27b-it",
                 name="gemma-3-27b",
             )
         elif provider == "qwen":
