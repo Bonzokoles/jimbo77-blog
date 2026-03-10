@@ -247,6 +247,7 @@ const MODEL_COLORS = {
     'dalle-3':       'text-purple-400 border-purple-500/30 bg-purple-900/20',
     'gpt-image-1':   'text-orange-400 border-orange-500/30 bg-orange-900/20',
     'gpt-image-mini':'text-yellow-400 border-yellow-500/30 bg-yellow-900/20',
+    'flux-ultra':    'text-pink-400 border-pink-500/30 bg-pink-900/20',
 };
 
 const ALL_MODELS = ['Wszystkie', 'FLUX Pro', 'FLUX 1.1 Pro', 'FLUX Schnell', 'DALL-E 3', 'GPT Image 1', 'GPT Image 1 Mini'];
@@ -295,43 +296,53 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
     }, [onClose, onNext, onPrev]);
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
-            <div className="relative max-w-4xl w-full" onClick={e => e.stopPropagation()}>
-                {/* Nav buttons */}
-                <button onClick={onPrev} className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-14 p-3 bg-slate-800 hover:bg-slate-700 rounded-full border border-white/10 text-white transition-all">‹</button>
-                <button onClick={onNext} className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-14 p-3 bg-slate-800 hover:bg-slate-700 rounded-full border border-white/10 text-white transition-all">›</button>
-                <button onClick={onClose} className="absolute -top-12 right-0 p-2 text-slate-400 hover:text-white">
-                    <X size={20} />
-                </button>
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 gap-4" onClick={onClose}>
+            {/* Close */}
+            <button onClick={onClose} className="self-end mr-2 p-2 text-slate-400 hover:text-white transition-colors">
+                <X size={22} />
+            </button>
+
+            {/* Image + side arrows */}
+            <div className="relative max-w-5xl w-full flex items-center gap-2" onClick={e => e.stopPropagation()}>
+                <button
+                    onClick={onPrev}
+                    className="shrink-0 w-10 h-10 flex items-center justify-center bg-slate-800/80 hover:bg-slate-700 rounded-full border border-white/10 text-white text-xl transition-all"
+                >‹</button>
 
                 <img
                     src={item.src}
                     alt={item.prompt}
-                    className="w-full rounded-xl border border-white/10 shadow-2xl"
+                    className="flex-1 min-w-0 rounded-xl border border-white/10 shadow-2xl object-contain max-h-[75vh]"
                 />
 
-                <div className="mt-4 flex items-start justify-between gap-4">
-                    <div>
-                        <p className="text-white text-sm font-medium mb-1">{item.prompt}</p>
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <Chip size="sm" className={`text-[10px] font-mono border ${MODEL_COLORS[item.modelTag] || 'text-slate-400 border-slate-600'}`} variant="bordered">
-                                {item.model}
-                            </Chip>
-                            <span className="text-[11px] text-slate-500 font-mono">{item.topic}</span>
-                            <span className="text-[11px] text-slate-600 font-mono">{item.date}</span>
-                        </div>
+                <button
+                    onClick={onNext}
+                    className="shrink-0 w-10 h-10 flex items-center justify-center bg-slate-800/80 hover:bg-slate-700 rounded-full border border-white/10 text-white text-xl transition-all"
+                >›</button>
+            </div>
+
+            {/* Info bar */}
+            <div className="max-w-5xl w-full flex items-start justify-between gap-4 px-12" onClick={e => e.stopPropagation()}>
+                <div>
+                    <p className="text-white text-sm font-medium mb-1 line-clamp-2">{item.prompt}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <Chip size="sm" className={`text-[10px] font-mono border ${MODEL_COLORS[item.modelTag] || 'text-slate-400 border-slate-600'}`} variant="bordered">
+                            {item.model}
+                        </Chip>
+                        <span className="text-[11px] text-slate-500 font-mono">{item.topic}</span>
+                        <span className="text-[11px] text-slate-600 font-mono">{item.date}</span>
                     </div>
-                    <div className="flex flex-col items-end gap-2 shrink-0">
-                        <StarRating imageId={item.id} size={16} />
-                        <a
-                            href={item.src}
-                            download
-                            onClick={e => e.stopPropagation()}
-                            className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-cyan-400 transition-colors font-mono"
-                        >
-                            <Download size={11} /> pobierz
-                        </a>
-                    </div>
+                </div>
+                <div className="flex flex-col items-end gap-2 shrink-0">
+                    <StarRating imageId={item.id} size={16} />
+                    <a
+                        href={item.src}
+                        download
+                        onClick={e => e.stopPropagation()}
+                        className="flex items-center gap-1 text-[11px] text-slate-500 hover:text-cyan-400 transition-colors font-mono"
+                    >
+                        <Download size={11} /> pobierz
+                    </a>
                 </div>
             </div>
         </div>
