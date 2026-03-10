@@ -42,10 +42,10 @@ const apiFetch = async (path, opts = {}) => {
 
     let res;
     try {
-        res = await fetch(`${API}${path}`, { ...opts, headers });
+        res = await fetch(`${API}${path}`, { ...opts, headers, mode: 'cors' });
     } catch (networkErr) {
         console.error('[apiFetch] Network error:', networkErr);
-        throw new Error('Nie udało się połączyć z serwerem — sprawdź internet lub spróbuj ponownie');
+        throw new Error(`Błąd sieci: ${networkErr.message || 'Failed to fetch'} — sprawdź konsolę (F12)`);
     }
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || `Błąd serwera (HTTP ${res.status})`);
