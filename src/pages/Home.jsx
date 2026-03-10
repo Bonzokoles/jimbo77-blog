@@ -68,7 +68,7 @@ const Home = () => {
         return matchesSearch && matchesCategory;
     });
 
-    const currentPosts = filteredPosts;
+    const currentPosts = filteredPosts.slice(0, 2);
 
     return (
         <>
