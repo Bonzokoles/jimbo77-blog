@@ -68,7 +68,7 @@ const Home = () => {
         return matchesSearch && matchesCategory;
     });
 
-    const currentPosts = filteredPosts.slice(0, 2);
+    const currentPosts = filteredPosts.slice(0, 8);
 
     return (
         <>
@@ -142,7 +142,7 @@ const Home = () => {
                         {currentPosts.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {currentPosts.map((post, index) => {
-                                    const isFeatured = (index % 5 === 0);
+                                    const isFeatured = index < 2;
                                     return (
                                         <div key={post.id || index} className={`col-span-1 ${isFeatured ? 'md:col-span-2' : ''}`}>
                                             <BlogCard
