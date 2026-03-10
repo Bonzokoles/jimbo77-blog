@@ -120,7 +120,7 @@ const BlogPost = () => {
   if (loading || !blog) return <BlogSkeleton />;
 
   return (
-    <div className="min-h-screen bg-transparent pt-8 pb-12">
+    <div className="min-h-screen bg-transparent pt-24 pb-12">
       <Progress
         aria-label="Reading progress"
         size="sm"

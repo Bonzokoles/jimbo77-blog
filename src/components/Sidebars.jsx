@@ -123,7 +123,7 @@ export const SidebarLeft = () => {
     ];
 
     return (
-        <aside className="hidden lg:flex flex-col gap-6 w-full sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pr-2">
+        <aside className="hidden lg:flex flex-col gap-6 w-full overflow-y-auto scrollbar-hide pr-2">
 
             {/* --- NAVIGATION SECTOR --- */}
             <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-4 w-full shrink-0">
@@ -335,7 +335,7 @@ export const SidebarRight = () => {
     }, []);
 
     return (
-        <aside className="hidden xl:flex flex-col gap-6 w-full sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pl-2">
+        <aside className="hidden xl:flex flex-col gap-6 w-full overflow-y-auto scrollbar-hide pl-2">
 
             {/* --- COMMUNITY WIDGET --- */}
             <Card className="bg-black/40 backdrop-blur-xl border border-cyan-500/20 p-4 shrink-0">

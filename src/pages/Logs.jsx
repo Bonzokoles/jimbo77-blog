@@ -9,7 +9,7 @@ const LOGS = [
 
 const Logs = () => {
     return (
-        <div className="min-h-screen pt-8 pb-12 w-full">
+        <div className="min-h-screen pt-24 pb-12 w-full">
             <div className="container mx-auto px-4 max-w-4xl">
                 <div className="text-center mb-12">
                     <h1 className="font-display text-4xl text-white mb-2 tracking-widest">

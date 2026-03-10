@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // Build 2026-01-28-R2-DYNAMIC
+import { Link } from 'react-router-dom';
 import { Button, Input, Select, SelectItem, Card, Spinner } from "@heroui/react";
 import BlogCard from '../components/BlogCard';
 import { SidebarLeft, SidebarRight } from '../components/Sidebars';
@@ -86,7 +87,7 @@ const Home = () => {
             <SchemaOrg type="website" />
             <SchemaOrg type="organization" />
             
-            <div className="min-h-screen bg-transparent pt-8 pb-12">
+            <div className="min-h-screen bg-transparent pt-24 pb-12">
             <div className="container mx-auto px-4 max-w-[1920px]">
                 <div className="lg:hidden text-center mb-12">
                     <h1 className="font-display text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
@@ -182,11 +183,32 @@ const Home = () => {
                                 </Button>
                             </div>
                         )}
+
+                        {/* Bottom bar — older posts redirect */}
+                        <div className="mt-8 py-6 px-4 bg-black/40 backdrop-blur-xl border border-white/5 rounded-xl text-center">
+                            <p className="text-slate-400 text-sm font-mono mb-3">
+                                📰 Starsze wpisy i pełne archiwum artykułów znajdziesz na stronie&nbsp;
+                                <Link to="/bloghub" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 font-semibold transition-colors">
+                                    BLOG
+                                </Link>
+                            </p>
+                            <Button as={Link} to="/bloghub" size="sm" variant="flat"
+                                className="bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-[10px] tracking-widest uppercase">
+                                🗂️ Przejdź do pełnego archiwum →
+                            </Button>
+                        </div>
                     </main>
 
                     <div className="hidden xl:block xl:col-span-3">
                         <SidebarRight />
                     </div>
+                </div>
+
+                {/* Full-width bottom bar under grids */}
+                <div className="mt-10 py-4 border-t border-white/5 text-center">
+                    <p className="text-[11px] text-slate-600 font-mono tracking-wider">
+                        JIMBO<span className="text-red-500">77</span>.ORG — AI Community Hub &amp; Blog &nbsp;|&nbsp; Powered by R2 + Cloudflare Workers &nbsp;|&nbsp; © 2026
+                    </p>
                 </div>
             </div>
         </div>

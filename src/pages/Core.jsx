@@ -4,7 +4,7 @@ import { Cpu, Server, Shield, Globe } from 'lucide-react';
 
 const Core = () => {
     return (
-        <div className="min-h-screen pt-12 pb-12 w-full">
+        <div className="min-h-screen pt-24 pb-12 w-full">
             <div className="container mx-auto px-4 max-w-6xl">
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
