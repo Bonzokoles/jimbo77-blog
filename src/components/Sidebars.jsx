@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // Force sync timestamp
 import { Link } from 'react-router-dom';
 import { Card, Chip, Button, Divider } from "@heroui/react";
-import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database } from 'lucide-react';
+import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database, Users, MessageSquare, UserPlus } from 'lucide-react';
 
 export const SidebarLeft = () => {
     // Technical navigation items
@@ -151,55 +151,111 @@ export const SidebarLeft = () => {
 };
 
 export const SidebarRight = () => {
-    // Technical logs/metrics instead of movie characters
-    const systemMetrics = [
-        { label: "Core Latency", value: "12ms", status: "ok" },
-        { label: "R2 Throughput", value: "1.2GB/s", status: "ok" },
-        { label: "Ollama Load", value: "Idle", status: "ok" },
-        { label: "DeepSeek API", value: "Connected", status: "ok" },
-    ];
+    const [stats, setStats] = useState({ users: 0, posts: 0, comments: 0, recent: [] });
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await fetch('https://jimbo77-community.stolarnia-ams.workers.dev/api/stats');
+                if (res.ok) {
+                    const data = await res.json();
+                    setStats(data);
+                }
+            } catch (e) {
+                console.warn('Community stats unavailable:', e.message);
+            } finally {
+                setLoaded(true);
+            }
+        };
+        fetchStats();
+        // Refresh every 60s
+        const interval = setInterval(fetchStats, 60000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <aside className="hidden xl:flex flex-col gap-6 w-full sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pl-2">
 
-            {/* --- SYSTEM METRICS --- */}
-            <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-4 shrink-0">
-                <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                    <h3 className="font-display text-xl text-slate-400 tracking-widest">
-                        METRICS
+            {/* --- COMMUNITY WIDGET --- */}
+            <Card className="bg-black/40 backdrop-blur-xl border border-cyan-500/20 p-4 shrink-0">
+                <div className="flex justify-between items-center mb-4 border-b border-cyan-500/20 pb-2">
+                    <h3 className="font-display text-xl text-cyan-500 tracking-widest flex items-center gap-2">
+                        <Users size={18} /> COMMUNITY
                     </h3>
-                    <div className="flex gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-cyan-500"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-ping"></div>
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span className="text-[10px] text-green-500 font-mono">LIVE</span>
                     </div>
                 </div>
 
-                <div className="space-y-3">
-                    {systemMetrics.map((metric, idx) => (
-                        <div key={idx} className="flex justify-between items-center p-2 rounded hover:bg-white/5 transition-all border-b border-white/[0.02]">
-                            <span className="text-xs text-slate-500 uppercase tracking-wider">{metric.label}</span>
-                            <span className="text-xs text-cyan-500 font-mono font-bold">{metric.value}</span>
-                        </div>
-                    ))}
+                {/* Stats grid */}
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                    <div className="text-center p-2 rounded bg-white/[0.03] border border-white/5">
+                        <div className="text-2xl font-bold text-cyan-400 font-mono">{stats.users}</div>
+                        <div className="text-[10px] text-slate-500 uppercase tracking-wider">Członków</div>
+                    </div>
+                    <div className="text-center p-2 rounded bg-white/[0.03] border border-white/5">
+                        <div className="text-2xl font-bold text-cyan-400 font-mono">{stats.posts}</div>
+                        <div className="text-[10px] text-slate-500 uppercase tracking-wider">Postów</div>
+                    </div>
+                    <div className="text-center p-2 rounded bg-white/[0.03] border border-white/5">
+                        <div className="text-2xl font-bold text-cyan-400 font-mono">{stats.comments}</div>
+                        <div className="text-[10px] text-slate-500 uppercase tracking-wider">Komentarzy</div>
+                    </div>
                 </div>
+
+                {/* Recent posts */}
+                {stats.recent.length > 0 && (
+                    <div className="space-y-2 mb-4">
+                        <span className="text-[10px] text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                            <MessageSquare size={10} /> Ostatnie wątki
+                        </span>
+                        {stats.recent.map((post) => (
+                            <div key={post.id} className="p-2 rounded border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all cursor-pointer">
+                                <p className="text-xs text-slate-300 truncate">{post.title}</p>
+                                <span className="text-[10px] text-slate-600">{post.author_name}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Join CTA */}
+                <Button
+                    as={Link}
+                    to="/community"
+                    className="w-full bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest uppercase"
+                >
+                    <UserPlus size={14} className="mr-1" /> Dołącz do Community
+                </Button>
             </Card>
 
-            {/* --- PROMO HOLO-AD --- */}
-            <Card className="bg-gradient-to-br from-red-950/30 to-black border border-red-900/30 p-5 relative overflow-hidden group hover:border-red-800/60 transition-colors shrink-0">
+            {/* --- AI TEASER (locked) --- */}
+            <Card className="bg-gradient-to-br from-purple-950/30 to-black border border-purple-900/30 p-4 relative overflow-hidden group hover:border-purple-800/50 transition-colors shrink-0">
                 <div className="absolute top-0 right-0 p-2 opacity-30">
-                    <div className="w-16 h-16 rounded-full bg-red-900/20 blur-xl"></div>
+                    <div className="w-12 h-12 rounded-full bg-purple-500/20 blur-xl"></div>
                 </div>
-                <h4 className="font-display text-2xl text-red-700 mb-1 z-10 relative flex items-center gap-2">
-                    <Zap size={20} /> INITIALIZE PROTOCOL
+                <h4 className="font-display text-lg text-purple-400 mb-1 z-10 relative flex items-center gap-2">
+                    <Zap size={16} /> AI CHAT & TOOLS
                 </h4>
-                <p className="text-sm text-slate-500 mb-4 z-10 relative leading-tight">Access advanced systems and developer tools.</p>
-                <Button className="w-full bg-red-950/40 hover:bg-red-900/60 text-red-600 border border-red-900/50 font-mono text-xs tracking-widest uppercase shadow-[0_0_10px_rgba(153,27,27,0.2)]">
-                    Activate Access
+                <p className="text-[11px] text-slate-500 mb-3 z-10 relative leading-tight">
+                    Chat AI, generowanie grafiki i więcej — dostępne dla zarejestrowanych członków community.
+                </p>
+                <div className="flex items-center gap-2 text-[10px] text-slate-600 font-mono mb-3">
+                    <Shield size={10} /> WYMAGA REJESTRACJI
+                </div>
+                <Button
+                    as={Link}
+                    to="/community"
+                    size="sm"
+                    className="w-full bg-purple-950/40 hover:bg-purple-900/50 text-purple-400 border border-purple-900/40 font-mono text-[10px] tracking-widest uppercase"
+                >
+                    Odblokuj dostęp →
                 </Button>
             </Card>
 
             {/* --- INTELLIGENCE FEED --- */}
-            <Card className="bg-slate-950/60 border border-cyan-900/30 p-4 flex-grow flex flex-col overflow-hidden min-h-[400px]">
+            <Card className="bg-slate-950/60 border border-cyan-900/30 p-4 flex-grow flex flex-col overflow-hidden min-h-[300px]">
                 <h3 className="font-display text-lg text-cyan-800 mb-4 tracking-widest border-b border-cyan-900/20 pb-2 flex items-center gap-2">
                     <Cpu size={16} /> INTELLIGENCE_FEED
                 </h3>
