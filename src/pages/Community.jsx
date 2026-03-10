@@ -17,6 +17,17 @@ const timeAgo = (iso) => {
     return `${d}d temu`;
 };
 
+// UUID polyfill — some browsers lack crypto.randomUUID()
+const generateUUID = () => {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    // Fallback using crypto.getRandomValues
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+    );
+};
+
 const apiFetch = async (path, opts = {}) => {
     const token = localStorage.getItem('community_token');
     const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
@@ -26,14 +37,14 @@ const apiFetch = async (path, opts = {}) => {
     const method = (opts.method || 'GET').toUpperCase();
     if (['POST', 'PUT', 'DELETE'].includes(method)) {
         headers['X-Timestamp'] = String(Math.floor(Date.now() / 1000));
-        headers['X-Nonce'] = crypto.randomUUID();
+        headers['X-Nonce'] = generateUUID();
     }
 
     let res;
     try {
         res = await fetch(`${API}${path}`, { ...opts, headers });
     } catch (networkErr) {
-        // TypeError: Failed to fetch — CORS block, network down, or DNS failure
+        console.error('[apiFetch] Network error:', networkErr);
         throw new Error('Nie udało się połączyć z serwerem — sprawdź internet lub spróbuj ponownie');
     }
     const data = await res.json().catch(() => ({}));

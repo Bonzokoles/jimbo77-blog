@@ -3,6 +3,16 @@ import { Send, Terminal, ChevronRight, User, Shield, Loader } from 'lucide-react
 
 const COMMUNITY_API = 'https://jimbo77-community.stolarnia-ams.workers.dev';
 
+// UUID polyfill
+const generateUUID = () => {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+    );
+};
+
 /**
  * TerminalChat — cyberpunk terminal-style chat/comment widget
  * 
@@ -118,7 +128,7 @@ const TerminalChat = ({ postId = null, maxMessages = 30, title = 'COMMUNITY_TERM
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                     'X-Timestamp': String(Math.floor(Date.now() / 1000)),
-                    'X-Nonce': crypto.randomUUID(),
+                    'X-Nonce': generateUUID(),
                 },
                 body: JSON.stringify(body),
             });
