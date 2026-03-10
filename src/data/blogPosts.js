@@ -2,6 +2,24 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 
 export const blogPosts = [
     {
+        id: "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja",
+        title: "Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze ży",
+        slug: "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja",
+        subtitle: "",
+        date: "Marzec 2026",
+        sortDate: "2026-03-10",
+        category: "AI News",
+        image: '/blog-images/nowy-przelom-w-ai-chatgpt-5-potrafi-czyt-hero.png',
+        tech: ["AI News", "Aktualności", "AI"],
+        description: "---
+title: \"Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze życie?\"
+description: \"Spraw",
+        readTime: 5,
+        author: "Karol",
+        featured: true
+    },
+
+    {
         id: "ai-w-medycynie-jak-algorytmy-wykrywaja-choroby-serca-z-98-do",
         title: "AI w medycynie: Jak algorytmy wykrywają choroby serca z 98% dokładnością w szpit",
         slug: "ai-w-medycynie-jak-algorytmy-wykrywaja-choroby-serca-z-98-do",
