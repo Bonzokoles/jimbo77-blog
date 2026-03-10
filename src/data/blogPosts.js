@@ -19,7 +19,7 @@ export const blogPosts = [
 
     {
         id: "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja",
-        title: "Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze ży",
+        title: "Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze życie?",
         slug: "nowy-przelom-w-ai-chatgpt-5-potrafi-czytac-emocje-z-glosu-ja",
         subtitle: "",
         date: "Marzec 2026",
