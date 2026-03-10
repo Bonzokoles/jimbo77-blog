@@ -25,7 +25,7 @@ export const blogPosts = [
         date: "Marzec 2026",
         sortDate: "2026-03-10",
         category: "AI News",
-        image: '/blog-images/nowy-przelom-w-ai-chatgpt-5-potrafi-czyt-hero.png',
+        image: '/blog-images/nowy-przelom-w-ai-chatgpt-5-potrafi-czyt-hero.webp',
         tech: ["AI News", "Aktualności", "AI"],
         description: "Kiedy maszyna zaczyna czytać twój głos — nie tylko słowa, ale to co pod spodem — wchodzisz w nowe terytorium.",
         readTime: 5,

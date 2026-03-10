@@ -82,7 +82,7 @@ MODELS = [
         "endpoint": "models",
         "params": {
             "aspect_ratio": "16:9",
-            "output_format": "webp",
+            "output_format": "jpg",
             "output_quality": 95,
             "raw": False,
         },
