@@ -1,6 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Card, Avatar, Chip, Button, Spinner, Divider } from "@heroui/react";
-import { MessageSquare, Heart, Eye, ChevronDown, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield, Mail, Lock, User as UserIcon, KeyRound } from 'lucide-react';
+import { MessageSquare, Heart, Eye, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield, Mail, Lock,
+    User as UserIcon, KeyRound, Image as ImageIcon, X, Search, SortAsc, SortDesc, Edit3, Trash2,
+    Settings, Award, Check, Pin } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import TerminalChat from '../components/TerminalChat';
 
 const API = 'https://jimbo77-community.stolarnia-ams.workers.dev';
@@ -17,29 +21,22 @@ const timeAgo = (iso) => {
     return `${d}d temu`;
 };
 
-// UUID polyfill — some browsers lack crypto.randomUUID()
 const generateUUID = () => {
-    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-        return crypto.randomUUID();
-    }
-    // Fallback using crypto.getRandomValues
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
     return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
-        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
-    );
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16));
 };
 
 const apiFetch = async (path, opts = {}) => {
     const token = localStorage.getItem('community_token');
-    const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+    const headers = { ...(opts.headers || {}) };
+    if (!(opts.body instanceof FormData)) headers['Content-Type'] = 'application/json';
     if (token) headers['Authorization'] = `Bearer ${token}`;
-
-    // Security headers required by backend for POST/PUT/DELETE (replay protection)
     const method = (opts.method || 'GET').toUpperCase();
     if (['POST', 'PUT', 'DELETE'].includes(method)) {
         headers['X-Timestamp'] = String(Math.floor(Date.now() / 1000));
         headers['X-Nonce'] = generateUUID();
     }
-
     let res;
     try {
         res = await fetch(`${API}${path}`, { ...opts, headers, mode: 'cors' });
@@ -52,21 +49,22 @@ const apiFetch = async (path, opts = {}) => {
     return data;
 };
 
-// ─── Styled Input (native, dark-mode safe) ──────────────
+const apiUpload = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiFetch('/api/upload', { method: 'POST', body: formData });
+};
+
+// ─── Styled Input ───────────────────────────────────────
 const DarkInput = ({ label, icon: Icon, type = 'text', value, onChange, placeholder, required, maxLength, autoFocus, disabled }) => (
     <div className="space-y-1.5">
         <label className="text-[11px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1.5">
             {Icon && <Icon size={12} />} {label}
         </label>
         <input
-            type={type}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder}
-            required={required}
-            maxLength={maxLength}
-            autoFocus={autoFocus}
-            disabled={disabled}
+            type={type} value={value} onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder} required={required} maxLength={maxLength}
+            autoFocus={autoFocus} disabled={disabled}
             autoComplete={type === 'password' ? 'current-password' : type === 'email' ? 'email' : 'off'}
             className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 
                        text-white text-sm font-sans placeholder:text-slate-600
@@ -76,9 +74,72 @@ const DarkInput = ({ label, icon: Icon, type = 'text', value, onChange, placehol
     </div>
 );
 
-// ─── AUTH FORMS ─────────────────────────────────────────
+// ─── Markdown Renderer ──────────────────────────────────
+const MarkdownContent = ({ children }) => (
+    <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+            img: ({ src, alt }) => (
+                <img src={src} alt={alt || ''} loading="lazy"
+                    className="rounded-lg max-w-full max-h-96 my-2 border border-white/10" />
+            ),
+            a: ({ href, children }) => (
+                <a href={href} target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">{children}</a>
+            ),
+            code: ({ inline, children }) => inline
+                ? <code className="bg-white/10 text-cyan-300 px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>
+                : <pre className="bg-black/40 border border-white/10 rounded-lg p-3 overflow-x-auto my-2"><code className="text-green-400 text-sm font-mono">{children}</code></pre>,
+            blockquote: ({ children }) => (
+                <blockquote className="border-l-2 border-cyan-500/40 pl-3 my-2 text-slate-400 italic">{children}</blockquote>
+            ),
+            h1: ({ children }) => <h1 className="text-xl font-bold text-white mt-4 mb-2">{children}</h1>,
+            h2: ({ children }) => <h2 className="text-lg font-bold text-white mt-3 mb-2">{children}</h2>,
+            h3: ({ children }) => <h3 className="text-md font-bold text-white mt-2 mb-1">{children}</h3>,
+            ul: ({ children }) => <ul className="list-disc list-inside space-y-1 my-2">{children}</ul>,
+            ol: ({ children }) => <ol className="list-decimal list-inside space-y-1 my-2">{children}</ol>,
+            table: ({ children }) => <div className="overflow-x-auto my-2"><table className="min-w-full text-sm border border-white/10">{children}</table></div>,
+            th: ({ children }) => <th className="border border-white/10 px-3 py-1 bg-white/5 text-left font-mono text-cyan-400">{children}</th>,
+            td: ({ children }) => <td className="border border-white/10 px-3 py-1">{children}</td>,
+        }}
+        className="text-slate-300 leading-relaxed prose-invert max-w-none [&>p]:mb-2"
+    >
+        {children}
+    </ReactMarkdown>
+);
+
+// ─── Image Upload Button ────────────────────────────────
+const ImageUploader = ({ onUpload, disabled }) => {
+    const fileRef = useRef(null);
+    const [uploading, setUploading] = useState(false);
+
+    const handleFile = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) { alert('Maks. 2MB!'); return; }
+        if (!file.type.startsWith('image/')) { alert('Tylko obrazy!'); return; }
+        setUploading(true);
+        try {
+            const data = await apiUpload(file);
+            onUpload(data.url || data.publicUrl);
+        } catch (e) { alert('Upload error: ' + e.message); }
+        finally { setUploading(false); if (fileRef.current) fileRef.current.value = ''; }
+    };
+
+    return (
+        <>
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+            <button type="button" disabled={disabled || uploading} onClick={() => fileRef.current?.click()}
+                className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-cyan-400 transition-colors disabled:opacity-50 font-mono">
+                {uploading ? <Spinner size="sm" /> : <ImageIcon size={14} />}
+                {uploading ? 'UPLOADING...' : 'DODAJ OBRAZ'}
+            </button>
+        </>
+    );
+};
+
+// ─── AUTH PANEL ─────────────────────────────────────────
 const AuthPanel = ({ onAuth }) => {
-    const [mode, setMode] = useState('login'); // login | register
+    const [mode, setMode] = useState('login');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -88,12 +149,11 @@ const AuthPanel = ({ onAuth }) => {
     const [msg, setMsg] = useState(null);
     const [err, setErr] = useState(null);
 
-    // Map English backend errors to Polish
     const translateError = (msg) => {
         const map = {
             'Missing email or password': 'Podaj e-mail i hasło',
             'Username or Password Error': 'Nieprawidłowy e-mail lub hasło',
-            'Please verify your email first': 'Najpierw zweryfikuj swój e-mail (sprawdź skrzynkę)',
+            'Please verify your email first': 'Najpierw zweryfikuj swój e-mail',
             'TOTP_REQUIRED': 'Wymagany kod 2FA',
             'Invalid TOTP code': 'Nieprawidłowy kod 2FA',
             'Missing email, username or password': 'Wypełnij wszystkie pola',
@@ -120,27 +180,21 @@ const AuthPanel = ({ onAuth }) => {
                     localStorage.setItem('community_token', data.token);
                     localStorage.setItem('community_user', JSON.stringify(data.user));
                     onAuth(data.user);
-                } else {
-                    setErr('Brak tokena w odpowiedzi — skontaktuj się z adminem');
-                }
+                } else setErr('Brak tokena w odpowiedzi');
             } else {
-                // Walidacja frontend
                 if (password.length < 8) { setErr('Hasło musi mieć min. 8 znaków'); setLoading(false); return; }
                 if (password.length > 16) { setErr('Hasło max 16 znaków'); setLoading(false); return; }
                 if (!username.trim()) { setErr('Podaj nazwę użytkownika'); setLoading(false); return; }
-
                 const data = await apiFetch('/api/register', {
                     method: 'POST',
                     body: JSON.stringify({ email: email.trim(), username: username.trim(), password }),
                 });
-                setMsg(data.message || 'Rejestracja udana! Sprawdź e-mail.');
-                setMode('login');
-                setPassword('');
+                setMsg(data.message || 'Rejestracja udana!');
+                setMode('login'); setPassword('');
             }
         } catch (error) {
-            const msg = error.message;
-            if (msg === 'TOTP_REQUIRED') { setNeedTotp(true); setErr('Wpisz kod 2FA z aplikacji'); }
-            else setErr(translateError(msg));
+            if (error.message === 'TOTP_REQUIRED') { setNeedTotp(true); setErr('Wpisz kod 2FA z aplikacji'); }
+            else setErr(translateError(error.message));
         } finally { setLoading(false); }
     };
 
@@ -150,70 +204,21 @@ const AuthPanel = ({ onAuth }) => {
                 {mode === 'login' ? 'LOGOWANIE' : 'REJESTRACJA'}
             </h2>
             <p className="text-slate-500 text-xs text-center mb-6 font-mono">COMMUNITY_AUTH_PROTOCOL</p>
-
-            {msg && (
-                <div className="mb-4 p-3 rounded bg-green-900/20 border border-green-500/30 text-green-400 text-xs font-mono">
-                    ✓ {msg}
-                </div>
-            )}
-            {err && (
-                <div className="mb-4 p-3 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">
-                    ✗ {err}
-                </div>
-            )}
-
+            {msg && <div className="mb-4 p-3 rounded bg-green-900/20 border border-green-500/30 text-green-400 text-xs font-mono">✓ {msg}</div>}
+            {err && <div className="mb-4 p-3 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {err}</div>}
             <form onSubmit={handleSubmit} className="space-y-4">
-                <DarkInput
-                    label="E-mail"
-                    icon={Mail}
-                    type="email"
-                    value={email}
-                    onChange={setEmail}
-                    placeholder="twoj@email.com"
-                    required
-                    autoFocus
-                />
-
+                <DarkInput label="E-mail" icon={Mail} type="email" value={email} onChange={setEmail} placeholder="twoj@email.com" required autoFocus />
                 {mode === 'register' && (
-                    <DarkInput
-                        label="Nazwa użytkownika"
-                        icon={UserIcon}
-                        value={username}
-                        onChange={setUsername}
-                        placeholder="np. hacker42"
-                        required
-                        maxLength={20}
-                    />
+                    <DarkInput label="Nazwa użytkownika" icon={UserIcon} value={username} onChange={setUsername} placeholder="np. hacker42" required maxLength={20} />
                 )}
-
-                <DarkInput
-                    label="Hasło"
-                    icon={Lock}
-                    type="password"
-                    value={password}
-                    onChange={setPassword}
-                    placeholder={mode === 'register' ? '8–16 znaków' : '••••••••'}
-                    required
-                />
-
-                {needTotp && (
-                    <DarkInput
-                        label="Kod 2FA (TOTP)"
-                        icon={KeyRound}
-                        value={totp}
-                        onChange={setTotp}
-                        placeholder="123456"
-                        maxLength={6}
-                        autoFocus
-                    />
-                )}
-
+                <DarkInput label="Hasło" icon={Lock} type="password" value={password} onChange={setPassword}
+                    placeholder={mode === 'register' ? '8–16 znaków' : '••••••••'} required />
+                {needTotp && <DarkInput label="Kod 2FA (TOTP)" icon={KeyRound} value={totp} onChange={setTotp} placeholder="123456" maxLength={6} autoFocus />}
                 <Button type="submit" isLoading={loading}
                     className="w-full bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono tracking-widest mt-2">
                     {mode === 'login' ? <><LogIn size={14} className="mr-2" /> ZALOGUJ</> : <><UserPlus size={14} className="mr-2" /> ZAREJESTRUJ</>}
                 </Button>
             </form>
-
             <div className="mt-4 text-center">
                 <button onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setErr(null); setMsg(null); setNeedTotp(false); }}
                     className="text-xs text-slate-500 hover:text-cyan-400 transition-colors font-mono">
@@ -224,13 +229,114 @@ const AuthPanel = ({ onAuth }) => {
     );
 };
 
+// ─── USER PROFILE PANEL ─────────────────────────────────
+const ProfilePanel = ({ user, onUpdate, onClose }) => {
+    const [username, setUsername] = useState(user.username || '');
+    const [avatarUrl, setAvatarUrl] = useState(user.avatar_url || '');
+    const [currentPw, setCurrentPw] = useState('');
+    const [newPw, setNewPw] = useState('');
+    const [saving, setSaving] = useState(false);
+    const [msg, setMsg] = useState(null);
+    const [err, setErr] = useState(null);
+    const [tab, setTab] = useState('profile');
+
+    const handleSaveProfile = async (e) => {
+        e.preventDefault();
+        setSaving(true); setErr(null); setMsg(null);
+        try {
+            const data = await apiFetch('/api/user/profile', {
+                method: 'POST',
+                body: JSON.stringify({ username: username.trim(), avatar_url: avatarUrl }),
+            });
+            const updated = { ...user, username: data.user?.username || username, avatar_url: data.user?.avatar_url || avatarUrl };
+            localStorage.setItem('community_user', JSON.stringify(updated));
+            onUpdate(updated);
+            setMsg('Profil zaktualizowany!');
+        } catch (e) { setErr(e.message); }
+        finally { setSaving(false); }
+    };
+
+    const handleChangePassword = async (e) => {
+        e.preventDefault();
+        if (newPw.length < 8 || newPw.length > 16) { setErr('Nowe hasło: 8–16 znaków'); return; }
+        setSaving(true); setErr(null); setMsg(null);
+        try {
+            await apiFetch('/api/user/change-password', {
+                method: 'POST',
+                body: JSON.stringify({ current_password: currentPw, new_password: newPw }),
+            });
+            setMsg('Hasło zmienione!'); setCurrentPw(''); setNewPw('');
+        } catch (e) { setErr(e.message); }
+        finally { setSaving(false); }
+    };
+
+    return (
+        <Card className="bg-black/60 backdrop-blur-xl border border-cyan-500/20 p-6 max-w-lg mx-auto mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="font-display text-xl text-cyan-500 tracking-widest flex items-center gap-2"><Settings size={18} /> PROFIL</h2>
+                <button onClick={onClose} className="text-slate-500 hover:text-white"><X size={18} /></button>
+            </div>
+            <div className="flex gap-2 mb-4">
+                {[['profile', 'Profil'], ['password', 'Hasło'], ['security', 'Info']].map(([key, label]) => (
+                    <button key={key} onClick={() => { setTab(key); setErr(null); setMsg(null); }}
+                        className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${tab === key ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                        {label}
+                    </button>
+                ))}
+            </div>
+            {msg && <div className="mb-3 p-2 rounded bg-green-900/20 border border-green-500/30 text-green-400 text-xs font-mono">✓ {msg}</div>}
+            {err && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {err}</div>}
+
+            {tab === 'profile' && (
+                <form onSubmit={handleSaveProfile} className="space-y-4">
+                    <div className="flex items-center gap-4 mb-4">
+                        <Avatar name={username} src={avatarUrl} className="w-16 h-16 bg-slate-900 border border-slate-700 text-slate-400" />
+                        <div className="space-y-1">
+                            <p className="text-white text-sm">{user.email}</p>
+                            <ImageUploader onUpload={(url) => setAvatarUrl(url)} />
+                        </div>
+                    </div>
+                    <DarkInput label="Nazwa użytkownika" icon={UserIcon} value={username} onChange={setUsername} maxLength={20} required />
+                    <DarkInput label="Avatar URL" icon={ImageIcon} value={avatarUrl} onChange={setAvatarUrl} placeholder="https://..." />
+                    <Button type="submit" isLoading={saving}
+                        className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest">
+                        <Check size={14} className="mr-2" /> ZAPISZ PROFIL
+                    </Button>
+                </form>
+            )}
+            {tab === 'password' && (
+                <form onSubmit={handleChangePassword} className="space-y-4">
+                    <DarkInput label="Aktualne hasło" icon={Lock} type="password" value={currentPw} onChange={setCurrentPw} required />
+                    <DarkInput label="Nowe hasło (8–16)" icon={KeyRound} type="password" value={newPw} onChange={setNewPw} required />
+                    <Button type="submit" isLoading={saving}
+                        className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest">
+                        <Check size={14} className="mr-2" /> ZMIEŃ HASŁO
+                    </Button>
+                </form>
+            )}
+            {tab === 'security' && (
+                <div className="space-y-3 text-sm text-slate-400">
+                    <div className="flex items-center gap-2"><Shield size={16} className="text-cyan-500" />
+                        <span>2FA: <span className={user.totp_enabled ? 'text-green-400' : 'text-yellow-500'}>{user.totp_enabled ? 'AKTYWNE' : 'NIEAKTYWNE'}</span></span></div>
+                    <div className="flex items-center gap-2"><Award size={16} className="text-cyan-500" />
+                        <span>Rola: <span className="text-white font-mono">{user.role?.toUpperCase()}</span></span></div>
+                </div>
+            )}
+        </Card>
+    );
+};
+
 // ─── POST DETAIL VIEW ───────────────────────────────────
-const PostDetail = ({ postId, user, onBack }) => {
+const PostDetail = ({ postId, user, onBack, onDelete }) => {
     const [post, setPost] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [editing, setEditing] = useState(false);
+    const [editTitle, setEditTitle] = useState('');
+    const [editContent, setEditContent] = useState('');
+    const [editErr, setEditErr] = useState(null);
 
     const fetchPost = useCallback(async () => {
         try {
@@ -238,8 +344,7 @@ const PostDetail = ({ postId, user, onBack }) => {
                 apiFetch(`/api/posts/${postId}${user ? `?user_id=${user.id}` : ''}`),
                 apiFetch(`/api/posts/${postId}/comments`),
             ]);
-            setPost(p);
-            setComments(c);
+            setPost(p); setComments(c);
         } catch (e) { console.error(e); }
         finally { setLoading(false); }
     }, [postId, user]);
@@ -250,11 +355,7 @@ const PostDetail = ({ postId, user, onBack }) => {
         if (!user) return;
         try {
             const res = await apiFetch(`/api/posts/${postId}/like`, { method: 'POST', body: '{}' });
-            setPost(prev => ({
-                ...prev,
-                liked: res.liked,
-                like_count: prev.like_count + (res.liked ? 1 : -1)
-            }));
+            setPost(prev => ({ ...prev, liked: res.liked, like_count: prev.like_count + (res.liked ? 1 : -1) }));
         } catch (e) { console.error(e); }
     };
 
@@ -264,8 +365,7 @@ const PostDetail = ({ postId, user, onBack }) => {
         setSubmitting(true);
         try {
             const c = await apiFetch(`/api/posts/${postId}/comments`, {
-                method: 'POST',
-                body: JSON.stringify({ content: newComment }),
+                method: 'POST', body: JSON.stringify({ content: newComment }),
             });
             setComments(prev => [...prev, c]);
             setNewComment('');
@@ -274,29 +374,91 @@ const PostDetail = ({ postId, user, onBack }) => {
         finally { setSubmitting(false); }
     };
 
+    const handleDeleteComment = async (commentId) => {
+        if (!confirm('Usunąć komentarz?')) return;
+        try {
+            await apiFetch(`/api/comments/${commentId}`, { method: 'DELETE' });
+            setComments(prev => prev.filter(c => c.id !== commentId));
+            setPost(prev => ({ ...prev, comment_count: Math.max(0, (prev.comment_count || 0) - 1) }));
+        } catch (e) { console.error(e); }
+    };
+
+    const handleEdit = () => { setEditTitle(post.title); setEditContent(post.content); setEditing(true); setEditErr(null); };
+
+    const handleSaveEdit = async () => {
+        setEditErr(null);
+        try {
+            await apiFetch(`/api/posts/${postId}`, { method: 'PUT', body: JSON.stringify({ title: editTitle, content: editContent }) });
+            setPost(prev => ({ ...prev, title: editTitle, content: editContent }));
+            setEditing(false);
+        } catch (e) { setEditErr(e.message); }
+    };
+
+    const handleDeletePost = async () => {
+        if (!confirm('Na pewno usunąć ten post?')) return;
+        try { await apiFetch(`/api/posts/${postId}`, { method: 'DELETE' }); onDelete?.(); onBack(); }
+        catch (e) { alert('Błąd: ' + e.message); }
+    };
+
+    const handleImageUpload = (url) => setEditContent(prev => prev + `\n![obraz](${url})\n`);
+
     if (loading) return <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>;
     if (!post) return <p className="text-center text-red-400">Post nie znaleziony.</p>;
+    const isOwner = user && (user.id === post.author_id || user.role === 'admin');
 
     return (
         <div className="space-y-6">
             <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors text-sm font-mono">
-                <ArrowLeft size={14}/> POWRÓT DO LISTY
+                <ArrowLeft size={14} /> POWRÓT DO LISTY
             </button>
-
             <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-6">
-                <div className="flex items-center gap-3 mb-4">
-                    <Avatar name={post.author_name} src={post.author_avatar} className="w-10 h-10 bg-slate-900 border border-slate-800 text-slate-400" />
-                    <div>
-                        <span className="text-white font-medium">{post.author_name}</span>
-                        {post.author_role === 'admin' && <Chip size="sm" className="ml-2 bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
-                        <span className="block text-[10px] text-slate-600 font-mono"><Clock size={10} className="inline mr-1" />{timeAgo(post.created_at)}</span>
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                        <Avatar name={post.author_name} src={post.author_avatar} className="w-10 h-10 bg-slate-900 border border-slate-800 text-slate-400" />
+                        <div>
+                            <span className="text-white font-medium">{post.author_name}</span>
+                            {post.author_role === 'admin' && <Chip size="sm" className="ml-2 bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
+                            <span className="block text-[10px] text-slate-600 font-mono"><Clock size={10} className="inline mr-1" />{timeAgo(post.created_at)}</span>
+                        </div>
                     </div>
+                    {isOwner && !editing && (
+                        <div className="flex gap-2">
+                            <button onClick={handleEdit} className="text-slate-500 hover:text-cyan-400 transition-colors p-1.5 rounded hover:bg-white/5"><Edit3 size={15} /></button>
+                            <button onClick={handleDeletePost} className="text-slate-500 hover:text-red-400 transition-colors p-1.5 rounded hover:bg-white/5"><Trash2 size={15} /></button>
+                        </div>
+                    )}
                 </div>
-
                 {post.category_name && <Chip size="sm" variant="flat" className="mb-3 bg-cyan-900/10 text-cyan-600 border border-cyan-900/20 font-mono text-[10px]">{post.category_name}</Chip>}
 
-                <h2 className="text-2xl font-bold text-white mb-4">{post.title}</h2>
-                <div className="text-slate-300 leading-relaxed whitespace-pre-wrap mb-6">{post.content}</div>
+                {editing ? (
+                    <div className="space-y-3">
+                        {editErr && <div className="p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {editErr}</div>}
+                        <DarkInput label="Tytuł" icon={MessageSquare} value={editTitle} onChange={setEditTitle} maxLength={30} required />
+                        <div className="space-y-1.5">
+                            <div className="flex items-center justify-between">
+                                <label className="text-[11px] text-slate-400 font-mono uppercase tracking-wider">Treść (Markdown)</label>
+                                <ImageUploader onUpload={handleImageUpload} />
+                            </div>
+                            <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} maxLength={3000} rows={8}
+                                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 text-white text-sm font-mono
+                                           placeholder:text-slate-600 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20
+                                           outline-none transition-all resize-y min-h-[150px]" />
+                        </div>
+                        <div className="flex gap-2">
+                            <Button size="sm" onPress={handleSaveEdit}
+                                className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs">
+                                <Check size={14} className="mr-1" /> ZAPISZ
+                            </Button>
+                            <Button size="sm" onPress={() => setEditing(false)}
+                                className="bg-white/5 text-slate-500 border border-white/10 font-mono text-xs">ANULUJ</Button>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <h2 className="text-2xl font-bold text-white mb-4">{post.title}</h2>
+                        <div className="mb-6"><MarkdownContent>{post.content}</MarkdownContent></div>
+                    </>
+                )}
 
                 <div className="flex items-center gap-6 text-sm text-slate-500 border-t border-white/5 pt-4">
                     <button onClick={handleLike} className={`flex items-center gap-1.5 transition-colors ${post.liked ? 'text-red-400' : 'hover:text-red-400'}`}>
@@ -307,16 +469,191 @@ const PostDetail = ({ postId, user, onBack }) => {
                 </div>
             </Card>
 
-            {/* Comments — Terminal Style */}
-            <TerminalChat
-                postId={postId}
-                title={`KOMENTARZE // POST_${postId}`}
-                maxMessages={50}
-                className="min-h-[300px] max-h-[500px] relative"
-            />
+            {/* Comments */}
+            {comments.length > 0 && (
+                <Card className="bg-black/30 border border-white/5 p-4">
+                    <h3 className="font-mono text-sm text-cyan-500 mb-4 tracking-wider">KOMENTARZE ({comments.length})</h3>
+                    <div className="space-y-3">
+                        {comments.map(c => (
+                            <div key={c.id} className="flex gap-3 p-3 rounded bg-white/[0.02] border border-white/5">
+                                <Avatar name={c.author_name} src={c.author_avatar} className="w-7 h-7 bg-slate-900 text-slate-500 text-[10px] shrink-0" />
+                                <div className="flex-grow min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-xs text-slate-300">{c.author_name}</span>
+                                        <span className="text-[10px] text-slate-600 font-mono">{timeAgo(c.created_at)}</span>
+                                        {user && (user.id === c.author_id || user.role === 'admin') && (
+                                            <button onClick={() => handleDeleteComment(c.id)} className="ml-auto text-slate-600 hover:text-red-400 transition-colors"><Trash2 size={12} /></button>
+                                        )}
+                                    </div>
+                                    <div className="text-sm text-slate-400"><MarkdownContent>{c.content}</MarkdownContent></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </Card>
+            )}
+
+            {/* New comment */}
+            {user && (
+                <form onSubmit={handleComment} className="flex gap-2">
+                    <input value={newComment} onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Napisz komentarz (Markdown)..." maxLength={1000}
+                        className="flex-grow px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 text-white text-sm
+                                   placeholder:text-slate-600 focus:border-cyan-500/50 outline-none transition-all" />
+                    <Button type="submit" isLoading={submitting} size="sm"
+                        className="bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-xs shrink-0">
+                        <Send size={14} />
+                    </Button>
+                </form>
+            )}
         </div>
     );
 };
+
+// ─── SEARCH & SORT BAR ─────────────────────────────────
+const SearchBar = ({ query, setQuery, sortBy, setSortBy, sortDir, setSortDir, onSearch }) => (
+    <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex-grow relative">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
+            <input value={query} onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && onSearch()}
+                placeholder="Szukaj postów..."
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white text-sm
+                           placeholder:text-slate-600 focus:border-cyan-500/50 outline-none transition-all font-mono" />
+        </div>
+        <select value={sortBy} onChange={(e) => { setSortBy(e.target.value); onSearch(); }}
+            className="px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-slate-400 text-xs font-mono focus:border-cyan-500/50 outline-none cursor-pointer appearance-none">
+            <option value="">Najnowsze</option>
+            <option value="likes">❤ Polubienia</option>
+            <option value="comments">💬 Komentarze</option>
+            <option value="views">👁 Wyświetlenia</option>
+        </select>
+        {sortBy && (
+            <button onClick={() => { setSortDir(d => d === 'desc' ? 'asc' : 'desc'); onSearch(); }}
+                className="px-2 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-slate-400 hover:text-cyan-400 transition-colors">
+                {sortDir === 'desc' ? <SortDesc size={16} /> : <SortAsc size={16} />}
+            </button>
+        )}
+        <button onClick={onSearch}
+            className="px-4 py-2 rounded-lg bg-cyan-600/15 border border-cyan-500/20 text-cyan-400 text-xs font-mono hover:bg-cyan-600/25 transition-colors">
+            SZUKAJ
+        </button>
+    </div>
+);
+
+// ─── NEW POST FORM ──────────────────────────────────────
+const NewPostForm = ({ categories, onCreated, onClose }) => {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [categoryId, setCategoryId] = useState('');
+    const [creating, setCreating] = useState(false);
+    const [formErr, setFormErr] = useState(null);
+    const [preview, setPreview] = useState(false);
+
+    const handleImageUpload = (url) => setContent(prev => prev + `\n![obraz](${url})\n`);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!title.trim() || !content.trim()) return;
+        setCreating(true); setFormErr(null);
+        try {
+            await apiFetch('/api/posts', {
+                method: 'POST',
+                body: JSON.stringify({ title, content, category_id: categoryId || undefined }),
+            });
+            onCreated();
+        } catch (e) { setFormErr(e.message); }
+        finally { setCreating(false); }
+    };
+
+    return (
+        <Card className="bg-black/40 border border-cyan-500/20 p-5 mb-6">
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="font-display text-lg text-cyan-500 tracking-widest">NOWY_POST</h3>
+                <div className="flex gap-2">
+                    <button onClick={() => setPreview(!preview)}
+                        className={`text-xs px-2 py-1 rounded border font-mono transition-colors ${preview ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                        {preview ? 'EDYTUJ' : 'PODGLĄD'}
+                    </button>
+                    <button onClick={onClose} className="text-slate-500 hover:text-white"><X size={16} /></button>
+                </div>
+            </div>
+            {formErr && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {formErr}</div>}
+            <form onSubmit={handleSubmit} className="space-y-3">
+                <DarkInput label="Tytuł (max 30 znaków)" icon={MessageSquare} value={title} onChange={setTitle}
+                    placeholder="O czym chcesz napisać?" required maxLength={30} />
+                <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                        <label className="text-[11px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1.5">
+                            <Send size={12} /> Treść (Markdown, max 3000)
+                        </label>
+                        <ImageUploader onUpload={handleImageUpload} />
+                    </div>
+                    {preview ? (
+                        <div className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 min-h-[120px]">
+                            <MarkdownContent>{content || '*Pusty podgląd...*'}</MarkdownContent>
+                        </div>
+                    ) : (
+                        <textarea value={content} onChange={(e) => setContent(e.target.value)}
+                            placeholder={"Napisz treść... **bold** | *italic* | ![obraz](url) | `kod`"}
+                            required maxLength={3000} rows={5}
+                            className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 
+                                       text-white text-sm font-mono placeholder:text-slate-600
+                                       focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20
+                                       outline-none transition-all resize-y min-h-[120px]" />
+                    )}
+                    <p className="text-[10px] text-slate-600 font-mono">
+                        **bold** | *italic* | [link](url) | ![obraz](url) | `kod` | &gt; cytat
+                    </p>
+                </div>
+                {categories.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                        <button type="button" onClick={() => setCategoryId('')}
+                            className={`text-xs px-3 py-1 rounded border font-mono ${!categoryId ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                            Brak kategorii
+                        </button>
+                        {categories.map(cat => (
+                            <button key={cat.id} type="button" onClick={() => setCategoryId(cat.id)}
+                                className={`text-xs px-3 py-1 rounded border font-mono ${categoryId === cat.id ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                                {cat.name}
+                            </button>
+                        ))}
+                    </div>
+                )}
+                <Button type="submit" isLoading={creating}
+                    className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest">
+                    <Send size={14} className="mr-2" /> OPUBLIKUJ
+                </Button>
+            </form>
+        </Card>
+    );
+};
+
+// ─── POST CARD (list item) ──────────────────────────────
+const PostCard = ({ post, onClick }) => (
+    <Card isPressable onPress={onClick}
+        className="bg-black/30 backdrop-blur-xl border border-white/5 p-4 hover:border-cyan-500/20 transition-all">
+        <div className="flex items-start gap-3">
+            <Avatar name={post.author_name} src={post.author_avatar} className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0" />
+            <div className="flex-grow min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="text-sm text-slate-300 font-medium">{post.author_name}</span>
+                    {post.author_role === 'admin' && <Shield size={12} className="text-red-400" />}
+                    {post.is_pinned === 1 && <Chip size="sm" className="bg-yellow-900/20 text-yellow-500 border border-yellow-900/30 text-[10px]">📌 PINNED</Chip>}
+                    {post.category_name && <Chip size="sm" variant="flat" className="bg-white/5 text-slate-500 border border-white/5 text-[10px] font-mono">{post.category_name}</Chip>}
+                    <span className="text-[10px] text-slate-600 font-mono ml-auto"><Clock size={10} className="inline mr-0.5" />{timeAgo(post.created_at)}</span>
+                </div>
+                <h3 className="text-white font-medium truncate">{post.title}</h3>
+                <p className="text-slate-500 text-xs mt-1 line-clamp-2">{post.content}</p>
+                <div className="flex items-center gap-4 mt-2 text-[11px] text-slate-600">
+                    <span className="flex items-center gap-1"><Heart size={12} /> {post.like_count || 0}</span>
+                    <span className="flex items-center gap-1"><MessageSquare size={12} /> {post.comment_count || 0}</span>
+                    <span className="flex items-center gap-1"><Eye size={12} /> {post.view_count || 0}</span>
+                </div>
+            </div>
+        </div>
+    </Card>
+);
 
 // ─── MAIN COMMUNITY PAGE ────────────────────────────────
 const Community = () => {
@@ -330,54 +667,36 @@ const Community = () => {
     const [offset, setOffset] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [activePost, setActivePost] = useState(null);
-
-    // New post form
     const [showForm, setShowForm] = useState(false);
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [postCategoryId, setPostCategoryId] = useState('');
-    const [creating, setCreating] = useState(false);
-    const [formErr, setFormErr] = useState(null);
+    const [showProfile, setShowProfile] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortBy, setSortBy] = useState('');
+    const [sortDir, setSortDir] = useState('desc');
 
     const LIMIT = 15;
 
-    const fetchPosts = useCallback(async (off = 0, catId = null) => {
+    const fetchPosts = useCallback(async (off = 0, catId = null, q = '', sort = '', dir = 'desc') => {
         setLoading(true);
         try {
-            let q = `/api/posts?limit=${LIMIT}&offset=${off}`;
-            if (catId) q += `&category_id=${catId}`;
-            const data = await apiFetch(q);
-            setPosts(data.posts || []);
-            setTotal(data.total || 0);
+            let path = `/api/posts?limit=${LIMIT}&offset=${off}`;
+            if (catId) path += `&category_id=${catId}`;
+            if (q) path += `&q=${encodeURIComponent(q)}`;
+            if (sort) path += `&sort_by=${sort}&sort_dir=${dir}`;
+            const data = await apiFetch(path);
+            setPosts(data.posts || []); setTotal(data.total || 0);
         } catch (e) { console.error(e); }
         finally { setLoading(false); }
     }, []);
 
     const fetchCategories = useCallback(async () => {
-        try {
-            const data = await apiFetch('/api/categories');
-            setCategories(data || []);
-        } catch (e) { console.error(e); }
+        try { const data = await apiFetch('/api/categories'); setCategories(data || []); }
+        catch (e) { console.error(e); }
     }, []);
 
     useEffect(() => { fetchCategories(); }, [fetchCategories]);
-    useEffect(() => { fetchPosts(offset, selectedCategory); }, [offset, selectedCategory, fetchPosts]);
+    useEffect(() => { fetchPosts(offset, selectedCategory, searchQuery, sortBy, sortDir); }, [offset, selectedCategory, fetchPosts]);
 
-    const handleCreatePost = async (e) => {
-        e.preventDefault();
-        if (!title.trim() || !content.trim()) return;
-        setCreating(true); setFormErr(null);
-        try {
-            await apiFetch('/api/posts', {
-                method: 'POST',
-                body: JSON.stringify({ title, content, category_id: postCategoryId || undefined }),
-            });
-            setTitle(''); setContent(''); setPostCategoryId(''); setShowForm(false);
-            fetchPosts(0, selectedCategory);
-            setOffset(0);
-        } catch (e) { setFormErr(e.message); }
-        finally { setCreating(false); }
-    };
+    const handleSearch = () => { setOffset(0); fetchPosts(0, selectedCategory, searchQuery, sortBy, sortDir); };
 
     const handleLogout = () => {
         localStorage.removeItem('community_token');
@@ -385,12 +704,12 @@ const Community = () => {
         setUser(null);
     };
 
-    // If viewing a single post
     if (activePost) {
         return (
             <div className="min-h-screen pt-28 pb-12 w-full">
                 <div className="container mx-auto px-4 max-w-4xl">
-                    <PostDetail postId={activePost} user={user} onBack={() => setActivePost(null)} />
+                    <PostDetail postId={activePost} user={user} onBack={() => setActivePost(null)}
+                        onDelete={() => fetchPosts(0, selectedCategory, searchQuery, sortBy, sortDir)} />
                 </div>
             </div>
         );
@@ -399,8 +718,6 @@ const Community = () => {
     return (
         <div className="min-h-screen pt-28 pb-12 w-full">
             <div className="container mx-auto px-4 max-w-5xl">
-
-                {/* ─── Header ─── */}
                 <div className="text-center mb-10">
                     <h1 className="font-display text-5xl md:text-6xl text-white mb-3 tracking-widest">
                         COMMUNITY<span className="text-cyan-500">_HUB</span>
@@ -408,25 +725,25 @@ const Community = () => {
                     <p className="text-slate-500 max-w-xl mx-auto text-sm font-light">
                         Forum społeczności Jimbo77 — dyskusje, pytania, projekty.
                     </p>
-                    <span className="block text-[10px] text-green-500/50 mt-2 font-mono">
-                        CONNECTED_TO: {API.replace('https://', '')}
-                    </span>
+                    <span className="block text-[10px] text-green-500/50 mt-2 font-mono">CONNECTED_TO: {API.replace('https://', '')}</span>
                 </div>
 
-                {/* ─── Auth Bar ─── */}
-                {!user ? (
-                    <AuthPanel onAuth={setUser} />
-                ) : (
+                {!user ? <AuthPanel onAuth={setUser} /> : (
                     <>
-                        {/* Logged-in bar */}
+                        {showProfile && <ProfilePanel user={user} onUpdate={setUser} onClose={() => setShowProfile(false)} />}
+
                         <Card className="bg-black/30 border border-white/5 p-3 mb-6 flex flex-row items-center justify-between">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 cursor-pointer" onClick={() => setShowProfile(!showProfile)}>
                                 <Avatar name={user.username} src={user.avatar_url} className="w-8 h-8 bg-slate-900 text-slate-400 text-sm" />
-                                <span className="text-white text-sm">{user.username}</span>
+                                <span className="text-white text-sm hover:text-cyan-400 transition-colors">{user.username}</span>
                                 {user.role === 'admin' && <Chip size="sm" className="bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
                             </div>
                             <div className="flex gap-2">
-                                <Button size="sm" onPress={() => setShowForm(!showForm)}
+                                <Button size="sm" onPress={() => { setShowProfile(!showProfile); setShowForm(false); }}
+                                    className="bg-white/5 hover:bg-white/10 text-slate-400 border border-white/10 font-mono text-[10px] tracking-wider">
+                                    <Settings size={13} className="mr-1" /> PROFIL
+                                </Button>
+                                <Button size="sm" onPress={() => { setShowForm(!showForm); setShowProfile(false); }}
                                     className="bg-cyan-600/15 hover:bg-cyan-600/25 text-cyan-400 border border-cyan-500/20 font-mono text-[10px] tracking-wider">
                                     + NOWY POST
                                 </Button>
@@ -437,61 +754,16 @@ const Community = () => {
                             </div>
                         </Card>
 
-                        {/* ─── New Post Form ─── */}
                         {showForm && (
-                            <Card className="bg-black/40 border border-cyan-500/20 p-5 mb-6">
-                                <h3 className="font-display text-lg text-cyan-500 mb-4 tracking-widest">NOWY_POST</h3>
-                                {formErr && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {formErr}</div>}
-                                <form onSubmit={handleCreatePost} className="space-y-3">
-                                    <DarkInput
-                                        label="Tytuł (max 30 znaków)"
-                                        icon={MessageSquare}
-                                        value={title}
-                                        onChange={setTitle}
-                                        placeholder="O czym chcesz napisać?"
-                                        required
-                                        maxLength={30}
-                                    />
-                                    <div className="space-y-1.5">
-                                        <label className="text-[11px] text-slate-400 font-mono uppercase tracking-wider flex items-center gap-1.5">
-                                            <Send size={12} /> Treść (max 3000 znaków)
-                                        </label>
-                                        <textarea
-                                            value={content}
-                                            onChange={(e) => setContent(e.target.value)}
-                                            placeholder="Napisz treść posta..."
-                                            required
-                                            maxLength={3000}
-                                            rows={4}
-                                            className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/10 
-                                                       text-white text-sm font-sans placeholder:text-slate-600
-                                                       focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20 focus:bg-white/[0.08]
-                                                       outline-none transition-all duration-200 resize-y min-h-[100px]"
-                                        />
-                                    </div>
-                                    {categories.length > 0 && (
-                                        <div className="flex flex-wrap gap-2">
-                                            <button type="button" onClick={() => setPostCategoryId('')}
-                                                className={`text-xs px-3 py-1 rounded border font-mono ${!postCategoryId ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
-                                                Brak kategorii
-                                            </button>
-                                            {categories.map(cat => (
-                                                <button key={cat.id} type="button" onClick={() => setPostCategoryId(cat.id)}
-                                                    className={`text-xs px-3 py-1 rounded border font-mono ${postCategoryId === cat.id ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
-                                                    {cat.name}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                    <Button type="submit" isLoading={creating}
-                                        className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest">
-                                        <Send size={14} className="mr-2" /> OPUBLIKUJ
-                                    </Button>
-                                </form>
-                            </Card>
+                            <NewPostForm categories={categories}
+                                onCreated={() => { setShowForm(false); setOffset(0); fetchPosts(0, selectedCategory, searchQuery, sortBy, sortDir); }}
+                                onClose={() => setShowForm(false)} />
                         )}
 
-                        {/* ─── Category Filter ─── */}
+                        <SearchBar query={searchQuery} setQuery={setSearchQuery}
+                            sortBy={sortBy} setSortBy={setSortBy} sortDir={sortDir} setSortDir={setSortDir}
+                            onSearch={handleSearch} />
+
                         {categories.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-6">
                                 <button onClick={() => { setSelectedCategory(null); setOffset(0); }}
@@ -507,50 +779,25 @@ const Community = () => {
                             </div>
                         )}
 
-                        {/* ─── Posts List ─── */}
                         {loading ? (
                             <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>
                         ) : posts.length === 0 ? (
                             <div className="text-center py-20">
-                                <p className="text-slate-600 font-mono text-sm">BRAK POSTÓW — BĄDŹ PIERWSZY!</p>
+                                <p className="text-slate-600 font-mono text-sm">
+                                    {searchQuery ? `BRAK WYNIKÓW DLA "${searchQuery}"` : 'BRAK POSTÓW — BĄDŹ PIERWSZY!'}
+                                </p>
                             </div>
                         ) : (
                             <div className="space-y-3">
-                                {posts.map(post => (
-                                    <Card key={post.id} isPressable onPress={() => setActivePost(post.id)}
-                                        className="bg-black/30 backdrop-blur-xl border border-white/5 p-4 hover:border-cyan-500/20 transition-all">
-                                        <div className="flex items-start gap-3">
-                                            <Avatar name={post.author_name} src={post.author_avatar} className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0" />
-                                            <div className="flex-grow min-w-0">
-                                                <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                                    <span className="text-sm text-slate-300 font-medium">{post.author_name}</span>
-                                                    {post.author_role === 'admin' && <Shield size={12} className="text-red-400" />}
-                                                    {post.is_pinned === 1 && <Chip size="sm" className="bg-yellow-900/20 text-yellow-500 border border-yellow-900/30 text-[10px]">PINNED</Chip>}
-                                                    {post.category_name && <Chip size="sm" variant="flat" className="bg-white/5 text-slate-500 border border-white/5 text-[10px] font-mono">{post.category_name}</Chip>}
-                                                    <span className="text-[10px] text-slate-600 font-mono ml-auto"><Clock size={10} className="inline mr-0.5" />{timeAgo(post.created_at)}</span>
-                                                </div>
-                                                <h3 className="text-white font-medium truncate">{post.title}</h3>
-                                                <p className="text-slate-500 text-xs mt-1 line-clamp-2">{post.content}</p>
-                                                <div className="flex items-center gap-4 mt-2 text-[11px] text-slate-600">
-                                                    <span className="flex items-center gap-1"><Heart size={12} /> {post.like_count || 0}</span>
-                                                    <span className="flex items-center gap-1"><MessageSquare size={12} /> {post.comment_count || 0}</span>
-                                                    <span className="flex items-center gap-1"><Eye size={12} /> {post.view_count || 0}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Card>
-                                ))}
+                                {posts.map(post => <PostCard key={post.id} post={post} onClick={() => setActivePost(post.id)} />)}
                             </div>
                         )}
 
-                        {/* Pagination */}
                         {total > LIMIT && (
                             <div className="flex justify-center gap-3 mt-8">
                                 <Button size="sm" isDisabled={offset === 0} onPress={() => setOffset(Math.max(0, offset - LIMIT))}
                                     className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">← PREV</Button>
-                                <span className="text-xs text-slate-600 font-mono self-center">
-                                    {offset + 1}–{Math.min(offset + LIMIT, total)} z {total}
-                                </span>
+                                <span className="text-xs text-slate-600 font-mono self-center">{offset + 1}–{Math.min(offset + LIMIT, total)} z {total}</span>
                                 <Button size="sm" isDisabled={offset + LIMIT >= total} onPress={() => setOffset(offset + LIMIT)}
                                     className="bg-white/5 text-slate-400 border border-white/10 font-mono text-xs">NEXT →</Button>
                             </div>
