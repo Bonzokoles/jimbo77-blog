@@ -27,8 +27,8 @@ const App = () => {
                     <Route path="/community" element={<Community />} />
                     <Route path="/tools" element={<Tools />} />
                     <Route path="/gallery" element={<Gallery />} />
-                    <Route path="/admin" element={<AdminPanel />} />
                 </Route>
+                <Route path="/admin" element={<AdminPanel />} />
             </Routes>
         </Router>
     );
