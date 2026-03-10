@@ -2,7 +2,8 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Card, Avatar, Chip, Button, Spinner, Divider } from "@heroui/react";
 import { MessageSquare, Heart, Eye, Send, LogIn, UserPlus, ArrowLeft, Clock, Shield, Mail, Lock,
     User as UserIcon, KeyRound, Image as ImageIcon, X, Search, SortAsc, SortDesc, Edit3, Trash2,
-    Settings, Award, Check, Pin } from 'lucide-react';
+    Settings, Award, Check, Pin, Globe, MapPin, Github, Twitter, Linkedin, Plus, GripVertical,
+    BarChart3, FileText, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import TerminalChat from '../components/TerminalChat';
@@ -229,16 +230,36 @@ const AuthPanel = ({ onAuth }) => {
     );
 };
 
-// ─── USER PROFILE PANEL ─────────────────────────────────
+// ─── USER PROFILE PANEL (Dashboard Editor) ─────────────
+const SECTION_TEMPLATES = [
+    { type: 'introduction', title: 'Wprowadzenie', default_content: '# Cześć! 👋\nJestem **[Twoje imię]** — pasjonat technologii.' },
+    { type: 'about', title: 'O mnie', default_content: '🚀 **O mnie**\n\nPełnoprawny developer z pasją do...' },
+    { type: 'links', title: 'Linki', default_content: '🔗 **Linki**\n\n- [Portfolio](https://)\n- [Blog](https://)' },
+    { type: 'skills', title: 'Umiejętności', default_content: '🛠 **Tech Stack**\n\nJavaScript, React, Node.js, Python...' },
+    { type: 'projects', title: 'Projekty', default_content: '📂 **Projekty**\n\n- **Projekt 1** — opis\n- **Projekt 2** — opis' },
+    { type: 'custom', title: 'Własna sekcja', default_content: '## Moja sekcja\n\nTreść...' },
+];
+
 const ProfilePanel = ({ user, onUpdate, onClose }) => {
     const [username, setUsername] = useState(user.username || '');
     const [avatarUrl, setAvatarUrl] = useState(user.avatar_url || '');
+    const [bio, setBio] = useState(user.bio || '');
+    const [location, setLocation] = useState(user.location || '');
+    const [website, setWebsite] = useState(user.website || '');
+    const [githubUrl, setGithubUrl] = useState(user.github_url || '');
+    const [twitterUrl, setTwitterUrl] = useState(user.twitter_url || '');
+    const [linkedinUrl, setLinkedinUrl] = useState(user.linkedin_url || '');
+    const [skills, setSkills] = useState(user.skills || '');
+    const [sections, setSections] = useState(() => {
+        try { return JSON.parse(user.dashboard_sections || '[]'); } catch { return []; }
+    });
     const [currentPw, setCurrentPw] = useState('');
     const [newPw, setNewPw] = useState('');
     const [saving, setSaving] = useState(false);
     const [msg, setMsg] = useState(null);
     const [err, setErr] = useState(null);
     const [tab, setTab] = useState('profile');
+    const [previewDashboard, setPreviewDashboard] = useState(false);
 
     const handleSaveProfile = async (e) => {
         e.preventDefault();
@@ -246,12 +267,17 @@ const ProfilePanel = ({ user, onUpdate, onClose }) => {
         try {
             const data = await apiFetch('/api/user/profile', {
                 method: 'POST',
-                body: JSON.stringify({ username: username.trim(), avatar_url: avatarUrl }),
+                body: JSON.stringify({
+                    username: username.trim(), avatar_url: avatarUrl,
+                    bio, location, website, github_url: githubUrl,
+                    twitter_url: twitterUrl, linkedin_url: linkedinUrl,
+                    skills, dashboard_sections: JSON.stringify(sections),
+                }),
             });
-            const updated = { ...user, username: data.user?.username || username, avatar_url: data.user?.avatar_url || avatarUrl };
+            const updated = { ...user, ...data.user, dashboard_sections: JSON.stringify(sections) };
             localStorage.setItem('community_user', JSON.stringify(updated));
             onUpdate(updated);
-            setMsg('Profil zaktualizowany!');
+            setMsg('Profil i dashboard zaktualizowane!');
         } catch (e) { setErr(e.message); }
         finally { setSaving(false); }
     };
@@ -270,14 +296,31 @@ const ProfilePanel = ({ user, onUpdate, onClose }) => {
         finally { setSaving(false); }
     };
 
+    const addSection = (template) => {
+        setSections(prev => [...prev, { id: Date.now(), type: template.type, title: template.title, content: template.default_content }]);
+    };
+    const updateSection = (id, field, value) => setSections(prev => prev.map(s => s.id === id ? { ...s, [field]: value } : s));
+    const removeSection = (id) => setSections(prev => prev.filter(s => s.id !== id));
+    const moveSection = (idx, dir) => {
+        setSections(prev => {
+            const arr = [...prev];
+            const target = idx + dir;
+            if (target < 0 || target >= arr.length) return arr;
+            [arr[idx], arr[target]] = [arr[target], arr[idx]];
+            return arr;
+        });
+    };
+
+    const tabs = [['profile', 'Profil'], ['dashboard', 'Dashboard'], ['password', 'Hasło'], ['security', 'Info']];
+
     return (
-        <Card className="bg-black/60 backdrop-blur-xl border border-cyan-500/20 p-6 max-w-lg mx-auto mb-6">
+        <Card className="bg-black/60 backdrop-blur-xl border border-cyan-500/20 p-6 max-w-2xl mx-auto mb-6">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="font-display text-xl text-cyan-500 tracking-widest flex items-center gap-2"><Settings size={18} /> PROFIL</h2>
+                <h2 className="font-display text-xl text-cyan-500 tracking-widest flex items-center gap-2"><Settings size={18} /> PROFIL & DASHBOARD</h2>
                 <button onClick={onClose} className="text-slate-500 hover:text-white"><X size={18} /></button>
             </div>
-            <div className="flex gap-2 mb-4">
-                {[['profile', 'Profil'], ['password', 'Hasło'], ['security', 'Info']].map(([key, label]) => (
+            <div className="flex flex-wrap gap-2 mb-4">
+                {tabs.map(([key, label]) => (
                     <button key={key} onClick={() => { setTab(key); setErr(null); setMsg(null); }}
                         className={`text-xs px-3 py-1.5 rounded border font-mono transition-colors ${tab === key ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
                         {label}
@@ -288,8 +331,8 @@ const ProfilePanel = ({ user, onUpdate, onClose }) => {
             {err && <div className="mb-3 p-2 rounded bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">✗ {err}</div>}
 
             {tab === 'profile' && (
-                <form onSubmit={handleSaveProfile} className="space-y-4">
-                    <div className="flex items-center gap-4 mb-4">
+                <form onSubmit={handleSaveProfile} className="space-y-3">
+                    <div className="flex items-center gap-4 mb-2">
                         <Avatar name={username} src={avatarUrl} className="w-16 h-16 bg-slate-900 border border-slate-700 text-slate-400" />
                         <div className="space-y-1">
                             <p className="text-white text-sm">{user.email}</p>
@@ -297,13 +340,87 @@ const ProfilePanel = ({ user, onUpdate, onClose }) => {
                         </div>
                     </div>
                     <DarkInput label="Nazwa użytkownika" icon={UserIcon} value={username} onChange={setUsername} maxLength={20} required />
-                    <DarkInput label="Avatar URL" icon={ImageIcon} value={avatarUrl} onChange={setAvatarUrl} placeholder="https://..." />
+                    <DarkInput label="Bio (krótki opis)" icon={FileText} value={bio} onChange={setBio} placeholder="Kilka słów o sobie..." maxLength={500} />
+                    <div className="grid grid-cols-2 gap-3">
+                        <DarkInput label="Lokalizacja" icon={MapPin} value={location} onChange={setLocation} placeholder="np. Warszawa" maxLength={100} />
+                        <DarkInput label="Strona WWW" icon={Globe} value={website} onChange={setWebsite} placeholder="https://..." maxLength={200} />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                        <DarkInput label="GitHub" icon={Github} value={githubUrl} onChange={setGithubUrl} placeholder="github.com/..." maxLength={200} />
+                        <DarkInput label="Twitter/X" icon={Twitter} value={twitterUrl} onChange={setTwitterUrl} placeholder="x.com/..." maxLength={200} />
+                        <DarkInput label="LinkedIn" icon={Linkedin} value={linkedinUrl} onChange={setLinkedinUrl} placeholder="linkedin.com/in/..." maxLength={200} />
+                    </div>
+                    <DarkInput label="Umiejętności (oddziel przecinkami)" icon={Award} value={skills} onChange={setSkills} placeholder="React, Python, AI, ..." maxLength={500} />
                     <Button type="submit" isLoading={saving}
                         className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest">
                         <Check size={14} className="mr-2" /> ZAPISZ PROFIL
                     </Button>
                 </form>
             )}
+
+            {tab === 'dashboard' && (
+                <div className="space-y-4">
+                    <p className="text-xs text-slate-500 font-mono">Dodaj sekcje Markdown do swojego publicznego dashboard — jak profil na dev.to / GitHub README</p>
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs text-slate-400 font-mono">SEKCJE ({sections.length})</span>
+                        <div className="flex gap-2">
+                            <button onClick={() => setPreviewDashboard(!previewDashboard)}
+                                className={`text-xs px-2 py-1 rounded border font-mono transition-colors ${previewDashboard ? 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30' : 'bg-white/5 text-slate-500 border-white/10'}`}>
+                                {previewDashboard ? 'EDYTUJ' : 'PODGLĄD'}
+                            </button>
+                        </div>
+                    </div>
+
+                    {previewDashboard ? (
+                        <div className="bg-black/40 border border-white/10 rounded-lg p-4 space-y-4">
+                            {sections.length === 0 ? <p className="text-slate-600 text-sm font-mono">Brak sekcji — dodaj pierwszą!</p> :
+                                sections.map(s => (
+                                    <div key={s.id}><MarkdownContent>{s.content}</MarkdownContent></div>
+                                ))
+                            }
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {sections.map((section, idx) => (
+                                <div key={section.id} className="p-3 rounded-lg bg-white/[0.03] border border-white/10 space-y-2">
+                                    <div className="flex items-center gap-2">
+                                        <GripVertical size={14} className="text-slate-600" />
+                                        <input value={section.title} onChange={(e) => updateSection(section.id, 'title', e.target.value)}
+                                            className="flex-grow bg-transparent text-white text-sm font-medium outline-none border-b border-transparent focus:border-cyan-500/30" />
+                                        <Chip size="sm" className="bg-white/5 text-slate-600 text-[10px] font-mono">{section.type}</Chip>
+                                        <button onClick={() => moveSection(idx, -1)} disabled={idx === 0}
+                                            className="text-slate-600 hover:text-cyan-400 disabled:opacity-30 transition-colors"><ChevronUp size={14} /></button>
+                                        <button onClick={() => moveSection(idx, 1)} disabled={idx === sections.length - 1}
+                                            className="text-slate-600 hover:text-cyan-400 disabled:opacity-30 transition-colors"><ChevronDown size={14} /></button>
+                                        <button onClick={() => removeSection(section.id)}
+                                            className="text-slate-600 hover:text-red-400 transition-colors"><Trash2 size={14} /></button>
+                                    </div>
+                                    <textarea value={section.content} onChange={(e) => updateSection(section.id, 'content', e.target.value)}
+                                        rows={4} className="w-full px-2 py-2 rounded bg-white/[0.04] border border-white/5 text-slate-300 text-xs font-mono
+                                                           placeholder:text-slate-600 focus:border-cyan-500/30 outline-none resize-y" />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="border-t border-white/5 pt-3">
+                        <p className="text-[10px] text-slate-600 font-mono mb-2">+ DODAJ SEKCJĘ:</p>
+                        <div className="flex flex-wrap gap-2">
+                            {SECTION_TEMPLATES.map(tpl => (
+                                <button key={tpl.type} onClick={() => addSection(tpl)}
+                                    className="text-[11px] px-3 py-1.5 rounded border border-white/10 bg-white/5 text-slate-400 hover:border-cyan-500/20 hover:text-cyan-400 font-mono transition-colors flex items-center gap-1">
+                                    <Plus size={11} /> {tpl.title}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <Button onPress={handleSaveProfile} isLoading={saving}
+                        className="bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 font-mono text-xs tracking-widest mt-2">
+                        <Check size={14} className="mr-2" /> ZAPISZ DASHBOARD
+                    </Button>
+                </div>
+            )}
+
             {tab === 'password' && (
                 <form onSubmit={handleChangePassword} className="space-y-4">
                     <DarkInput label="Aktualne hasło" icon={Lock} type="password" value={currentPw} onChange={setCurrentPw} required />
@@ -323,6 +440,138 @@ const ProfilePanel = ({ user, onUpdate, onClose }) => {
                 </div>
             )}
         </Card>
+    );
+};
+
+// ─── PUBLIC USER DASHBOARD ──────────────────────────────
+const UserDashboard = ({ username, onBack }) => {
+    const [profile, setProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [err, setErr] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await apiFetch(`/api/users/${encodeURIComponent(username)}/dashboard`);
+                setProfile(data);
+            } catch (e) { setErr(e.message); }
+            finally { setLoading(false); }
+        })();
+    }, [username]);
+
+    if (loading) return <div className="flex justify-center py-20"><Spinner size="lg" color="success" /></div>;
+    if (err || !profile) return (
+        <div className="text-center py-20">
+            <p className="text-red-400 font-mono text-sm mb-4">{err || 'Profil nie znaleziony'}</p>
+            <button onClick={onBack} className="text-cyan-400 text-sm font-mono hover:underline">← POWRÓT</button>
+        </div>
+    );
+
+    const sections = (() => { try { return JSON.parse(profile.dashboard_sections || '[]'); } catch { return []; } })();
+    const skillTags = (profile.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+    const links = [
+        profile.website && { icon: Globe, label: 'Strona WWW', url: profile.website },
+        profile.github_url && { icon: Github, label: 'GitHub', url: profile.github_url },
+        profile.twitter_url && { icon: Twitter, label: 'Twitter/X', url: profile.twitter_url },
+        profile.linkedin_url && { icon: Linkedin, label: 'LinkedIn', url: profile.linkedin_url },
+    ].filter(Boolean);
+
+    return (
+        <div className="space-y-6">
+            <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors text-sm font-mono">
+                <ArrowLeft size={14} /> POWRÓT DO LISTY
+            </button>
+
+            {/* Profile Header */}
+            <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-cyan-900/30 via-purple-900/20 to-cyan-900/30" />
+                <div className="relative flex flex-col md:flex-row items-start md:items-end gap-4 mt-10">
+                    <Avatar name={profile.username} src={profile.avatar_url}
+                        className="w-24 h-24 bg-slate-900 border-4 border-black text-slate-400 text-2xl ring-2 ring-cyan-500/20 -mt-14" />
+                    <div className="flex-grow">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <h1 className="text-2xl font-bold text-white">{profile.username}</h1>
+                            {profile.role === 'admin' && <Chip size="sm" className="bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
+                        </div>
+                        {profile.bio && <p className="text-slate-400 text-sm mt-1">{profile.bio}</p>}
+                        <div className="flex items-center gap-4 mt-2 text-xs text-slate-600 font-mono flex-wrap">
+                            {profile.location && <span className="flex items-center gap-1"><MapPin size={12} /> {profile.location}</span>}
+                            <span className="flex items-center gap-1"><Clock size={12} /> Dołączył: {new Date(profile.created_at).toLocaleDateString('pl-PL')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Links */}
+                {links.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-4 ml-1">
+                        {links.map((link, i) => (
+                            <a key={i} href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
+                                target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-white/5 border border-white/10
+                                           text-slate-400 hover:border-cyan-500/30 hover:text-cyan-400 transition-colors">
+                                <link.icon size={13} /> {link.label} <ExternalLink size={10} />
+                            </a>
+                        ))}
+                    </div>
+                )}
+
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-3 mt-5 pt-4 border-t border-white/5">
+                    {[
+                        { label: 'Posty', value: profile.stats?.posts || 0, icon: FileText },
+                        { label: 'Komentarze', value: profile.stats?.comments || 0, icon: MessageSquare },
+                        { label: 'Polubienia', value: profile.stats?.likes_received || 0, icon: Heart },
+                    ].map((stat, i) => (
+                        <div key={i} className="text-center p-3 rounded-lg bg-white/[0.03] border border-white/5">
+                            <stat.icon size={16} className="mx-auto text-cyan-500/60 mb-1" />
+                            <div className="text-xl font-bold text-white font-mono">{stat.value}</div>
+                            <div className="text-[10px] text-slate-600 font-mono uppercase">{stat.label}</div>
+                        </div>
+                    ))}
+                </div>
+            </Card>
+
+            {/* Skills */}
+            {skillTags.length > 0 && (
+                <Card className="bg-black/30 border border-white/5 p-4">
+                    <h3 className="text-sm text-cyan-500 font-mono tracking-wider mb-3 flex items-center gap-2"><Award size={14} /> UMIEJĘTNOŚCI</h3>
+                    <div className="flex flex-wrap gap-2">
+                        {skillTags.map((skill, i) => (
+                            <Chip key={i} size="sm" className="bg-cyan-900/10 text-cyan-500 border border-cyan-900/20 font-mono text-xs">{skill}</Chip>
+                        ))}
+                    </div>
+                </Card>
+            )}
+
+            {/* Markdown Dashboard Sections */}
+            {sections.length > 0 && sections.map((section, i) => (
+                <Card key={section.id || i} className="bg-black/30 border border-white/5 p-5">
+                    <div className="prose-invert max-w-none"><MarkdownContent>{section.content}</MarkdownContent></div>
+                </Card>
+            ))}
+
+            {/* Recent Posts */}
+            {profile.recent_posts?.length > 0 && (
+                <Card className="bg-black/30 border border-white/5 p-4">
+                    <h3 className="text-sm text-cyan-500 font-mono tracking-wider mb-3 flex items-center gap-2"><FileText size={14} /> OSTATNIE POSTY</h3>
+                    <div className="space-y-2">
+                        {profile.recent_posts.map(p => (
+                            <div key={p.id} className="flex items-center justify-between p-2 rounded bg-white/[0.02] border border-white/5">
+                                <div>
+                                    <span className="text-sm text-white">{p.title}</span>
+                                    <span className="text-[10px] text-slate-600 font-mono ml-2">{timeAgo(p.created_at)}</span>
+                                </div>
+                                <div className="flex items-center gap-3 text-[11px] text-slate-600">
+                                    <span className="flex items-center gap-1"><Heart size={11} /> {p.like_count}</span>
+                                    <span className="flex items-center gap-1"><MessageSquare size={11} /> {p.comment_count}</span>
+                                    <span className="flex items-center gap-1"><Eye size={11} /> {p.view_count}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </Card>
+            )}
+        </div>
     );
 };
 
@@ -630,14 +879,17 @@ const NewPostForm = ({ categories, onCreated, onClose }) => {
 };
 
 // ─── POST CARD (list item) ──────────────────────────────
-const PostCard = ({ post, onClick }) => (
+const PostCard = ({ post, onClick, onViewProfile }) => (
     <Card isPressable onPress={onClick}
         className="bg-black/30 backdrop-blur-xl border border-white/5 p-4 hover:border-cyan-500/20 transition-all">
         <div className="flex items-start gap-3">
-            <Avatar name={post.author_name} src={post.author_avatar} className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0" />
+            <Avatar name={post.author_name} src={post.author_avatar}
+                className="w-9 h-9 bg-slate-900 text-slate-400 text-xs shrink-0 cursor-pointer hover:ring-2 hover:ring-cyan-500/30 transition-all"
+                onClick={(e) => { e.stopPropagation(); onViewProfile?.(post.author_name); }} />
             <div className="flex-grow min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className="text-sm text-slate-300 font-medium">{post.author_name}</span>
+                    <button onClick={(e) => { e.stopPropagation(); onViewProfile?.(post.author_name); }}
+                        className="text-sm text-slate-300 font-medium hover:text-cyan-400 transition-colors">{post.author_name}</button>
                     {post.author_role === 'admin' && <Shield size={12} className="text-red-400" />}
                     {post.is_pinned === 1 && <Chip size="sm" className="bg-yellow-900/20 text-yellow-500 border border-yellow-900/30 text-[10px]">📌 PINNED</Chip>}
                     {post.category_name && <Chip size="sm" variant="flat" className="bg-white/5 text-slate-500 border border-white/5 text-[10px] font-mono">{post.category_name}</Chip>}
@@ -669,6 +921,7 @@ const Community = () => {
     const [activePost, setActivePost] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
+    const [viewUserDashboard, setViewUserDashboard] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState('');
     const [sortDir, setSortDir] = useState('desc');
@@ -704,6 +957,16 @@ const Community = () => {
         setUser(null);
     };
 
+    if (viewUserDashboard) {
+        return (
+            <div className="min-h-screen pt-28 pb-12 w-full">
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <UserDashboard username={viewUserDashboard} onBack={() => setViewUserDashboard(null)} />
+                </div>
+            </div>
+        );
+    }
+
     if (activePost) {
         return (
             <div className="min-h-screen pt-28 pb-12 w-full">
@@ -738,7 +1001,11 @@ const Community = () => {
                                 <span className="text-white text-sm hover:text-cyan-400 transition-colors">{user.username}</span>
                                 {user.role === 'admin' && <Chip size="sm" className="bg-red-900/20 text-red-400 border border-red-900/30 text-[10px]">ADMIN</Chip>}
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex flex-wrap gap-2">
+                                <Button size="sm" onPress={() => setViewUserDashboard(user.username)}
+                                    className="bg-purple-600/15 hover:bg-purple-600/25 text-purple-400 border border-purple-500/20 font-mono text-[10px] tracking-wider">
+                                    <BarChart3 size={13} className="mr-1" /> DASHBOARD
+                                </Button>
                                 <Button size="sm" onPress={() => { setShowProfile(!showProfile); setShowForm(false); }}
                                     className="bg-white/5 hover:bg-white/10 text-slate-400 border border-white/10 font-mono text-[10px] tracking-wider">
                                     <Settings size={13} className="mr-1" /> PROFIL
@@ -789,7 +1056,7 @@ const Community = () => {
                             </div>
                         ) : (
                             <div className="space-y-3">
-                                {posts.map(post => <PostCard key={post.id} post={post} onClick={() => setActivePost(post.id)} />)}
+                                {posts.map(post => <PostCard key={post.id} post={post} onClick={() => setActivePost(post.id)} onViewProfile={(name) => setViewUserDashboard(name)} />)}
                             </div>
                         )}
 
