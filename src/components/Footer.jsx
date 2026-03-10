@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Linkedin, Mail, Heart, ArrowUp } from 'lucide-react';
+import { Github, Linkedin, Mail, Heart, ArrowUp, Rocket, Flame, Compass, Cloud } from 'lucide-react';
 import { personalInfo } from '../data';
 
 const Footer = () => {
@@ -36,6 +36,21 @@ const Footer = () => {
                             <Mail size={14} />
                         </a>
                     </div>
+                </div>
+
+                {/* 1.5 NASZE STRONY */}
+                <div className="flex items-center gap-2 shrink-0">
+                    <div className="h-4 w-px bg-white/10 hidden sm:block"></div>
+                    {[
+                        { href: 'https://jimbo77.com', icon: <Rocket size={12} />, label: 'jimbo77', cls: 'text-cyan-500 hover:text-cyan-400 border-cyan-500/20 hover:border-cyan-400/40' },
+                        { href: 'https://mybonzo.com', icon: <Flame size={12} />, label: 'mybonzo', cls: 'text-orange-500 hover:text-orange-400 border-orange-500/20 hover:border-orange-400/40' },
+                        { href: 'https://zenbrowsers.org', icon: <Compass size={12} />, label: 'zen', cls: 'text-emerald-500 hover:text-emerald-400 border-emerald-500/20 hover:border-emerald-400/40' },
+                    ].map((s, i) => (
+                        <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
+                            className={`flex items-center gap-1 px-2 py-1 rounded-md bg-slate-900/50 border text-[10px] font-mono transition-all ${s.cls}`}>
+                            {s.icon} {s.label}
+                        </a>
+                    ))}
                 </div>
 
                 {/* 2. NEWSLETTER BAR (Center/Fill) */}
@@ -77,7 +92,12 @@ const Footer = () => {
                     </div>
                     <div className="hidden md:block w-1 h-1 bg-slate-700 rounded-full"></div>
                     <div className="flex items-center gap-1">
-                        <span>v1.0.4</span>
+                        <Cloud size={12} className="text-orange-400" />
+                        <span>CF Workers</span>
+                    </div>
+                    <div className="hidden md:block w-1 h-1 bg-slate-700 rounded-full"></div>
+                    <div className="flex items-center gap-1">
+                        <span>v1.0.5</span>
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_5px_lime]"></div>
                     </div>
                 </div>

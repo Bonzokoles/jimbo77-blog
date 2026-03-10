@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Force sync timestamp
 import { Link } from 'react-router-dom';
 import { Card, Chip, Button, Divider } from "@heroui/react";
-import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database, Users, MessageSquare, UserPlus } from 'lucide-react';
+import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database, Users, MessageSquare, UserPlus, Rocket, Flame, Compass, Link2, ExternalLink, MonitorPlay, Cloud } from 'lucide-react';
 import TerminalChat from './TerminalChat';
 
 export const SidebarLeft = () => {
@@ -144,6 +144,32 @@ export const SidebarLeft = () => {
                         [READY FOR COMMAND] <br />
                         LAST_SYNC: {new Date().toISOString()}
                     </div>
+                </div>
+            </Card>
+
+            {/* --- NASZE STRONY --- */}
+            <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-4 shrink-0">
+                <h3 className="font-mono text-xs text-cyan-500 tracking-widest mb-3 flex items-center gap-1.5 border-b border-cyan-500/20 pb-2">
+                    <Link2 size={13} /> NASZE STRONY
+                </h3>
+                <div className="space-y-2">
+                    {[
+                        { url: 'https://jimbo77.com', name: 'jimbo77.com', desc: 'Centralny Hub AI', icon: <Rocket size={16} className="text-cyan-400" />, gradient: 'from-cyan-500/10 to-blue-500/5', border: 'border-cyan-500/20 hover:border-cyan-400/40' },
+                        { url: 'https://mybonzo.com', name: 'mybonzo.com', desc: 'Blog & Portfolio', icon: <Flame size={16} className="text-orange-400" />, gradient: 'from-orange-500/10 to-red-500/5', border: 'border-orange-500/20 hover:border-orange-400/40' },
+                        { url: 'https://zenbrowsers.org', name: 'zenbrowsers.org', desc: 'Przeglądarka Zen', icon: <Compass size={16} className="text-emerald-400" />, gradient: 'from-emerald-500/10 to-green-500/5', border: 'border-emerald-500/20 hover:border-emerald-400/40' },
+                    ].map(site => (
+                        <a key={site.url} href={site.url} target="_blank" rel="noopener noreferrer"
+                            className={`block p-3 rounded-lg bg-gradient-to-r ${site.gradient} border ${site.border} transition-all duration-300 group`}>
+                            <div className="flex items-center gap-3">
+                                <div className="shrink-0 group-hover:scale-110 transition-transform duration-300">{site.icon}</div>
+                                <div className="min-w-0 flex-grow">
+                                    <p className="text-sm text-white font-mono font-medium group-hover:text-cyan-300 transition-colors">{site.name}</p>
+                                    <p className="text-[10px] text-slate-500">{site.desc}</p>
+                                </div>
+                                <ExternalLink size={12} className="text-slate-600 shrink-0 group-hover:text-cyan-400 transition-colors" />
+                            </div>
+                        </a>
+                    ))}
                 </div>
             </Card>
 
@@ -306,6 +332,61 @@ export const SidebarRight = () => {
                             {tag}
                         </span>
                     ))}
+                </div>
+            </Card>
+
+            {/* --- ZEN BROWSER LIVE PREVIEW --- */}
+            <Card className="bg-black/40 backdrop-blur-xl border border-emerald-500/20 p-4 shrink-0">
+                <h4 className="font-mono text-xs text-emerald-500 tracking-widest mb-2 flex items-center gap-1.5">
+                    <MonitorPlay size={13} /> ZEN BROWSER LIVE
+                </h4>
+                <div className="relative rounded-lg overflow-hidden border border-white/10 bg-black/60 group">
+                    <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none z-10" />
+                    <iframe
+                        src="https://zenbrowsers.org"
+                        title="ZenBrowsers.org"
+                        className="w-full h-[200px] opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin"
+                        style={{ filter: 'saturate(0.8) contrast(1.1)' }}
+                    />
+                    <a href="https://zenbrowsers.org" target="_blank" rel="noopener noreferrer"
+                        className="absolute bottom-2 right-2 z-20 text-[9px] font-mono px-2 py-1 rounded bg-black/70 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600/20 transition-colors flex items-center gap-1">
+                        <ExternalLink size={9} /> zenbrowsers.org
+                    </a>
+                </div>
+                <p className="text-[10px] text-slate-600 mt-2 text-center font-mono">Przeglądarka nowej generacji</p>
+            </Card>
+
+            {/* --- NASZE STRONY --- */}
+            <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-4 shrink-0">
+                <h3 className="font-mono text-xs text-cyan-500 tracking-widest mb-3 flex items-center gap-1.5 border-b border-cyan-500/20 pb-2">
+                    <Link2 size={13} /> EKOSYSTEM JIMBO
+                </h3>
+                <div className="space-y-2">
+                    {[
+                        { url: 'https://jimbo77.com', name: 'jimbo77.com', desc: 'Główna strona + narzędzia AI', icon: <Rocket size={14} className="text-cyan-400" />, gradient: 'from-cyan-500/10 to-blue-500/5', border: 'border-cyan-500/20 hover:border-cyan-400/40' },
+                        { url: 'https://mybonzo.com', name: 'mybonzo.com', desc: 'Blog technologiczny', icon: <Flame size={14} className="text-orange-400" />, gradient: 'from-orange-500/10 to-red-500/5', border: 'border-orange-500/20 hover:border-orange-400/40' },
+                        { url: 'https://zenbrowsers.org', name: 'zenbrowsers.org', desc: 'Prywatność & Speed', icon: <Compass size={14} className="text-emerald-400" />, gradient: 'from-emerald-500/10 to-green-500/5', border: 'border-emerald-500/20 hover:border-emerald-400/40' },
+                    ].map(site => (
+                        <a key={site.url} href={site.url} target="_blank" rel="noopener noreferrer"
+                            className={`block p-2.5 rounded-lg bg-gradient-to-r ${site.gradient} border ${site.border} transition-all duration-300 group`}>
+                            <div className="flex items-center gap-2">
+                                <div className="shrink-0 group-hover:scale-110 transition-transform duration-300">{site.icon}</div>
+                                <div className="min-w-0">
+                                    <p className="text-xs text-white font-mono group-hover:text-cyan-300 transition-colors">{site.name}</p>
+                                    <p className="text-[9px] text-slate-500">{site.desc}</p>
+                                </div>
+                                <ExternalLink size={10} className="text-slate-600 ml-auto shrink-0 group-hover:text-cyan-400 transition-colors" />
+                            </div>
+                        </a>
+                    ))}
+                </div>
+                <div className="mt-3 pt-2 border-t border-white/5 text-center">
+                    <div className="flex items-center justify-center gap-1.5">
+                        <Cloud size={10} className="text-orange-400" />
+                        <span className="text-[9px] text-slate-600 font-mono">Powered by Cloudflare</span>
+                    </div>
                 </div>
             </Card>
 

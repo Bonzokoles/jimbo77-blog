@@ -4,7 +4,8 @@ import { MessageSquare, Heart, Eye, Send, LogIn, UserPlus, ArrowLeft, Clock, Shi
     User as UserIcon, KeyRound, Image as ImageIcon, X, Search, SortAsc, SortDesc, Edit3, Trash2,
     Settings, Award, Check, Pin, Globe, MapPin, Github, Twitter, Linkedin, Plus, GripVertical,
     BarChart3, FileText, ChevronDown, ChevronUp, ExternalLink, Megaphone, Briefcase, HeartHandshake,
-    Newspaper, BookOpen, Video, Lightbulb, ScrollText, Tag, Zap } from 'lucide-react';
+    Newspaper, BookOpen, Video, Lightbulb, ScrollText, Tag, Zap, Rocket, MonitorPlay, Compass, Cloud,
+    Sparkles, Flame, Link2, Radio } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import TerminalChat from '../components/TerminalChat';
@@ -1081,6 +1082,46 @@ const MarketplaceSidebar = ({ user }) => {
                     ))}
                 </div>
             )}
+
+            {/* ─── QUICK LINKS - NASZE STRONY ─── */}
+            <div className="pt-3 border-t border-white/5">
+                <h4 className="font-mono text-[10px] text-cyan-500 tracking-widest mb-2 flex items-center gap-1.5">
+                    <Radio size={11} className="animate-pulse" /> QUICK LINKS
+                </h4>
+                <div className="space-y-1">
+                    {[
+                        { url: 'https://jimbo77.com', label: 'jimbo77.com', icon: <Rocket size={11} className="text-cyan-400" />, color: 'text-cyan-400' },
+                        { url: 'https://mybonzo.com', label: 'mybonzo.com', icon: <Flame size={11} className="text-orange-400" />, color: 'text-orange-400' },
+                        { url: 'https://zenbrowsers.org', label: 'zenbrowsers.org', icon: <Compass size={11} className="text-emerald-400" />, color: 'text-emerald-400' },
+                    ].map(site => (
+                        <a key={site.url} href={site.url} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-1.5 px-2 py-1.5 rounded-md bg-white/[0.03] border border-white/5 hover:border-white/15 transition-all group">
+                            <span className="group-hover:scale-110 transition-transform">{site.icon}</span>
+                            <span className={`text-[10px] font-mono ${site.color} group-hover:brightness-125 transition-all`}>{site.label}</span>
+                            <ExternalLink size={8} className="text-slate-700 ml-auto" />
+                        </a>
+                    ))}
+                </div>
+            </div>
+
+            {/* ─── ZEN BROWSER MINI WIDGET ─── */}
+            <div className="pt-2 border-t border-white/5">
+                <div className="relative rounded-lg overflow-hidden border border-emerald-500/15 bg-black/60 group cursor-pointer"
+                    onClick={() => window.open('https://zenbrowsers.org', '_blank')}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/5 pointer-events-none" />
+                    <div className="p-2.5 relative z-10">
+                        <div className="flex items-center gap-1.5 mb-1">
+                            <Compass size={12} className="text-emerald-400 animate-spin" style={{ animationDuration: '8s' }} />
+                            <span className="text-[10px] font-mono text-emerald-400 tracking-wider">ZEN BROWSER</span>
+                        </div>
+                        <p className="text-[9px] text-slate-500 leading-relaxed">Przeglądarka nowej generacji. Prywatność, szybkość, minimalny design.</p>
+                        <div className="flex items-center gap-1 mt-1.5">
+                            <Sparkles size={8} className="text-emerald-500/60" />
+                            <span className="text-[8px] font-mono text-emerald-600">SPRAWDŹ →</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
@@ -1169,11 +1210,62 @@ const GazetkaSidebar = ({ user }) => {
                 </div>
             )}
 
+            {/* ─── ZEN BROWSER MINI FRAME ─── */}
+            <div className="pt-2 border-t border-white/5">
+                <h4 className="font-mono text-[10px] text-cyan-500 tracking-widest mb-2 flex items-center gap-1.5">
+                    <MonitorPlay size={11} /> LIVE PREVIEW
+                </h4>
+                <div className="relative rounded-lg overflow-hidden border border-white/10 bg-black/60 group">
+                    <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent pointer-events-none z-10" />
+                    <iframe
+                        src="https://zenbrowsers.org"
+                        title="ZenBrowsers.org"
+                        className="w-full h-[180px] opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin"
+                        style={{ filter: 'saturate(0.8) contrast(1.1)' }}
+                    />
+                    <a href="https://zenbrowsers.org" target="_blank" rel="noopener noreferrer"
+                        className="absolute bottom-1 right-1 z-20 text-[8px] font-mono px-1.5 py-0.5 rounded bg-black/70 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-600/20 transition-colors flex items-center gap-1">
+                        <ExternalLink size={8} /> OTWÓRZ
+                    </a>
+                </div>
+            </div>
+
+            {/* ─── NASZE STRONY / OUR SITES ─── */}
+            <div className="pt-3 border-t border-white/5">
+                <h4 className="font-mono text-[10px] text-cyan-500 tracking-widest mb-2 flex items-center gap-1.5">
+                    <Link2 size={11} /> NASZE STRONY
+                </h4>
+                <div className="space-y-1.5">
+                    {[
+                        { url: 'https://jimbo77.com', name: 'jimbo77.com', desc: 'Centralny Hub AI', icon: <Rocket size={13} className="text-cyan-400" />, gradient: 'from-cyan-500/10 to-blue-500/5', border: 'border-cyan-500/20 hover:border-cyan-400/40' },
+                        { url: 'https://mybonzo.com', name: 'mybonzo.com', desc: 'Blog & Portfolio', icon: <Flame size={13} className="text-orange-400" />, gradient: 'from-orange-500/10 to-red-500/5', border: 'border-orange-500/20 hover:border-orange-400/40' },
+                        { url: 'https://zenbrowsers.org', name: 'zenbrowsers.org', desc: 'Przeglądarka Zen', icon: <Compass size={13} className="text-emerald-400" />, gradient: 'from-emerald-500/10 to-green-500/5', border: 'border-emerald-500/20 hover:border-emerald-400/40' },
+                    ].map(site => (
+                        <a key={site.url} href={site.url} target="_blank" rel="noopener noreferrer"
+                            className={`block p-2 rounded-lg bg-gradient-to-r ${site.gradient} border ${site.border} transition-all duration-300 group`}>
+                            <div className="flex items-center gap-2">
+                                <div className="shrink-0 group-hover:scale-110 transition-transform duration-300">{site.icon}</div>
+                                <div className="min-w-0">
+                                    <p className="text-[11px] text-white font-mono font-medium group-hover:text-cyan-300 transition-colors">{site.name}</p>
+                                    <p className="text-[9px] text-slate-500">{site.desc}</p>
+                                </div>
+                                <ExternalLink size={9} className="text-slate-600 ml-auto shrink-0 group-hover:text-cyan-400 transition-colors" />
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+
             {/* Community info footer */}
             <div className="pt-2 border-t border-white/5 space-y-2">
+                <div className="flex items-center justify-center gap-2">
+                    <Cloud size={11} className="text-orange-400" />
+                    <p className="text-[9px] text-slate-600 font-mono">Powered by Cloudflare Workers + D1 + R2</p>
+                </div>
                 <div className="text-center">
-                    <p className="text-[10px] text-slate-600 font-mono">JIMBO77 COMMUNITY</p>
-                    <p className="text-[10px] text-slate-700 font-mono">Powered by Cloudflare Workers + D1</p>
+                    <p className="text-[10px] text-slate-700 font-mono">JIMBO77 COMMUNITY © 2026</p>
                 </div>
             </div>
         </div>

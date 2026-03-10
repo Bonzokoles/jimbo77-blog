@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Linkedin, Mail, Terminal, Activity, Cpu, Wrench, BookOpen } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail, Terminal, Activity, Cpu, Wrench, BookOpen, Rocket, Flame, Compass } from 'lucide-react';
 import { personalInfo } from '../data';
 
 const Navbar = () => {
@@ -74,7 +74,29 @@ const Navbar = () => {
                             ))}
                         </div>
 
-                        <div className="w-px h-8 bg-slate-800 mx-4" />
+                        <div className="w-px h-8 bg-slate-800 mx-2" />
+
+                        {/* External Sites */}
+                        <div className="flex items-center gap-1">
+                            {[
+                                { icon: <Rocket size={14} />, href: 'https://jimbo77.com', title: 'jimbo77.com', color: 'hover:text-cyan-400 hover:border-cyan-500/30' },
+                                { icon: <Flame size={14} />, href: 'https://mybonzo.com', title: 'mybonzo.com', color: 'hover:text-orange-400 hover:border-orange-500/30' },
+                                { icon: <Compass size={14} />, href: 'https://zenbrowsers.org', title: 'zenbrowsers.org', color: 'hover:text-emerald-400 hover:border-emerald-500/30' },
+                            ].map((site, idx) => (
+                                <a
+                                    key={idx}
+                                    href={site.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title={site.title}
+                                    className={`p-1.5 text-slate-500 border border-transparent rounded transition-all ${site.color}`}
+                                >
+                                    {site.icon}
+                                </a>
+                            ))}
+                        </div>
+
+                        <div className="w-px h-8 bg-slate-800 mx-2" />
 
                         <div className="flex items-center gap-3">
                             {[
@@ -142,6 +164,17 @@ const Navbar = () => {
                                 <a href={`mailto:${personalInfo.email}`} className="text-slate-400 hover:text-cyan-400">
                                     <Mail size={20} />
                                 </a>
+                            </div>
+                            <div className="flex gap-3 pt-3 border-t border-slate-800">
+                                {[
+                                    { icon: <Rocket size={16} />, href: 'https://jimbo77.com', label: 'jimbo77.com', cls: 'text-cyan-400' },
+                                    { icon: <Flame size={16} />, href: 'https://mybonzo.com', label: 'mybonzo.com', cls: 'text-orange-400' },
+                                    { icon: <Compass size={16} />, href: 'https://zenbrowsers.org', label: 'zenbrowsers.org', cls: 'text-emerald-400' },
+                                ].map((s, i) => (
+                                    <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 text-xs font-mono ${s.cls} hover:brightness-125 transition-all`}>
+                                        {s.icon} {s.label}
+                                    </a>
+                                ))}
                             </div>
                         </div>
                     </motion.div>
