@@ -41,3 +41,5 @@ publisher/test_output/
 
 # MOA frontend prototype (not used)
 public/MOA/
+# Workspace meta - MCP secrets
+.workspace_meta/mcp/config.json

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ArticleList from './blog/ArticleList';
 import ArticleEditor from './blog/ArticleEditor';
 import ArticleReader from './blog/ArticleReader';
+import { blogPosts as staticPosts } from '../data/blogPosts';
 import './BlogHub.css';
 
 const STORAGE_KEY = 'bonzo_blog_articles';
@@ -132,6 +134,39 @@ const BlogHub = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
+
+          {/* --- ARTYKUŁY Z BLOGA (kafelki) --- */}
+          {staticPosts.length > 0 && (
+            <div className="blog-tiles-section">
+              <h2 className="tiles-header">
+                <span className="glow">ARTYKUŁY</span> Z BLOGA
+              </h2>
+              <div className="tiles-grid">
+                {staticPosts.slice(0, 12).map((post) => (
+                  <Link
+                    key={post.id}
+                    to={`/blog/${post.slug}`}
+                    className="blog-tile"
+                  >
+                    {post.image && (
+                      <div className="tile-image">
+                        <img src={post.image} alt={post.title} loading="lazy" />
+                      </div>
+                    )}
+                    <div className="tile-content">
+                      <span className="tile-category">{post.category}</span>
+                      <h3 className="tile-title">{post.title}</h3>
+                      <div className="tile-meta">
+                        <span>{post.date}</span>
+                        <span>·</span>
+                        <span>{post.readTime} min</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
 

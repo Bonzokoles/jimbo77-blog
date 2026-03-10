@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workspace Specification",
+  "version": "2.0.0",
+  "lastUpdated": "2026-03-10",
+  "metadata": {
+    "name": "jimbo77-blog",
+    "type": "multi-repo",
+    "root": "U:\\WWW_Jimbo_ORG",
+    "owner": "Bonzokoles",
+    "description": "Jimbo77 Community Hub — blog + marketplace + gazetka z Cloudflare Workers backendem",
+    "architecture": "serverless",
+    "primaryTechStack": [
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "HeroUI",
+      "lucide-react",
+      "Cloudflare Workers (Hono)",
+      "Cloudflare D1",
+      "Cloudflare R2"
+    ]
+  },
+  "repositories": {
+    "root": {
+      "path": ".",
+      "type": "application",
+      "remote": "https://github.com/Bonzokoles/jimbo77-blog.git",
+      "branch": "main"
+    },
+    "related": [
+      {
+        "name": "jimbo77-community",
+        "path": "U:\\jimbo77-community",
+        "remote": "https://github.com/Bonzokoles/jimbo77-community.git",
+        "branch": "main",
+        "type": "api",
+        "description": "Backend API — Cloudflare Workers + D1 + R2"
+      }
+    ],
+    "submodules": []
+  },
+  "services": {
+    "frontend": {
+      "runtime": "node",
+      "entry": "src/main.jsx",
+      "port": 5173,
+      "type": "frontend",
+      "features": ["blog", "community-hub", "marketplace", "gazetka", "user-dashboard"],
+      "deploy": "Vercel (auto-deploy on push to main)"
+    },
+    "backend": {
+      "runtime": "cloudflare-workers",
+      "entry": "src/index.ts",
+      "port": null,
+      "type": "api",
+      "url": "https://jimbo77-community.stolarnia-ams.workers.dev",
+      "features": ["listings-crud", "community-news-crud", "posts", "comments", "users", "categories"],
+      "deploy": "npx wrangler deploy"
+    }
+  },
+  "portAllocations": {
+    "range": "5173-5173",
+    "specific": {
+      "vite-dev": 5173
+    }
+  },
+  "mcpServers": {
+    "local": [],
+    "npx": [],
+    "url": [],
+    "configFile": ".workspace_meta/mcp/config.json"
+  },
+  "environmentVariables": {
+    "WORKSPACE_ROOT": "U:\\WWW_Jimbo_ORG"
+  },
+  "conventions": {
+    "packageManager": "npm",
+    "commitFormat": "[type]: description",
+    "typesOfCommits": ["feat", "fix", "docs", "refactor", "test", "chore", "perf", "style"]
+  },
+  "documentation": {
+    "root": ".workspace_meta",
+    "primary": [
+      ".workspace_meta/README.md",
+      "README.md"
+    ],
+    "notes": ".workspace_meta/notes",
+    "architecture": ".workspace_meta/notes/decisions.md"
+  },
+  "tags": {
+    "v2.0-community-hub": {
+      "frontend": "80ba3ce",
+      "backend": "6d725c3",
+      "backupBranch": "backup/v2.0-community-hub",
+      "date": "2026-03-10"
+    }
+  },
+  "criticalRules": [
+    "ZAWSZE aktualizuj workspace.spec.json po zmianie architektury",
+    "NIGDY nie commituj secrets do repo",
+    "ZAWSZE dokumentuj decyzje architektoniczne w notes/decisions.md",
+    "Frontend deploy: git push → Vercel auto-deploys",
+    "Backend deploy: npx wrangler deploy z katalogu U:\\jimbo77-community"
+  ]
+}

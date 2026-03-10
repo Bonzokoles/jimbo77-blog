@@ -2,8 +2,97 @@ import React, { useState, useEffect } from 'react';
 // Force sync timestamp
 import { Link } from 'react-router-dom';
 import { Card, Chip, Button, Divider } from "@heroui/react";
-import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database, Users, MessageSquare, UserPlus, Rocket, Flame, Compass, Link2, ExternalLink, MonitorPlay, Cloud } from 'lucide-react';
+import { Terminal as TerminalIcon, Quote, Youtube, Zap, Activity, Shield, Cpu, Terminal, Layers, Database, Users, MessageSquare, UserPlus, Rocket, Flame, Compass, Link2, ExternalLink, MonitorPlay, Cloud, Megaphone, Newspaper, AlertTriangle, Heart, Mail, ChevronDown, ChevronUp, Briefcase } from 'lucide-react';
 import TerminalChat from './TerminalChat';
+
+const API_URL = 'https://jimbo77-community.stolarnia-ams.workers.dev';
+
+// ─── Mini Marketplace for Home sidebar ──────────────────
+const HomeMiniMarketplace = () => {
+    const [listings, setListings] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${API_URL}/api/listings`)
+            .then(r => r.ok ? r.json() : [])
+            .then(data => setListings(Array.isArray(data) ? data.slice(0, 5) : []))
+            .catch(() => setListings([]))
+            .finally(() => setLoading(false));
+    }, []);
+
+    const typeColors = { offer: 'text-emerald-400 border-emerald-500/30', need: 'text-orange-400 border-orange-500/30', collab: 'text-purple-400 border-purple-500/30', service: 'text-cyan-400 border-cyan-500/30' };
+
+    return (
+        <Card className="bg-black/40 backdrop-blur-xl border border-yellow-500/20 p-4 shrink-0">
+            <h3 className="font-mono text-xs text-yellow-500 tracking-widest mb-3 flex items-center gap-1.5 border-b border-yellow-500/20 pb-2">
+                <Briefcase size={13} /> MARKETPLACE
+            </h3>
+            {loading ? (
+                <p className="text-[10px] text-slate-600 font-mono animate-pulse">Ładowanie ogłoszeń...</p>
+            ) : listings.length > 0 ? (
+                <div className="space-y-2">
+                    {listings.map((l, i) => (
+                        <div key={l.id || i} className="p-2 rounded border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${typeColors[l.type] || 'text-slate-400 border-white/10'}`}>
+                                    {l.type?.toUpperCase() || 'POST'}
+                                </span>
+                                <span className="text-[10px] text-slate-500 font-mono">@{l.author || 'anonim'}</span>
+                            </div>
+                            <p className="text-xs text-slate-300 leading-tight">{l.title}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p className="text-[10px] text-slate-600">Brak ogłoszeń — bądź pierwszy!</p>
+            )}
+            <Button as={Link} to="/community" size="sm"
+                className="w-full mt-3 bg-yellow-600/10 hover:bg-yellow-600/20 text-yellow-400 border border-yellow-500/30 font-mono text-[10px] tracking-widest uppercase">
+                <Briefcase size={12} className="mr-1" /> Zobacz wszystkie →
+            </Button>
+        </Card>
+    );
+};
+
+// ─── Mini Gazetka for Home sidebar ──────────────────────
+const HomeMiniGazetka = () => {
+    const [news, setNews] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${API_URL}/api/community-news`)
+            .then(r => r.ok ? r.json() : [])
+            .then(data => setNews(Array.isArray(data) ? data.slice(0, 4) : []))
+            .catch(() => setNews([]))
+            .finally(() => setLoading(false));
+    }, []);
+
+    return (
+        <Card className="bg-black/40 backdrop-blur-xl border border-emerald-500/20 p-4 shrink-0">
+            <h3 className="font-mono text-xs text-emerald-500 tracking-widest mb-3 flex items-center gap-1.5 border-b border-emerald-500/20 pb-2">
+                <Newspaper size={13} /> GAZETKA COMMUNITY
+            </h3>
+            {loading ? (
+                <p className="text-[10px] text-slate-600 font-mono animate-pulse">Ładowanie wiadomości...</p>
+            ) : news.length > 0 ? (
+                <div className="space-y-2">
+                    {news.map((n, i) => (
+                        <div key={n.id || i} className="p-2 rounded border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+                            <p className="text-xs text-emerald-300 font-medium leading-tight">{n.title}</p>
+                            <p className="text-[10px] text-slate-500 mt-1 line-clamp-2">{n.content}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p className="text-[10px] text-slate-600">Brak wiadomości — wkrótce nowe!</p>
+            )}
+            <Button as={Link} to="/community" size="sm"
+                className="w-full mt-3 bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 font-mono text-[10px] tracking-widest uppercase">
+                <Newspaper size={12} className="mr-1" /> Czytaj więcej →
+            </Button>
+        </Card>
+    );
+};
 
 export const SidebarLeft = () => {
     // Technical navigation items
@@ -34,7 +123,7 @@ export const SidebarLeft = () => {
     ];
 
     return (
-        <aside className="hidden lg:flex flex-col gap-6 w-full sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pr-2">
+        <aside className="hidden lg:flex flex-col gap-6 w-full sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pr-2">
 
             {/* --- NAVIGATION SECTOR --- */}
             <Card className="bg-black/40 backdrop-blur-xl border border-white/5 p-4 w-full shrink-0">
@@ -173,6 +262,50 @@ export const SidebarLeft = () => {
                 </div>
             </Card>
 
+            {/* --- DLACZEGO COMMUNITY? --- */}
+            <Card className="bg-gradient-to-br from-cyan-950/20 to-black/40 backdrop-blur-xl border border-cyan-500/20 p-4 shrink-0">
+                <h3 className="font-display text-lg text-cyan-500 tracking-widest mb-3 flex items-center gap-2 border-b border-cyan-500/20 pb-2">
+                    <Heart size={16} className="text-red-400" /> DLACZEGO COMMUNITY?
+                </h3>
+                <div className="space-y-2 text-[11px] text-slate-400 leading-relaxed">
+                    <p>Stworzyliśmy to miejsce, bo brakowało nam przestrzeni do <span className="text-cyan-400">wymiany informacji o AI</span> — bez szumu, bez spamu, bez toksyczności.</p>
+                    <p>Chcemy, żeby osoby <span className="text-emerald-400">zaczynające przygodę z AI</span> miały łatwy dostęp do wiedzy i mogły zadawać pytania bez stresu.</p>
+                    <p>Chcemy, żeby każdy mógł się <span className="text-purple-400">pochwalić swoim projektem</span>, spotkać się ze zrozumieniem lub znaleźć kogoś do pomocy.</p>
+                </div>
+                <Divider className="my-3 bg-white/5" />
+                <div className="space-y-1.5 text-[10px] text-slate-500">
+                    <div className="flex items-start gap-2">
+                        <Mail size={10} className="text-cyan-500 mt-0.5 shrink-0" />
+                        <span>Nie będziemy zaśmiecać skrzynek — <span className="text-white">w ogóle nie wysyłamy maili</span>.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                        <Shield size={10} className="text-yellow-500 mt-0.5 shrink-0" />
+                        <span><span className="text-yellow-400">Zero tolerancji dla HATE.</span> 2× żółta kartka + czerwona = WYLOT z klubu. Żółte kasują się po miesiącu dobrego zachowania.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                        <Megaphone size={10} className="text-cyan-500 mt-0.5 shrink-0" />
+                        <span>Posty na główną — po sprawdzeniu przez Admina (wyślij DM).</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                        <Mail size={10} className="text-emerald-500 mt-0.5 shrink-0" />
+                        <span>Kontakt: <a href="mailto:admin@jimbo77.org" className="text-cyan-400 hover:underline">admin@jimbo77.org</a></span>
+                    </div>
+                </div>
+                <div className="flex gap-2 mt-3">
+                    <Button as={Link} to="/community" size="sm"
+                        className="flex-1 bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 font-mono text-[10px] tracking-widest uppercase">
+                        <Users size={12} className="mr-1" /> Dołącz
+                    </Button>
+                    <Button as={Link} to="/community" size="sm"
+                        className="flex-1 bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 font-mono text-[10px] tracking-widest uppercase">
+                        <Briefcase size={12} className="mr-1" /> Ogłoszenia
+                    </Button>
+                </div>
+            </Card>
+
+            {/* --- MINI MARKETPLACE --- */}
+            <HomeMiniMarketplace />
+
         </aside>
     );
 };
@@ -202,7 +335,7 @@ export const SidebarRight = () => {
     }, []);
 
     return (
-        <aside className="hidden xl:flex flex-col gap-6 w-full sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pl-2">
+        <aside className="hidden xl:flex flex-col gap-6 w-full sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide pl-2">
 
             {/* --- COMMUNITY WIDGET --- */}
             <Card className="bg-black/40 backdrop-blur-xl border border-cyan-500/20 p-4 shrink-0">
@@ -356,6 +489,34 @@ export const SidebarRight = () => {
                     </a>
                 </div>
                 <p className="text-[10px] text-slate-600 mt-2 text-center font-mono">Przeglądarka nowej generacji</p>
+            </Card>
+
+            {/* --- MINI GAZETKA --- */}
+            <HomeMiniGazetka />
+
+            {/* --- REGULAMIN SKRÓT --- */}
+            <Card className="bg-gradient-to-br from-yellow-950/10 to-black/40 backdrop-blur-xl border border-yellow-500/20 p-4 shrink-0">
+                <h3 className="font-mono text-xs text-yellow-500 tracking-widest mb-3 flex items-center gap-1.5 border-b border-yellow-500/20 pb-2">
+                    <AlertTriangle size={13} /> REGULAMIN COMMUNITY
+                </h3>
+                <div className="space-y-2 text-[10px] text-slate-500">
+                    <div className="flex items-start gap-2">
+                        <span className="text-yellow-400 font-bold shrink-0">🟡</span>
+                        <span>Żółta kartka — ostrzeżenie za nieodpowiednie zachowanie, hate, obrażanie</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                        <span className="text-yellow-400 font-bold shrink-0">🟡🟡</span>
+                        <span>Druga żółta — ostatnie ostrzeżenie</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                        <span className="text-red-400 font-bold shrink-0">🔴</span>
+                        <span>Czerwona kartka = <span className="text-red-400 font-bold">BANG — WYLOT Z KLUBU</span></span>
+                    </div>
+                    <Divider className="bg-white/5" />
+                    <p className="text-slate-600 italic">Żółte kartki kasują się po miesiącu przykładnego zachowania.</p>
+                    <p className="text-slate-600">Chętnych do pomocy w rozwoju aplikacji — zapraszamy!</p>
+                    <p className="text-slate-600">Początkujących prosimy o pytania — jesteśmy tu żeby pomagać.</p>
+                </div>
             </Card>
 
             {/* --- NASZE STRONY --- */}
