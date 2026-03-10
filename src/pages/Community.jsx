@@ -371,7 +371,7 @@ const Community = () => {
     // If viewing a single post
     if (activePost) {
         return (
-            <div className="min-h-screen pt-8 pb-12 w-full">
+            <div className="min-h-screen pt-28 pb-12 w-full">
                 <div className="container mx-auto px-4 max-w-4xl">
                     <PostDetail postId={activePost} user={user} onBack={() => setActivePost(null)} />
                 </div>
@@ -380,7 +380,7 @@ const Community = () => {
     }
 
     return (
-        <div className="min-h-screen pt-8 pb-12 w-full">
+        <div className="min-h-screen pt-28 pb-12 w-full">
             <div className="container mx-auto px-4 max-w-5xl">
 
                 {/* ─── Header ─── */}
