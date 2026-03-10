@@ -11,6 +11,7 @@ import Core from './pages/Core';
 import Community from './pages/Community';
 import Tools from './pages/Tools';
 import Gallery from './pages/Gallery';
+import AdminPanel from './pages/AdminPanel';
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                     <Route path="/community" element={<Community />} />
                     <Route path="/tools" element={<Tools />} />
                     <Route path="/gallery" element={<Gallery />} />
+                    <Route path="/admin" element={<AdminPanel />} />
                 </Route>
             </Routes>
         </Router>
