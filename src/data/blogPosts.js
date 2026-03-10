@@ -27,9 +27,7 @@ export const blogPosts = [
         category: "AI News",
         image: '/blog-images/nowy-przelom-w-ai-chatgpt-5-potrafi-czyt-hero.png',
         tech: ["AI News", "Aktualności", "AI"],
-        description: "---
-title: \"Nowy przełom w AI: ChatGPT-5 potrafi czytać emocje z głosu – jak zmieni nasze życie?\"
-description: \"Spraw",
+        description: "Kiedy maszyna zaczyna czytać twój głos — nie tylko słowa, ale to co pod spodem — wchodzisz w nowe terytorium.",
         readTime: 5,
         author: "Karol",
         featured: true
