@@ -948,7 +948,7 @@ const PostCard = ({ post, onClick, onViewProfile }) => {
 };
 
 // ─── LEFT SIDEBAR: MARKETPLACE / OGŁOSZENIA ────────────
-const MarketplaceSidebar = ({ user }) => {
+const MarketplaceSidebar = ({ user, onViewProfile }) => {
     const [listings, setListings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
@@ -958,6 +958,8 @@ const MarketplaceSidebar = ({ user }) => {
     const [type, setType] = useState('oferuję');
     const [contact, setContact] = useState('');
     const [creating, setCreating] = useState(false);
+    const [expandedId, setExpandedId] = useState(null);
+    const [sectionOpen, setSectionOpen] = useState(true);
 
     const fetchListings = useCallback(async () => {
         try {
@@ -998,9 +1000,13 @@ const MarketplaceSidebar = ({ user }) => {
     return (
         <div className="space-y-3">
             <div className="flex items-center justify-between">
-                <h3 className="font-mono text-xs text-cyan-500 tracking-widest flex items-center gap-1.5">
-                    <Megaphone size={13} /> MARKETPLACE
-                </h3>
+                <button onClick={() => setSectionOpen(!sectionOpen)}
+                    className="flex items-center gap-1.5 group">
+                    <h3 className="font-mono text-xs text-cyan-500 tracking-widest flex items-center gap-1.5">
+                        <Megaphone size={13} /> MARKETPLACE
+                    </h3>
+                    <ChevronDown size={14} className={`text-slate-600 group-hover:text-cyan-400 transition-all ${sectionOpen ? 'rotate-180' : ''}`} />
+                </button>
                 {user && (
                     <button onClick={() => setShowForm(!showForm)}
                         className="text-[10px] px-2 py-1 rounded border border-cyan-500/20 text-cyan-400 font-mono hover:bg-cyan-600/10 transition-colors">
@@ -1008,6 +1014,10 @@ const MarketplaceSidebar = ({ user }) => {
                     </button>
                 )}
             </div>
+
+            {!sectionOpen ? (
+                <p className="text-[10px] text-slate-600 font-mono">Kliknij aby rozwiąć...</p>
+            ) : (<>
 
             {/* Filter tabs */}
             <div className="flex gap-1">
@@ -1122,6 +1132,7 @@ const MarketplaceSidebar = ({ user }) => {
                     </div>
                 </div>
             </div>
+            </>)}
         </div>
     );
 };
@@ -1132,6 +1143,7 @@ const GazetkaSidebar = ({ user }) => {
     const [loading, setLoading] = useState(true);
     const [expanded, setExpanded] = useState(null);
     const [showRules, setShowRules] = useState(false);
+    const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -1153,10 +1165,17 @@ const GazetkaSidebar = ({ user }) => {
 
     return (
         <div className="space-y-3">
-            <h3 className="font-mono text-xs text-cyan-500 tracking-widest flex items-center gap-1.5">
-                <Newspaper size={13} /> GAZETKA
-            </h3>
+            <button onClick={() => setSidebarExpanded(!sidebarExpanded)}
+                className="w-full flex items-center justify-between group">
+                <h3 className="font-mono text-xs text-cyan-500 tracking-widest flex items-center gap-1.5">
+                    <Newspaper size={13} /> GAZETKA
+                </h3>
+                <ChevronDown size={14} className={`text-slate-600 group-hover:text-cyan-400 transition-all ${sidebarExpanded ? 'rotate-180' : ''}`} />
+            </button>
 
+            {!sidebarExpanded ? (
+                <p className="text-[10px] text-slate-600 font-mono">Kliknij aby rozwinąć...</p>
+            ) : (<>
             {/* Rules button */}
             {rules && (
                 <button onClick={() => setShowRules(!showRules)}
@@ -1268,6 +1287,7 @@ const GazetkaSidebar = ({ user }) => {
                     <p className="text-[10px] text-slate-700 font-mono">JIMBO77 COMMUNITY © 2026</p>
                 </div>
             </div>
+            </>)}
         </div>
     );
 };
@@ -1345,7 +1365,7 @@ const Community = () => {
 
     return (
         <div className="min-h-screen pt-28 pb-12 w-full">
-            <div className="container mx-auto px-4 max-w-[1400px]">
+            <div className="container mx-auto px-4 max-w-[1920px]">
                 <div className="text-center mb-10">
                     <h1 className="font-display text-5xl md:text-6xl text-white mb-3 tracking-widest">
                         COMMUNITY<span className="text-cyan-500">_HUB</span>
@@ -1393,12 +1413,12 @@ const Community = () => {
                         )}
 
                         {/* ═══ 3-COLUMN LAYOUT ═══ */}
-                        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_260px] gap-5">
+                        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr_1fr] gap-5">
 
                             {/* LEFT: Marketplace */}
                             <aside className="hidden lg:block">
-                                <div className="sticky top-28 bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800">
-                                    <MarketplaceSidebar user={user} />
+                                <div className="sticky top-28 bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4">
+                                    <MarketplaceSidebar user={user} onViewProfile={(name) => setViewUserDashboard(name)} />
                                 </div>
                             </aside>
 
@@ -1450,7 +1470,7 @@ const Community = () => {
                                 {/* Mobile sidebars collapsed */}
                                 <div className="lg:hidden mt-8 space-y-6">
                                     <div className="bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4">
-                                        <MarketplaceSidebar user={user} />
+                                        <MarketplaceSidebar user={user} onViewProfile={(name) => setViewUserDashboard(name)} />
                                     </div>
                                     <div className="bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4">
                                         <GazetkaSidebar user={user} />
@@ -1460,7 +1480,7 @@ const Community = () => {
 
                             {/* RIGHT: Gazetka */}
                             <aside className="hidden lg:block">
-                                <div className="sticky top-28 bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4 max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800">
+                                <div className="sticky top-28 bg-black/30 backdrop-blur-xl border border-white/5 rounded-xl p-4">
                                     <GazetkaSidebar user={user} />
                                 </div>
                             </aside>
