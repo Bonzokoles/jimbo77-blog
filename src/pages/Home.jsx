@@ -114,7 +114,7 @@ const Home = () => {
                                     value={searchTerm}
                                     onValueChange={setSearchTerm}
                                 />
-                                <div className="flex gap-2 min-w-[300px]">
+                                <div className="flex gap-2 w-full md:min-w-[300px] md:w-auto">
                                     <Select 
                                         size="sm" 
                                         label="Kategoria" 

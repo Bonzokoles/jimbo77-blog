@@ -161,7 +161,7 @@ const BlogPost = () => {
           <Breadcrumbs variant="flat" classNames={{ list: "bg-slate-900/50 border border-white/5 backdrop-blur-md px-4 py-2 rounded-full" }}>
             <BreadcrumbItem startContent={<Home size={14} />} href="/">Home</BreadcrumbItem>
             <BreadcrumbItem href="/">{blog.category}</BreadcrumbItem>
-            <BreadcrumbItem isCurrent className="text-cyan-400">{blog.title}</BreadcrumbItem>
+            <BreadcrumbItem isCurrent className="text-cyan-400 max-w-[180px] sm:max-w-xs truncate block">{blog.title}</BreadcrumbItem>
           </Breadcrumbs>
         </div>
 
@@ -169,7 +169,7 @@ const BlogPost = () => {
           <Chip size="sm" variant="flat" color="primary" className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-4 uppercase font-mono tracking-widest text-[10px]">
             {blog.category}
           </Chip>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight uppercase font-mono">
+          <h1 className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight uppercase font-mono break-words">
             {blog.title}
           </h1>
           <div className="flex items-center gap-6 text-slate-400 text-xs font-mono">
