@@ -12,7 +12,7 @@ const ArticleList = ({ articles, onRead, onEdit, onDelete }) => {
   // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('pl-PL', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
@@ -31,8 +31,8 @@ const ArticleList = ({ articles, onRead, onEdit, onDelete }) => {
     return (
       <div className="empty-state">
         <div className="empty-icon">📝</div>
-        <h2>No articles yet</h2>
-        <p>Create your first article to get started!</p>
+        <h2>Brak artykułów</h2>
+        <p>Stwórz swój pierwszy artykuł!</p>
       </div>
     );
   }
