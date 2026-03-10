@@ -296,7 +296,7 @@ const Lightbox = ({ item, onClose, onPrev, onNext }) => {
     }, [onClose, onNext, onPrev]);
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 gap-4" onClick={onClose}>
+        <div className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-4 gap-4" onClick={onClose}>
             {/* Close */}
             <button onClick={onClose} className="self-end mr-2 p-2 text-slate-400 hover:text-white transition-colors">
                 <X size={22} />
@@ -448,8 +448,9 @@ const Gallery = () => {
                             {filtered.map((item, idx) => (
                                 <div key={item.id} className="break-inside-avoid">
                                     <Card
+                                        isPressable
                                         className="bg-slate-900/50 border border-white/5 overflow-hidden hover:border-cyan-500/30 hover:scale-[1.01] transition-all cursor-pointer group"
-                                        onClick={() => openLightbox(idx)}
+                                        onPress={() => openLightbox(idx)}
                                     >
                                         <div className="relative">
                                             <img
