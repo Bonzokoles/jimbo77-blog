@@ -117,13 +117,82 @@ const Core = () => {
                             </Button>
                         </div>
                     </div>
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-cyan-500/20 blur-[100px] rounded-full"></div>
-                        <img
-                            src="https://images.unsplash.com/photo-1558494949-efc02570fbc9?q=80&w=2000&auto=format&fit=crop"
-                            alt="Core System"
-                            className="relative z-10 rounded-2xl border border-white/10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
-                        />
+                    {/* Inline architecture illustration */}
+                    <div className="relative flex items-center justify-center">
+                        <div className="absolute inset-0 bg-cyan-500/10 blur-[80px] rounded-full"></div>
+                        <div className="relative z-10 w-full rounded-2xl border border-white/10 bg-slate-900/60 overflow-hidden p-6">
+                            <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+                                {/* Grid background */}
+                                <defs>
+                                    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                                        <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#1e293b" strokeWidth="0.5"/>
+                                    </pattern>
+                                    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#06b6d4"/>
+                                        <stop offset="100%" stopColor="#3b82f6"/>
+                                    </linearGradient>
+                                    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#f97316"/>
+                                        <stop offset="100%" stopColor="#ea580c"/>
+                                    </linearGradient>
+                                    <filter id="glow">
+                                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                                        <path d="M0,0 L0,6 L6,3 z" fill="#06b6d4"/>
+                                    </marker>
+                                </defs>
+                                <rect width="420" height="260" fill="url(#grid)"/>
+
+                                {/* Isometric layers */}
+                                {/* Layer 3 - bottom (storage) */}
+                                <polygon points="210,200 80,160 80,180 210,220 340,180 340,160" fill="#0f172a" stroke="#1e40af" strokeWidth="1"/>
+                                <polygon points="210,200 340,160 210,120 80,160" fill="#0f1f35" stroke="#1e40af" strokeWidth="1"/>
+                                <text x="210" y="165" textAnchor="middle" fill="#3b82f6" fontSize="9" fontFamily="monospace">R2 / D1 Storage</text>
+
+                                {/* Layer 2 - middle (workers) */}
+                                <polygon points="210,155 80,115 80,135 210,175 340,135 340,115" fill="#0f172a" stroke="#0891b2" strokeWidth="1"/>
+                                <polygon points="210,155 340,115 210,75 80,115" fill="#091929" stroke="#0891b2" strokeWidth="1"/>
+                                <text x="210" y="120" textAnchor="middle" fill="#06b6d4" fontSize="9" fontFamily="monospace">Cloudflare Workers</text>
+
+                                {/* Layer 1 - top (edge) */}
+                                <polygon points="210,110 80,70 80,90 210,130 340,90 340,70" fill="#0f172a" stroke="#ea580c" strokeWidth="1"/>
+                                <polygon points="210,110 340,70 210,30 80,70" fill="#1a0f05" stroke="#ea580c" strokeWidth="1"/>
+                                <text x="210" y="75" textAnchor="middle" fill="#f97316" fontSize="9" fontFamily="monospace">Cloudflare Edge / CDN</text>
+
+                                {/* Vertical connectors */}
+                                <line x1="210" y1="30" x2="210" y2="15" stroke="#06b6d4" strokeWidth="1" strokeDasharray="3,2"/>
+                                <circle cx="210" cy="12" r="3" fill="#06b6d4" filter="url(#glow)"/>
+                                <text x="210" y="7" textAnchor="middle" fill="#94a3b8" fontSize="7" fontFamily="monospace">User Request</text>
+
+                                {/* Right side - CF Workers badge */}
+                                <rect x="330" y="20" width="80" height="28" rx="6" fill="#1c1a07" stroke="#f97316" strokeWidth="1"/>
+                                <text x="370" y="31" textAnchor="middle" fill="#f97316" fontSize="7" fontFamily="monospace" fontWeight="bold">⚙ CF Workers</text>
+                                <text x="370" y="41" textAnchor="middle" fill="#78716c" fontSize="6" fontFamily="monospace">for Platforms</text>
+
+                                {/* Left side - MCP badge */}
+                                <rect x="10" y="20" width="70" height="28" rx="6" fill="#0a0e1a" stroke="#06b6d4" strokeWidth="1"/>
+                                <text x="45" y="31" textAnchor="middle" fill="#06b6d4" fontSize="7" fontFamily="monospace" fontWeight="bold">◈ MCP</text>
+                                <text x="45" y="41" textAnchor="middle" fill="#475569" fontSize="6" fontFamily="monospace">Protocol</text>
+
+                                {/* Bottom labels */}
+                                <text x="50" y="215" fill="#1e40af" fontSize="7" fontFamily="monospace">jimbo77.org</text>
+                                <text x="330" y="215" fill="#1e40af" fontSize="7" fontFamily="monospace">mybonzo.com</text>
+                                <text x="175" y="245" fill="#334155" fontSize="7" fontFamily="monospace">Powered by Cloudflare Workers for Platforms</text>
+
+                                {/* Animated dot on top */}
+                                <circle cx="210" cy="12" r="5" fill="none" stroke="#06b6d4" strokeWidth="1" opacity="0.5">
+                                    <animate attributeName="r" values="3;8;3" dur="2s" repeatCount="indefinite"/>
+                                    <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite"/>
+                                </circle>
+                            </svg>
+                            <div className="flex justify-center gap-4 mt-2 text-[10px] font-mono text-slate-600">
+                                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-orange-500/50 inline-block"></span>Edge Layer</span>
+                                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-cyan-500/50 inline-block"></span>Workers Layer</span>
+                                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-blue-500/50 inline-block"></span>Storage Layer</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
