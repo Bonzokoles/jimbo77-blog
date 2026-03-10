@@ -3,7 +3,7 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 export const blogPosts = [
     {
         id: "jak-latalem-dziury-w-matrixie-mojego-ai-bloga-i-zrozumialem",
-        title: "Jak łatałem dziury w matrixie mojego AI-bloga i zrozumiałem, że błędy to najleps",
+        title: "Jak łatałem dziury w matrixie mojego AI-bloga i zrozumiałem, że błędy to najlepsi nauczyciele",
         slug: "jak-latalem-dziury-w-matrixie-mojego-ai-bloga-i-zrozumialem",
         subtitle: "",
         date: "Marzec 2026",

@@ -14,37 +14,35 @@ site: jimbo77.org
 
 Siedem razy uruchomiłem publisher zanim zrozumiałem że problem nie jest w kodzie. Był w tym jak myślałem o tym co buduję.
 
-To jest historia o błędzie który wyglądał jak techniczny a okazał się architektoniczny. I o tym czego mnie nauczył — nie jako programistę, bo programistą zostałem dopiero niedawno i uczę się każdego dnia — ale jako człowieka który po raz kolejny w życiu robi coś czego wcześniej nie robił i odkrywa że najważniejsza lekcja nigdy nie jest ta którą myślał że dostaje.
+jimbo77.org działa na stosie który sam złożyłem: React + Vite + Tailwind na froncie, Cloudflare Workers + R2 + D1 na backendzie, i MOA Engine jako mózg artykułów — pipeline który bierze temat, przepuszcza przez Perplexity do researchu, potem przez trzech pisarzy równolegle (DeepSeek, Gemma 27B, Qwen 72B), syntetyzuje wynik i przegląda jakość przez GPT-5-nano. Do tego Replicate i OpenAI do generowania obrazków przy każdej publikacji.
 
-jimbo77.org działa na stosie który sam złożyłem kawałek po kawałku. React + Vite + Tailwind + HeroUI na froncie, Cloudflare Workers + R2 + D1 na backendzie, i MOA Engine jako mózg całości — pipeline który bierze temat, szuka informacji przez Perplexity, przepuszcza przez trzech różnych pisarzy (DeepSeek, Gemma 27B, Qwen 72B), syntetyzuje wynik i przegląda QA przez GPT-5-nano. Do tego Replicate i OpenAI do generowania obrazków. Publisher który to wszystko odpala w jednym poleceniu z terminala.
+Publisher odpala całość jednym poleceniem z terminala. Kiedy działa — jest piękny. Kiedy się psuje — jest nauczycielem.
 
-Kilka miesięcy temu nie wiedziałem co to jest Cloudflare Worker. Nie wiedziałem co to jest D1. Słyszałem "React" i myślałem że to jakaś biblioteka do animacji. Brzmi zabawnie teraz. Wtedy brzmiało paraliżująco.
+## Błąd który wyglądał technicznie a był architektoniczny
 
-Błąd który znalazłem tym razem był prosty technicznie: `generate_hero_image()` zwracało tylko nazwę pliku — bez informacji o modelu który wygenerował obraz i bez promptu który go opisywał. Przez to galeria nie wiedziała skąd pochodzi zdjęcie, jaki model go zrobił, co było intencją. Naprawiłem to zmieniając `return filename` na `return filename, model["name"], prompt` — trzy wartości zamiast jednej. Może dwadzieścia linii zmiany w dwóch plikach.
+Tym razem problem był konkretny: `generate_hero_image()` zwracała tylko nazwę pliku — `filename`. Tyle. Bez informacji o tym jaki model wygenerował obraz i bez promptu którego użyłem. Galeria na `/gallery` ładuje metadata z `gallery-index.json` — model, prompt, data — ale nie miała skąd tego wziąć, bo funkcja po prostu tego nie zwracała.
 
-Ale to nie jest story o tych dwudziestu liniach.
+Naprawiłem to zmieniając `return filename` na `return filename, model["name"], prompt`. Trzy wartości zamiast jednej. Dwie linijki zmiany w `image_generator.py`, aktualizacja callerów w `publisher_workflow.py`, nowa funkcja `save_gallery_entry()` która zapisuje te dane do JSON po każdej publikacji.
 
-To jest story o tym że przez kilka godzin szukałem błędu w złym miejscu. W logice zapisu pliku. W ścieżkach katalogów. W konfiguracji JSON. Wszędzie poza tym gdzie faktycznie był — w definicji funkcji która miała zwracać za mało. Nauczyłem się zadawać właściwe pytanie dopiero po kilku takich pętlach. Nie "gdzie jest błąd?" — ale "co ta funkcja powinna zwracać żeby cały system miał sens?"
+Prosta zmiana. Ale przez kilka godzin szukałem błędu w złym miejscu — w logice zapisu pliku, w ścieżkach katalogów, w konfiguracji. Wszędzie poza definicją funkcji która po prostu zwracała za mało.
 
-To pytanie architektoniczne, nie debuggerskie. I ta różnica kosztowała mnie kilka godzin zanim ją zobaczyłem.
+Nauczyłem się zadawać właściwe pytanie dopiero po kilku takich rundach. Nie "gdzie jest błąd?" — ale "co ta funkcja powinna wiedzieć żeby cały system miał sens?" To pytanie architektoniczne, nie debuggerskie. I ta różnica kosztowała mnie kilka godzin zanim ją zobaczyłem.
 
-Kiedy jeździłem na deskorolce — całymi latami, od wczesnego dzieciństwa przez całe lata 90. w Poznaniu — każdy nowy trik uczył mnie tej samej lekcji. Nie szukasz błędu w stopach. Szukasz go w całym ciele, w ułożeniu, w tym jak wchodzisz w ruch zanim jeszcze stoisz na desce. Jeśli wejście jest złe — nie ma tricku który naprawisz wyłącznie korektą nóg. Musisz cofnąć się do początku ruchu. Debugging kodu jest absolutnie tym samym. Objaw jest lokalny. Przyczyna jest systemowa.
+Kiedy jeździłem na deskorolce przez całe lata 90. w Poznaniu, każdy nowy trik uczył tej samej lekcji: nie szukasz błędu w stopach. Szukasz go w całym ciele — w ułożeniu, w tym jak wchodzisz w ruch zanim staniesz na desce. Jeśli wejście jest złe, żadna korekta nóg nie naprawi tricku. Cofasz się do początku ruchu. Debugging kodu jest dokładnie tym samym — objaw lokalny, przyczyna systemowa.
 
-Teraz mam `gallery-index.json` który aktualizuje się automatycznie przy każdej publikacji. Każdy obraz ma swój wpis — model który go wygenerował, prompt którego użyłem, data. Galeria na `/gallery` ładuje ten plik dynamicznie. Kiedy następny artykuł wychodzi — galeria sama się aktualizuje bez żadnej ręcznej interwencji. System żyje bez mojej ręki na klawiaturze.
+## Co teraz działa
 
-To jest uczucie którego nie da się w pełni opisać temu kto tego nie robił. Zbudowałeś coś co działa samo. Nie w sensie magii — rozumiesz każdy kawałek — ale w sensie że nie musisz tam stać i pilnować. Możesz pójść zrobić kawę i wrócić do czegoś co zrobiło robotę bez ciebie. Rzemieślnik który zbudował dobre narzędzie wie o czym mówię.
+`gallery-index.json` aktualizuje się automatycznie przy każdej publikacji. Każdy wygenerowany obraz ma wpis: model który go stworzył, prompt, data. Galeria na `/gallery` ładuje ten plik dynamicznie — kiedy następny artykuł wychodzi, galeria sama się uzupełnia bez żadnej ręcznej interwencji.
 
-Uczę się programowania od jakichś dwóch lat. Zaczynałem od absolutnego zera — nie miałem żadnego tła, żadnych kursów z dzieciństwa, żadnego "zawsze miałem głowę do komputerów". Byłem rzemieślnikiem, układałem kamień w londyńskich apartamentach, surfowałem na atlantyku kiedy mogłem, i gdzieś po drodze okazało się że najbardziej fascynuje mnie budowanie rzeczy w kodzie. Ta sama fascynacja co deska, co kamień — tylko inny materiał, inne reguły, te same pętle nauki.
+Przy okazji trafiłem na drugi bug: publisher wyciągał "pierwszy akapit" jako opis artykułu do `blogPosts.js`, ale artykuł zaczyna się od frontmatter YAML (`---\ntitle:...\n---`). Ten blok wchodził prosto do JS-owego stringa — z cudzysłowami, z newlines — i build Vite wysypywał się z `invalid JS syntax`. Naprawiłem to stripując frontmatter przed parsowaniem akapitów i spłaszczając wynik do jednej linii.
 
-Camus miałby co powiedzieć o tym projekcie. Budujesz system który sam pisze artykuły. System się psuje. Naprawiasz. System znowu pisze. Jutro coś innego się zepsuje. I tak w kółko — Syzyf z laptopem i kawą. Ale właśnie o to chodzi. Satysfakcja nie jest na szczycie kiedy wszystko działa idealnie. Jest w tej robocie samej w sobie — w tym konkretnym momencie kiedy rozumiesz co było nie tak i widzisz jak to naprawić.
+Dwa bugi, jeden popołudniowy debug session. Takie jest życie z projektem który budujesz sam od zera, ucząc się po drodze.
 
 ## Co z tego wynika?
 
-Każdy błąd który znalazłem w tym projekcie nauczył mnie czegoś o tym jak myślę — nie tylko o kodzie. O tym czy patrzę na objaw czy na przyczynę. O tym czy szukam szybkiego fixa czy rzeczywistego rozwiązania. Nie zawsze mam cierpliwość na to drugie. Ale staram się i z każdym razem idzie mi trochę lepiej.
+Kiedy robisz coś samodzielnie i nie masz kogo zapytać, każdy błąd jest cenniejszy niż tutorial. Tutorial pokazuje jak zrobić. Błąd pokazuje dlaczego coś nie działa — i to jest wiedza której nie da się skrócić.
 
-Jeśli budujesz coś samodzielnie od zera — niezależnie czy to blog z AI, czy jakikolwiek projekt który jest zbyt skomplikowany jak na twoje obecne umiejętności — najbardziej cenna rzecz nie jest stack który wybierzesz ani framework który opanujesz. To sposób w jaki uczysz się nie wiedzieć. I wracać do tego co nie działa bez dramatyzowania, bez porzucenia, z tym samym głodem co na początku.
-
-Błędy to najlepsi nauczyciele. Ale tylko jeśli pozwolisz im mówić zamiast je szybko zakopywać.
+Jeśli budujesz własny projekt: dokumentuj co nie działało i dlaczego. Nie tylko co naprawiłeś — ale jak myślałeś kiedy szukałeś. Za miesiąc wrócisz do podobnego problemu i ten zapis będzie więcej wart niż stack overflow.
 
 ---
 

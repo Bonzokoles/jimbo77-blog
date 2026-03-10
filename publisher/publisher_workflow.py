@@ -557,9 +557,10 @@ def save_post(slug, title, content, category="AI", tech_tags=None, image_name=No
     # Escape double quotes in description for JS
     description = description.replace('"', '\\"')
 
+    title_display = title if len(title) <= 120 else title[:120].rsplit(' ', 1)[0] + '...'
     new_entry = f"""    {{
         id: "{slug}",
-        title: "{title[:80].replace('"', '\\\\"')}",
+        title: "{title_display.replace('"', '\\\\"')}",
         slug: "{slug}",
         subtitle: "",
         date: "{date_label}",
