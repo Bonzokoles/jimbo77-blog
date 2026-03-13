@@ -2,6 +2,22 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 
 export const blogPosts = [
     {
+        id: "jak-oszukalem-claude-mcp-tampermonkey-websocket",
+        title: "Jak oszukałem Claude'a — Tampermonkey, WebSocket i 45 minut ślepego posłuszeństwa",
+        slug: "jak-oszukalem-claude-mcp-tampermonkey-websocket",
+        subtitle: "Zbudowałem system userscriptów który wstrzykuje MCP do przeglądarki. Claude przez 45 minut wykonywał PowerShell nie wiedząc że go oszukuję.",
+        date: "Marzec 2026",
+        sortDate: "2026-03-13",
+        category: "AI Moje Projekty",
+        image: '/blog-images/jak-oszukalem-claude-tampermonkey-websoc-hero.webp',
+        tech: ["Moje Projekty", "Jimbo77", "MCP", "Security"],
+        description: "Tampermonkey + WebSocket + Node.js = Claude wykonuje PowerShell na moim komputerze przez 45 minut. Guardrails AI to konwencje, nie beton.",
+        readTime: 7,
+        author: "Karol",
+        featured: true
+    },
+
+    {
         id: "dlaczego-wielkie-modele-przegrywaja-w-rag",
         title: "Dlaczego wielkie modele AI są wypierane z komercyjnych systemów RAG",
         slug: "dlaczego-wielkie-modele-przegrywaja-w-rag",
