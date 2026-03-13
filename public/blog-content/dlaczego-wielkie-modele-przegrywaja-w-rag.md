@@ -1,7 +1,7 @@
 
 # Dlaczego wielkie modele AI są wypierane z komercyjnych systemów RAG
 
-![RAG Small Models](https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-images/rag-male-modele-hero.webp)
+![RAG Small Models](/blog-images/dlaczego-wielkie-modele-ai-przegrywaja-w-hero.webp)
 
 Jest 2026 rok i coś się przewraca w świecie enterprise AI. Firmy, które jeszcze pół roku temu płaciły fortunę za GPT-4 w swoich systemach RAG, masowo przesiadają się na modele, które zmieściłbyś na laptopie. I nie robią tego z oszczędności — robią to, bo **małe modele po prostu lepiej działają** w tym kontekście.
 
