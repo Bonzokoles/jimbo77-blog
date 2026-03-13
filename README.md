@@ -5,8 +5,8 @@
 <h1 align="center">JIMBO77 — AI Social Club</h1>
 
 <p align="center">
-  <strong>Polski hub technologiczny dla developerów, AI enthusiastów i kreatorów.</strong><br/>
-  Community-driven blog & knowledge portal z cyberpunkową tożsamością wizualną.
+  <strong>Polski hub technologiczny dla developerów, AI entuzjastów i kreatorów.</strong><br/>
+  Community-driven blog & knowledge portal z autorską, dark-tech tożsamością wizualną.
 </p>
 
 <p align="center">
@@ -19,7 +19,7 @@
 
 ## O projekcie
 
-**JIMBO77** to polski portal technologiczny łączący blog wiedzy, forum społeczności i narzędzia AI w jednym miejscu. Projekt został zbudowany od zera jako SPA z cyberpunkową estetyką — ciemny motyw, glassmorphism, neonowe akcenty — i jest hostowany na edge dzięki Cloudflare Pages.
+**JIMBO77** to polski portal technologiczny łączący blog wiedzy, forum społeczności i narzędzia AI w jednym miejscu. Projekt został zbudowany od zera jako SPA z autorską, dark-tech estetyką — ciemny motyw, glassmorphism, neonowe akcenty — i jest hostowany na edge dzięki Cloudflare Pages.
 
 Portal jest skierowany do polskich developerów i twórców zainteresowanych sztuczną inteligencją, web developmentem, DevOps i automatyzacją. Cała treść jest po polsku, kod i identyfikatory techniczne po angielsku.
 
@@ -74,41 +74,41 @@ Portal jest skierowany do polskich developerów i twórców zainteresowanych szt
 
 ```
 jimbo77-blog/
-├── public/                  # Static assets, llms.txt, blog-content/
-├── publisher/               # Narzędzia do publikacji treści
-├── scripts/                 # Skrypty pomocnicze
-├── templates/               # Szablony artykułów
+├── public/                    # Static assets, llms.txt, blog-content/
+├── publisher/                 # Narzędzia do publikacji treści
+├── scripts/                   # Skrypty pomocnicze
+├── templates/                 # Szablony artykułów
 ├── src/
-│   ├── api/                 # Client-side API integrations
+│   ├── api/                   # Client-side API integrations
 │   ├── components/
-│   │   ├── Background.jsx   # Animated cyberpunk background
-│   │   ├── BlogHub.jsx      # 3-column community grid
-│   │   ├── BlogCard.jsx     # Article preview cards
-│   │   ├── KnowledgeGraph.jsx  # Interactive node graph
-│   │   ├── Navbar.jsx       # Main navigation (desktop + mobile)
-│   │   ├── Sidebars.jsx     # Nerve Center + Community panel
-│   │   ├── SEO.jsx          # Meta tags, OG, structured data
-│   │   ├── SchemaOrg.jsx    # JSON-LD schema
-│   │   ├── TerminalChat.jsx # AI chat interface
-│   │   └── blog/            # Blog-specific sub-components
-│   ├── data/                # Static data, blog metadata
-│   ├── hooks/               # Custom React hooks
-│   ├── layouts/             # Page layout wrappers
+│   │   ├── Background.jsx     # Animated dark-tech background
+│   │   ├── BlogHub.jsx        # 3-column community grid
+│   │   ├── BlogCard.jsx       # Article preview cards
+│   │   ├── KnowledgeGraph.jsx # Interactive node graph
+│   │   ├── Navbar.jsx         # Main navigation (desktop + mobile)
+│   │   ├── Sidebars.jsx       # Nerve Center + Community panel
+│   │   ├── SEO.jsx            # Meta tags, OG, structured data
+│   │   ├── SchemaOrg.jsx      # JSON-LD schema
+│   │   ├── TerminalChat.jsx   # AI chat interface
+│   │   └── blog/              # Blog-specific sub-components
+│   ├── data/                  # Static data, blog metadata
+│   ├── hooks/                 # Custom React hooks
+│   ├── layouts/               # Page layout wrappers
 │   ├── pages/
-│   │   ├── Home.jsx         # Landing page
-│   │   ├── BlogPost.jsx     # Single article view
-│   │   ├── Community.jsx    # Community forum
-│   │   ├── Core.jsx         # Knowledge base
-│   │   ├── Gallery.jsx      # AI-generated image gallery
-│   │   ├── Graph.jsx        # Knowledge graph visualization
-│   │   ├── Logs.jsx         # System/dev logs
-│   │   ├── Tools.jsx        # Recommended dev tools
-│   │   └── AdminPanel.jsx   # Content management
-│   ├── styles/              # CSS modules, animations
-│   ├── tests/               # Vitest test suites
-│   ├── App.jsx              # Root router
-│   ├── main.jsx             # Entry point
-│   └── index.css            # Global styles + Tailwind
+│   │   ├── Home.jsx           # Landing page
+│   │   ├── BlogPost.jsx       # Single article view
+│   │   ├── Community.jsx      # Community forum
+│   │   ├── Core.jsx           # Knowledge base
+│   │   ├── Gallery.jsx        # AI-generated image gallery
+│   │   ├── Graph.jsx          # Knowledge graph visualization
+│   │   ├── Logs.jsx           # System/dev logs
+│   │   ├── Tools.jsx          # Recommended dev tools
+│   │   └── AdminPanel.jsx     # Content management
+│   ├── styles/                # CSS modules, animations
+│   ├── tests/                 # Vitest test suites
+│   ├── App.jsx                # Root router
+│   ├── main.jsx               # Entry point
+│   └── index.css              # Global styles + Tailwind
 ├── package.json
 ├── tailwind.config.js
 ├── postcss.config.js
@@ -139,23 +139,23 @@ npm run build
 Projekt jest automatycznie deployowany na **Cloudflare Pages** przy każdym pushu do `main`:
 
 1. Push do `main` → Cloudflare automatycznie uruchamia build
-2. `npm run build` → folder `dist/` 
+2. `npm run build` → folder `dist/`
 3. Preview URL dla pull requestów
-4. Custom domain: **jimbo77.org**
+4. Custom domena: **jimbo77.org**
 
 ```
-Build command:     npm run build
-Output directory:  dist
-Framework preset:  Vite
-Node version:      22.x
+Build command:    npm run build
+Output directory: dist
+Framework preset: Vite
+Node version:     22.x
 ```
 
 ## Design System
 
-Portal wykorzystuje unikatowy styl **Cyberpunk Elite**:
+Portal wykorzystuje unikalny styl **Dark-Tech Elite**:
 
 - **Tło**: Animowane cząsteczki + gradienty (Background.jsx)
-- **Glass**: `backdrop-blur-xl` + `bg-black/40` — glassmorphism na sidebar'ach i kartach
+- **Glass**: `backdrop-blur-xl` + `bg-black/40` — glassmorphism na sidebarach i kartach
 - **Kolory**: Cyan (`#00ffff`) accent, purple/pink gradienty, `slate-800/900` bazy
 - **Typografia**: Kenyan Coffee (nagłówki), SF TransRobotics (dane), system font stack (body)
 - **Borders**: `border-white/5` strukturalne, `border-red-500/20` lub `border-cyan-500/30` akcentowe
