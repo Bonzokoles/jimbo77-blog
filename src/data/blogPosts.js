@@ -2,6 +2,22 @@ const ASSET_URL = "https://r2-public-mybonzo.stolarnia-ams.workers.dev/blog-imag
 
 export const blogPosts = [
     {
+        id: "dlaczego-wielkie-modele-przegrywaja-w-rag",
+        title: "Dlaczego wielkie modele AI są wypierane z komercyjnych systemów RAG",
+        slug: "dlaczego-wielkie-modele-przegrywaja-w-rag",
+        subtitle: "Ekonomia, halucynacje i latency — trzy powody, dla których biznes stawia na małe modele",
+        date: "Marzec 2026",
+        sortDate: "2026-03-13",
+        category: "AI Zastosowania",
+        image: '/blog-images/dlaczego-wielkie-modele-ai-przegrywaja-w-hero.webp',
+        tech: ["RAG", "LLM", "Biznes", "Enterprise AI"],
+        description: "Frontier models w RAG to Ferrari do dowożenia pizzy. Rynek B2B masowo przechodzi na modele 50–300x tańsze — i dostaje lepsze wyniki.",
+        readTime: 8,
+        author: "Karol",
+        featured: true
+    },
+
+    {
         id: "jak-latalem-dziury-w-matrixie-mojego-ai-bloga-i-zrozumialem",
         title: "Jak łatałem dziury w matrixie mojego AI-bloga i zrozumiałem, że błędy to najlepsi nauczyciele",
         slug: "jak-latalem-dziury-w-matrixie-mojego-ai-bloga-i-zrozumialem",
