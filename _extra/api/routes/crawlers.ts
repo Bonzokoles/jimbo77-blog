@@ -49,9 +49,8 @@ crawlerRouter.get('/llms-txt', async (c) => {
   const db = c.env.DB
   
   const posts = await db.prepare(`
-    SELECT title, slug, excerpt, created_at 
+    SELECT id, title, content, created_at 
     FROM posts 
-    WHERE published = 1 
     ORDER BY created_at DESC 
     LIMIT 100
   `).all()
@@ -64,12 +63,12 @@ crawlerRouter.get('/llms-txt', async (c) => {
 
 `
   
-  for (const post of posts.results) {
+  for (const post of (posts.results || [])) {
     llmsText += `## ${post.title}
 `
-    llmsText += `- URL: https://jimbo77.org/blog/${post.slug}
+    llmsText += `- URL: https://jimbo77.org/community/post/${post.id}
 `
-    llmsText += `- Description: ${post.excerpt || 'No description'}
+    llmsText += `- Description: ${(post.content as string || '').slice(0, 200)}
 `
     llmsText += `- Published: ${post.created_at}
 

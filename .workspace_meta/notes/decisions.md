@@ -47,6 +47,44 @@
 
 ### ADR-005: Multi-repo architektura (frontend + backend osobno)
 **Data:** 2026-03-10  
+**Status:** superseded (backend przeniesiony do _extra/api/ w monorepo)
+
+> **UPDATE 2026-03-12:** Backend jest teraz w `_extra/api/` w tym samym repo. Deploy nadal oddzielny: Vercel (frontend) + wrangler (backend).
+
+---
+
+### ADR-008: Przebudowa backendu — nowy schemat D1 + pełne auth
+**Data:** 2026-03-12  
+**Status:** accepted  
+**Kontekst:** Po zmianach w D1 login i wpisy przestały działać. Analiza wykazała 100% niezgodność schematu z frontendem. 3 importowane pliki (auth.ts, webhooks.ts, db/client.ts) nie istniały.  
+**Decyzja:** Kompletna przebudowa backendu — nowy schemat 10 tabel, auth PBKDF2+JWT, 9 modułów routów, package.json z hono.  
+**Konsekwencje:** Frontend NIE wymagał żadnych zmian — backend dopasowany do istniejącego Community.jsx. Stare konta użytkowników utracone (nowa baza). JWT_SECRET w CF Secrets (nie w vars).  
+**Alternatywy:** Próba łatania starego schematu — zbyt dużo niezgodności, czysta przebudowa szybsza i bezpieczniejsza.
+
+---
+
+### ADR-009: Nazwa workera = jimbo77-community (nie jimbo77-social-club-api)
+**Data:** 2026-03-12  
+**Status:** accepted  
+**Kontekst:** wrangler.toml miał `name = "jimbo77-social-club-api"`, co daje URL `jimbo77-social-club-api.stolarnia-ams.workers.dev`. Frontend w 13 plikach hardcoded `jimbo77-community.stolarnia-ams.workers.dev`.  
+**Decyzja:** Zmieniono nazwę workera na `jimbo77-community` — dopasowanie do frontendu, zero zmian w 13 plikach.  
+**Konsekwencje:** Worker dostępny pod oczekiwanym URL. Stary worker `jimbo77-social-club-api` został utworzony automatycznie (na nim ustawiono pierwszy JWT_SECRET) — można go usunąć.  
+**Alternatywy:** Zmiana 13 plików w repo — niepotrzebne ryzyko regresji.
+
+---
+
+### ADR-010: Auth — PBKDF2 + JWT (nie bcrypt, nie sessions)
+**Data:** 2026-03-12  
+**Status:** accepted  
+**Kontekst:** Cloudflare Workers nie mają dostępu do node:crypto (bcrypt). Potrzebny stateless auth (D1 nie wspiera sessions).  
+**Decyzja:** PBKDF2-SHA256 (100k iteracji, 16-byte salt) via Web Crypto API. JWT HMAC-SHA256, expiry 7 dni. Format stored: `salt:hash`.  
+**Konsekwencje:** Kompatybilne z CF Workers. Stateless — nie wymaga session store. JWT expiry wymusza re-login co tydzień.  
+**Alternatywy:** bcrypt (niedostępny na CF), Argon2 (niedostępny), cookie sessions (wymagają KV/D1 store).
+
+---
+
+### ADR-005: Multi-repo architektura (frontend + backend osobno)
+**Data:** 2026-03-10  
 **Status:** accepted  
 **Kontekst:** Frontend (React/Vite) i backend (Cloudflare Workers) mają różne cykle deploy — frontend auto-deploys z Vercel, backend z wrangler.  
 **Decyzja:** Dwa osobne repozytoria: `jimbo77-blog` (frontend) i `jimbo77-community` (backend). Tag `v2.0-community-hub` na obu repozytoriach jako punkt synchronizacji.  

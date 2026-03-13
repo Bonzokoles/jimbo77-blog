@@ -1,18 +1,19 @@
-name = "jimbo77-social-club-api"
-main = "api/index.ts"
+name = "jimbo77-community"
+main = "index.ts"
 compatibility_date = "2024-01-01"
 
-# D1 Database - stock po środku
+# D1 Database
 [[d1_databases]]
 binding = "DB"
 database_name = "jimbo77-social-db"
-database_id = "your-database-id-here"
+database_id = "7cd9d679-006f-4d12-a003-b1fe8ba921be"
+
+# R2 Bucket (community uploads)
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "jimbo77-community-images"
 
 # Environment variables
 [vars]
 ENVIRONMENT = "production"
-
-# Routes
-[[routes]]
-pattern = "api.jimbo77.org/*"
-custom_domain = true
+R2_PUBLIC_URL = "https://cdn.jimbo77.org"

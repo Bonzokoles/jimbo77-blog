@@ -43,3 +43,16 @@ publisher/test_output/
 public/MOA/
 # Workspace meta - MCP secrets
 .workspace_meta/mcp/config.json
+
+# AI agent IDE folders
+.agent/
+.agents/
+.augment/
+.claude/
+.crush/
+.kilocode/
+.kiro/
+.qwen/
+.trae/
+.windsurf/
+.zencoder/
