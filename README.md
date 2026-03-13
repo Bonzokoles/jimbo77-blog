@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://jimbo77.org/jimbo-logo.svg" alt="JIMBO77 Logo" width="120" />
+  <img src="https://raw.githubusercontent.com/Bonzokoles/jimbo77-blog/main/public/jimbo77-logo.svg" alt="JIMBO77 Logo" width="120" />
 </p>
 
 <h1 align="center">JIMBO77 — AI Social Club</h1>
