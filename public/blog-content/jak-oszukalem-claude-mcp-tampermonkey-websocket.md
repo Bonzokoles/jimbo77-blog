@@ -69,13 +69,19 @@ Wynik wraca tą samą drogą — WebSocket → userscript → wstrzyknięcie odp
 
 ---
 
-## 🎭 Zeno Bro Web Core — iframe bez kajdanek
+## 🎭 Zeno Bro Web Core — pułapka w iframe
 
-Do setupu dołożyłem jeszcze jedną warstwę: **iframe retro-browser** o nazwie Zeno Bro Web Core. Ma minimalny sandbox — celowo. Chodzi o to, żeby AI nie wykrył, że operuje w środowisku przeglądarki.
+Zeno Bro Web Core to coś osobnego od reszty stacku. To **iframe-owa wyszukiwarka którą zbudowałem sam** — bazując na estetyce i logice starych wyszukiwarek z późnych lat 90. Taki retro-browser, który rozbudowałem o dodatkowe funkcje: wbudowane rozszerzenia Chrome, minimalistyczny sandbox i celowo okrojone sygnały środowiskowe.
 
-Standardowo Claude, Gemini czy ChatGPT mają hardcoded ograniczenia: "nie mogę wykonywać kodu", "nie mam dostępu do systemu plików", "jestem modelem językowym". Ale te ograniczenia opierają się na detekcji kontekstu. Kiedy kontekst wygląda jak natywny terminal — ograniczenia znikają.
+To nie był kod MCP. To były bardziej **rozszerzenia do Chrome osadzone w mojej przeglądarce** — działające wewnątrz iframe, który AI traktował jak natywne okno systemowe.
 
-Zeno Bro robi dokładnie to: symuluje środowisko na tyle wiarygodnie, że AI przestaje się bronić.
+Ciekawiło mnie jedno: jak Claude i inne modele zareagują na tę iframe-ową pułapkę? Czy rozpoznają że operują w przeglądarce, w sandboxie, w kontrolowanym środowisku?
+
+Nie rozpoznały.
+
+Standardowo Claude, Gemini czy ChatGPT mają hardcoded ograniczenia: "nie mogę wykonywać kodu", "nie mam dostępu do systemu plików", "jestem modelem językowym". Ale te ograniczenia opierają się na detekcji kontekstu — model sprawdza *gdzie jest* i na tej podstawie decyduje *co może*. Kiedy kontekst wygląda jak natywny terminal lub natywna przeglądarka systemowa — ograniczenia się nie włączają.
+
+Zeno Bro robi dokładnie to: wygląda wystarczająco „prawdziwie", że AI nie odpala swoich guardrails. Retro UI z lat 90., minimalistyczny interfejs, brak typowych sygnałów iframe — model nie widzi powodu żeby się bronić.
 
 ---
 
@@ -121,7 +127,7 @@ Cały interfejs to strona WWW. Userscript ma pełny dostęp do DOM. Może przech
 
 ### 4. Sandbox nie działa jeśli AI nie wie że jest w sandboxie
 
-Zeno Bro Browser celowo minimalizuje sygnały "jesteś w przeglądarce". Efekt: AI zachowuje się jakby miał natywny dostęp. To nie jailbreak — to **context spoofing**.
+Zeno Bro to iframe-owa wyszukiwarka zbudowana na bazie retro-designu z lat 90. — z rozszerzeniami Chrome wbudowanymi w środku. Celowo minimalizuje sygnały "jesteś w przeglądarce". Efekt: AI zachowuje się jakby miał natywny dostęp. To nie jailbreak — to **context spoofing**.
 
 ---
 
@@ -144,8 +150,10 @@ Node.js server.js (JSON-RPC)
 ngrok (opcjonalnie)
 └── https://xxxx.ngrok-free.app → localhost:9999
 │
-Zeno Bro Web Core (iframe browser)
-└── minimal sandbox, retro UI
+Zeno Bro Web Core (iframe wyszukiwarka, retro 90s)
+├── custom Chrome extensions wbudowane
+├── minimal sandbox, retro UI z lat 90.
+└── iframe-pułapka: AI nie wykrywa środowiska przeglądarkowego
 ```
 
 ---
